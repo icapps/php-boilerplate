@@ -1,0 +1,31 @@
+grumphp:
+    tasks:
+        composer:
+            file: ./composer.json
+        file_size:
+            max_size: 10M
+            ignore_patterns: []
+        jsonlint: null
+        phpcs:
+            standard: []
+            severity: ~
+            error_severity: ~
+            warning_severity: ~
+            tab_width: ~
+            report: full
+            report_width: ~
+            whitelist_patterns: []
+            encoding: ~
+            ignore_patterns: []
+            sniffs: []
+            triggered_by: [php]
+            exclude: ['Generic.Files.LineLength']
+        phpstan:
+            memory_limit: "-1"
+        phpunit: null
+        twigcs:
+            path: 'templates'
+            severity: 'warning'
+            ruleset: 'FriendsOfTwig\Twigcs\Ruleset\Official'
+        xmllint: null
+        yamllint: null
