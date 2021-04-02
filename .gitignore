@@ -1,0 +1,15 @@
+# Core files
+.env
+/var
+
+# IDEs
+/.idea
+*.iml
+/.vscode
+*~
+
+# System files
+.DS_Store
+
+# Docker.
+docker-compose.override.yml

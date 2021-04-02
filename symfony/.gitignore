@@ -1,0 +1,51 @@
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###
+
+# var
+/var/*
+!/var/.gitignore
+
+# web
+/public/bundles
+/public/uploads
+
+# npm
+node_modules
+
+# phpcs
+.php_cs.cache
+.php_cs
+
+# IDEs
+/.idea
+*.iml
+*~
+.web-server-pid
+
+# System files
+.DS_Store
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###

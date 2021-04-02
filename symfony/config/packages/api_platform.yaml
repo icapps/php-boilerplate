@@ -1,0 +1,156 @@
+api_platform:
+    title: 'icapps ❤ PHP'
+    description: 'Template project using API platform'
+    version: '1.0.0'
+
+    # If true, show Webby on the documentation page
+    show_webby: false
+
+    # Enable the Swagger documentation and export.
+    enable_swagger: true
+
+    # Enable Swagger UI
+    enable_swagger_ui: true
+
+    # Enable ReDoc
+    enable_re_doc: true
+
+    # Enable the entrypoint
+    enable_entrypoint: true
+
+    # Enable the docs
+    enable_docs: true
+
+    collection:
+        # The name of the query parameter to filter on nullable field values.
+        exists_parameter_name: exists
+
+        # The default order of results.
+        order: ASC
+
+        # The name of the query parameter to order results.
+        order_parameter_name: order
+        pagination:
+            # The default name of the parameter handling the page number.
+            page_parameter_name: page
+
+            # The name of the query parameter to enable or disable pagination.
+            enabled_parameter_name: pagination
+
+            # The name of the query parameter to set the number of items per page.
+            items_per_page_parameter_name: itemsPerPage
+
+            # The name of the query parameter to enable or disable partial pagination.
+            partial_parameter_name: partial
+
+    # Doctrine.
+    doctrine:
+        enabled: true
+
+    doctrine_mongodb_odm:
+        enabled: false
+
+    # OAuth settings.
+    oauth:
+        enabled: false
+        clientId: ''
+        clientSecret: ''
+        type: oauth2
+        flow: application
+        tokenUrl: /oauth/v2/token
+        authorizationUrl: /oauth/v2/auth
+        refreshUrl: /oauth/v2/refresh
+        scopes: []
+
+    # GraphQL settings.
+    graphql:
+        enabled: false
+        default_ide: graphiql
+        graphiql:
+            enabled: false
+        graphql_playground:
+            enabled: false
+
+        # The separator to use to filter nested fields.
+        nesting_separator: _
+        collection:
+            pagination:
+                enabled: true
+
+    http_cache:
+        # To make all responses public by default.
+        public: null
+
+        # Enable the tags-based cache invalidation system.
+        invalidation:
+            enabled: false
+
+            # URLs of the Varnish servers to purge using cache tags when a resource is updated.
+            varnish_urls: []
+
+            # Max header length supported by the server
+            max_header_length: 7500
+
+            # To pass options to the client charged with the request.
+            request_options: []
+
+    # Symfony Messenger.
+    messenger:
+        enabled: true
+
+    # Elasticsearch.
+    elasticsearch:
+        enabled: false
+        hosts: []
+        mapping:
+            # Prototype
+            resource_class:
+                index: null
+                type: _doc
+
+    # Mapping entities.
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity', '%kernel.project_dir%/src/ApiResource']
+
+    patch_formats:
+        json: ['application/merge-patch+json']
+
+    # Swagger.
+    swagger:
+        versions: [3]
+
+    # The list of enabled formats. The first one will be the default.
+    formats:
+        json:
+            mime_types: ['application/json']
+        jsonld:
+            mime_types: ['application/ld+json']
+        html:
+            mime_types: ['text/html']
+
+    # The list of enabled error formats. The first one will be the default.
+    error_formats:
+        json:
+            mime_types: [ 'application/json' ]
+        jsonproblem:
+            mime_types: ['application/problem+json']
+        jsonld:
+            mime_types: ['application/ld+json']
+
+    # Global resources defaults
+    defaults:
+        pagination_enabled: false
+        pagination_client_enabled: false
+
+    exception_to_status:
+        # The 4 following handlers are registered by default, keep these lines.
+        Symfony\Component\Serializer\Exception\ExceptionInterface: 400
+        ApiPlatform\Core\Exception\InvalidArgumentException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST
+        ApiPlatform\Core\Exception\FilterValidationException: 400
+        Doctrine\ORM\OptimisticLockException: 409
+
+        # Validation exception
+        ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_UNPROCESSABLE_ENTITY
+
+        # Custom mapping
+        # App\Exception\CustomNotFoundException: 404

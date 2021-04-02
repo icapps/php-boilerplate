@@ -1,0 +1,85 @@
+# The name of this app. Must be unique within a project.
+name: app
+
+# The type of the application to build.
+type: php:8.0
+build:
+  flavor: "none"
+
+# Define timezone for correct cron handling.
+timezone: 'Europe/Brussels'
+
+variables:
+  # Setting php.ini config
+  php:
+    memory_limit: 256M
+  env:
+    # Tell Symfony to always install in production-mode.
+    APP_ENV: 'prod'
+    APP_DEBUG: 0
+
+# The hooks that will be performed when the package is deployed.
+hooks:
+  build: |
+    set -e
+    cd symfony
+    composer install --no-dev --prefer-dist --no-progress --no-interaction --optimize-autoloader
+  deploy: |
+    set -e
+    cd symfony
+    rm -rf var/cache/$APP_ENV/*
+    bin/console assets:install --symlink --relative public
+    bin/console cache:clear
+
+# The relationships of the application with services or other applications.
+relationships:
+  database: "mysqldb:mysql"
+#  rabbitmqqueue: "rabbitmq:rabbitmq"
+#  rediscache: "redis:redis"
+
+# The size of the persistent disk of the application (in MB).
+disk: 2048
+
+# The mounts that will be performed when the package is deployed.
+mounts:
+  "/symfony/var/cache":
+    source: local
+    source_path: "cache"
+  "/symfony/var/log":
+    source: local
+    source_path: "log"
+  "/symfony/var/sessions":
+    source: local
+    source_path: "sessions"
+
+# The configuration of app when it is exposed to the web.
+web:
+  locations:
+    "/":
+      # The public directory of the app, relative to its root.
+      root: "symfony/public"
+      # The front-controller script to send non-static requests to.
+      passthru: "/index.php"
+
+# Workers
+#workers:
+#  queue:
+#    commands:
+#      start: |
+#        php bin/console messenger:consume async --time-limit=3600
+#    relationships:
+#      database: 'mysqldb:mysql'
+
+# Extensions
+runtime:
+  extensions:
+    - newrelic
+    - sodium
+    - pdo
+    - pdo_mysql
+    - opcache
+    - intl
+    - gd
+    - bcmath
+    - igbinary
+    - redis

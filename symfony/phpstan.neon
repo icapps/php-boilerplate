@@ -1,0 +1,5 @@
+parameters:
+  level: 1
+  checkMissingIterableValueType: false
+  excludes_analyse:
+    - src/Kernel.php

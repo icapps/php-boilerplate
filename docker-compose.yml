@@ -1,0 +1,95 @@
+version: '3'
+
+services:
+    nginx:
+        container_name: "${PROJECT_NAME}_nginx"
+        build:
+            context: docker/nginx
+            args:
+                PROJECT_DOMAIN: ${PROJECT_DOMAIN}
+        ports:
+            - ${PORT_NGINX}:80
+        networks:
+            default:
+                aliases:
+                    - ${PROJECT_DOMAIN}
+        volumes:
+            - ${PROJECT_PATH}:/var/www/project:cached
+            - ${APP_BASE_PATH}/docker/nginx/var/logs/:/var/log/nginx
+
+    php:
+        container_name: "${PROJECT_NAME}_php"
+        build:
+            context: docker/php
+            args:
+                USER_ID: ${USER_ID}
+        volumes:
+            - ./.git:/var/www/.git
+            - ${PROJECT_PATH}:/var/www/project:cached
+            - ${APP_BASE_PATH}/docker/php/var/logs/symfony:/var/www/project/var/logs:cached
+            - ${APP_BASE_PATH}/docker/php/var/data/workspace:/var/www/workspace:cached
+            - ${COMPOSER_PATH}/cache:/var/www/.composer/cache:cached
+            - ${SSH_KEY_PATH}/id_rsa:/var/www/.ssh/id_rsa
+            - ${SSH_KEY_PATH}/id_rsa.pub:/var/www/.ssh/id_rsa.pub
+            - ${SSH_KEY_PATH}/known_hosts:/var/www/.ssh/known_hosts
+        environment:
+            HISTFILE: /var/www/.bash_history
+            PROMPT_COMMAND: history -a
+        env_file: .env
+
+    mysql:
+        container_name: "${PROJECT_NAME}_mysql"
+        labels:
+            com.symfony.server.service-prefix: 'DATABASE'
+        build:
+            context: docker/mysql
+            args:
+                MYSQL_DATABASE: ${MYSQL_DATABASE}
+                MYSQL_USER: ${MYSQL_USER}
+        ports:
+            - ${PORT_MYSQL}:3306
+        volumes:
+            - ${APP_BASE_PATH}/docker/mysql/var/data/mysql:/var/lib/mysql:cached
+        env_file: .env
+
+    mailhog:
+        container_name: "${PROJECT_NAME}_mailhog"
+        image: mailhog/mailhog
+        ports:
+            - 8025:8025
+            - 1025:1025
+
+    rabbitmq:
+        container_name: "${PROJECT_NAME}_rabbitmq"
+        labels:
+            com.symfony.server.service-prefix: 'RABBITMQ'
+        env_file: .env
+        build:
+            context: docker/rabbitmq
+        ports:
+            - ${PORT_RABBITMQ}:15672
+            - 5672:5672
+        volumes:
+            - ${APP_BASE_PATH}/docker/rabbitmq/var/data/rabbitmq:/var/lib/rabbitmq:cached
+
+    redis:
+        container_name: "${PROJECT_NAME}_redis"
+        image: redis:6-alpine
+        ports:
+            - "6379:6379"
+
+    elastic:
+        container_name: "${PROJECT_NAME}_elastic"
+        image: elasticsearch:7.10.1
+        ports:
+            - "9200:9200"
+        environment:
+            - cluster.name=symfony
+            - discovery.type=single-node
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        volumes:
+            - ${APP_BASE_PATH}/docker/elastic/var/data/elastic:/var/lib/elastic:cached
+
+volumes:
+    mysql:
+    rabbitmq:

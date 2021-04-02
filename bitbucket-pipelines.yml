@@ -1,0 +1,35 @@
+image: thecodingmachine/php:7.4-v3-apache
+
+pipelines:
+  default: # Runs on all branches that don't have any specific pipeline assigned.
+    - step:
+        name: Build
+        caches:
+          - composer
+        script:
+          - cd symfony # set correct subdirectory
+          - composer install --dev --no-interaction --no-progress --prefer-dist
+          - ./vendor/bin/simple-phpunit
+          - ./vendor/bin/phpcs --standard=PSR2 --colors --exclude=Generic.Files.LineLength ./src
+          - ./vendor/bin/phpstan analyse ./src -c ./phpstan.neon
+          - php bin/adminconsole lint:twig templates
+          - php bin/adminconsole lint:yaml config
+          - php bin/adminconsole doctrine:schema:update  --force
+          - php bin/adminconsole cache:clear
+        services:
+          - db
+          - redis
+
+definitions:
+  services:
+    db:
+      image: mysql:5.7
+      environment:
+        MYSQL_ROOT_PASSWORD: test
+        MYSQL_DATABASE: test
+        MYSQL_USER: test
+        MYSQL_PASSWORD: test
+    redis:
+        image: redis:latest
+        ports:
+          - '6379:6379'
