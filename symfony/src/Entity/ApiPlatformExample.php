@@ -10,9 +10,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints\LocationMinimalProperties;
 
-// @TODO:: this is just an example entity using API Platform, enable it using schema:update or remove if unnecessary.
-
 /**
+ * ApiPlatformExample example entity using API Platform, enable it using schema:update or remove if unnecessary.
+ *
  * @ApiResource(
  *     collectionOperations={
  *         "get",
@@ -44,8 +44,6 @@ class ApiPlatformExample
      * @ORM\Column(type="integer")
      *
      * @Groups({"examples:api-get"})
-     *
-     * @Assert\NotBlank
      */
     private $id;
 

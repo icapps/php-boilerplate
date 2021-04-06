@@ -9,5 +9,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class LocationMinimalProperties extends Constraint
 {
-    public $message = 'The location must have the minimal properties required ("lat", "lon")';
+    public $message = 'The location must have the minimal properties required (lat, lon)';
 }
