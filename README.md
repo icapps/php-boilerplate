@@ -7,6 +7,8 @@ The project template follows the best-practices of the [Symfony](https://symfony
 
 This project is set-up using [Symfony Local Webserver](https://symfony.com/doc/current/setup/symfony_server.html):
 
+Copy the necessary environment variables from `.env.dist` and, run:
+
 ```bash
 docker-compose up -d --build
 symfony proxy:start

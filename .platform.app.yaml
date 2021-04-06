@@ -35,7 +35,7 @@ hooks:
 relationships:
   database: "mysqldb:mysql"
 #  rabbitmqqueue: "rabbitmq:rabbitmq"
-#  rediscache: "redis:redis"
+  rediscache: "cacheredis:redis"
 
 # The size of the persistent disk of the application (in MB).
 disk: 2048
@@ -73,7 +73,6 @@ web:
 # Extensions
 runtime:
   extensions:
-    - newrelic
     - sodium
     - pdo
     - pdo_mysql
