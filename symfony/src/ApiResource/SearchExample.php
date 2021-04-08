@@ -67,7 +67,7 @@ class SearchExample
      * @Assert\Length(
      *     min = 3,
      *     max = 15,
-     *     minMessage="Minimim length 3 characters",
+     *     minMessage="Minimum length 3 characters",
      *     maxMessage="Maximum length 15 characters"
      * )
      */

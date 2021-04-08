@@ -1,0 +1,11 @@
+# No website, so redirect to admin.
+homepage:
+  path: /nl
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+  defaults:
+    path: /admin
+    permanent: true
+
+# Admin base route.
+admin:
+  path: /admin/

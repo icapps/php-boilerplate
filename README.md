@@ -15,6 +15,12 @@ symfony proxy:start
 symfony server:start --dir=symfony
 ```
 
+For initial set-up including Sulu Admin portal, run:
+
+```bash
+symfony console sulu:build dev
+```
+
 ## icapps ❤️ PHP
 
 For further questions, ask the icapps PHP team.

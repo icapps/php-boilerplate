@@ -3,7 +3,7 @@ grumphp:
         composer:
             file: ./composer.json
         file_size:
-            max_size: 10M
+            max_size: 15M
             ignore_patterns: []
         jsonlint: null
         phpcs:
@@ -16,12 +16,13 @@ grumphp:
             report_width: ~
             whitelist_patterns: []
             encoding: ~
-            ignore_patterns: []
+            ignore_patterns: ['index.php', 'maintenance.php']
             sniffs: []
             triggered_by: [php]
             exclude: ['Generic.Files.LineLength']
         phpstan:
             memory_limit: "-1"
+            ignore_patterns: [ 'index.php', 'maintenance.php', 'console.php']
         phpunit: null
         twigcs:
             path: 'templates'
