@@ -67,6 +67,7 @@ class UserController extends AbstractController
         $user = $this->userService->validatePasswordResetToken($token);
         if (!$user) {
             return $this->render('general/status.html.twig', [
+                'companyData' => $this->companyHelper->getBaseCompanyInfo(),
                 'title' => $this->translator->trans('icapps.website.lbl_user.reset.failed_title', [], 'messages'),
                 'message' => $this->translator->trans('icapps.website.lbl_user.reset.failed_message', [], 'messages'),
             ]);
@@ -113,10 +114,10 @@ class UserController extends AbstractController
     }
 
     /**
-     * @param User $user
+     * @param ?User $user
      * @return Response
      */
-    private function confirmationResponse(User $user): Response
+    private function confirmationResponse(?User $user): Response
     {
         $companyData = $this->companyHelper->getBaseCompanyInfo();
         if (!$user) {

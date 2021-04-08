@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "088cd72263f34eb22a33e6563a6db586",
+    "content-hash": "293ee909d39c529bc344195c5064cc80",
     "packages": [
         {
             "name": "api-platform/core",
@@ -7609,6 +7609,10 @@
                 }
             ],
             "description": "Integration with your Symfony app & Webpack Encore!",
+            "support": {
+                "issues": "https://github.com/symfony/webpack-encore-bundle/issues",
+                "source": "https://github.com/symfony/webpack-encore-bundle/tree/v1.11.1"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",

@@ -20,7 +20,7 @@ class CompanyHelper
 
         return [
             'brand' => $brand,
-            'url' => $url,
+            'siteURL' => $url,
             'logoURL' => $logoURL,
             'publicLogoURL' => $publicLogoURL,
             'email' => $companyEmail,

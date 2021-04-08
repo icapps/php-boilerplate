@@ -78,12 +78,12 @@ class User implements UserInterface, EnableInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $activation_token;
+    private ?string $activationToken;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $reset_token;
+    private ?string $resetToken;
 
     /**
      * @ORM\Column(type="string", length=2, options={"default":User::DEFAULT_LOCALE})
@@ -216,16 +216,16 @@ class User implements UserInterface, EnableInterface
      */
     public function getActivationToken(): ?string
     {
-        return $this->activation_token;
+        return $this->activationToken;
     }
 
     /**
-     * @param string|null $activation_token
+     * @param string|null $activationToken
      * @return $this
      */
-    public function setActivationToken(?string $activation_token): self
+    public function setActivationToken(?string $activationToken): self
     {
-        $this->activation_token = $activation_token;
+        $this->activationToken = $activationToken;
 
         return $this;
     }
@@ -235,16 +235,16 @@ class User implements UserInterface, EnableInterface
      */
     public function getResetToken(): ?string
     {
-        return $this->reset_token;
+        return $this->resetToken;
     }
 
     /**
-     * @param string|null $reset_token
+     * @param string|null $resetToken
      * @return $this
      */
-    public function setResetToken(?string $reset_token): self
+    public function setResetToken(?string $resetToken): self
     {
-        $this->reset_token = $reset_token;
+        $this->resetToken = $resetToken;
 
         return $this;
     }
