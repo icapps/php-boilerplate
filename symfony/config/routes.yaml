@@ -1,3 +1,1 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+# Define website routes in `routes_website.yaml` and admin routes in the `routes_admin.yaml`

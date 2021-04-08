@@ -1,43 +1,22 @@
 #!/usr/bin/env php
 <?php
 
-use App\Kernel;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Sulu\Component\HttpKernel\SuluKernel;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Dotenv\Dotenv;
-use Symfony\Component\ErrorHandler\Debug;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
-if (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
-    echo 'Warning: The console should be invoked via the CLI version of PHP, not the '.PHP_SAPI.' SAPI'.PHP_EOL;
-}
-
-set_time_limit(0);
-
-require dirname(__DIR__).'/vendor/autoload.php';
-
-if (!class_exists(Application::class) || !class_exists(Dotenv::class)) {
-    throw new LogicException('You need to add "symfony/framework-bundle" and "symfony/dotenv" as Composer dependencies.');
-}
+require __DIR__.'/../vendor/autoload.php';
 
 $input = new ArgvInput();
-if (null !== $env = $input->getParameterOption(['--env', '-e'], null, true)) {
-    putenv('APP_ENV='.$_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = $env);
+$output = new ConsoleOutput();
+$io = new SymfonyStyle($input, $output);
+
+$ansi = $input->getParameterOption(['--ansi']);
+
+if (!$ansi) {
+    $io->warning('This command will be executed in the "admin" context. For the "website" context, run ./bin/websiteconsole');
 }
 
-if ($input->hasParameterOption('--no-debug', true)) {
-    putenv('APP_DEBUG='.$_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = '0');
-}
-
-(new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
-
-if ($_SERVER['APP_DEBUG']) {
-    umask(0000);
-
-    if (class_exists(Debug::class)) {
-        Debug::enable();
-    }
-}
-
-$kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
-$application = new Application($kernel);
-$application->run($input);
+$suluContext = SuluKernel::CONTEXT_ADMIN;
+include __DIR__ . DIRECTORY_SEPARATOR. 'console.php';

@@ -2,37 +2,50 @@
 
 namespace App;
 
-use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\HttpKernel\Kernel as BaseKernel;
-use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+/*
+ * This file is part of Sulu.
+ *
+ * (c) Sulu GmbH
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
-class Kernel extends BaseKernel
+use FOS\HttpCache\SymfonyCache\HttpCacheProvider;
+use Sulu\Bundle\HttpCacheBundle\Cache\SuluHttpCache;
+use Sulu\Component\HttpKernel\SuluKernel;
+use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+
+class Kernel extends SuluKernel implements HttpCacheProvider
 {
-    use MicroKernelTrait;
+    /**
+     * @var HttpKernelInterface|null
+     */
+    private $httpCache;
 
-    protected function configureContainer(ContainerConfigurator $container): void
+    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader)
     {
-        $container->import('../config/{packages}/*.yaml');
-        $container->import('../config/{packages}/'.$this->environment.'/*.yaml');
+        $container->setParameter('container.dumper.inline_class_loader', true);
 
-        if (is_file(\dirname(__DIR__).'/config/services.yaml')) {
-            $container->import('../config/services.yaml');
-            $container->import('../config/{services}_'.$this->environment.'.yaml');
-        } elseif (is_file($path = \dirname(__DIR__).'/config/services.php')) {
-            (require $path)($container->withPath($path), $this);
-        }
+        parent::configureContainer($container, $loader);
     }
 
-    protected function configureRoutes(RoutingConfigurator $routes): void
+    public function getHttpCache()
     {
-        $routes->import('../config/{routes}/'.$this->environment.'/*.yaml');
-        $routes->import('../config/{routes}/*.yaml');
-
-        if (is_file(\dirname(__DIR__).'/config/routes.yaml')) {
-            $routes->import('../config/routes.yaml');
-        } elseif (is_file($path = \dirname(__DIR__).'/config/routes.php')) {
-            (require $path)($routes->withPath($path), $this);
+        if (!$this->httpCache) {
+            $this->httpCache = new SuluHttpCache($this);
+            // Activate the following for user based caching see also:
+            // https://foshttpcachebundle.readthedocs.io/en/latest/features/user-context.html
+            //
+            //$this->httpCache->addSubscriber(
+            //    new \FOS\HttpCache\SymfonyCache\UserContextListener([
+            //        'session_name_prefix' => 'SULUSESSID',
+            //    ])
+            //);
         }
+
+        return $this->httpCache;
     }
 }
