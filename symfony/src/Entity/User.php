@@ -11,6 +11,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
+    const DEFAULT_LOCALE = 'nl';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
