@@ -1,0 +1,50 @@
+{% extends "emails/layout.html.twig" %}
+
+
+{% block content %}
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width:100%;">
+        <tbody class="mcnTextBlockOuter">
+        <tr>
+            <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
+                <!--[if mso]>
+                <table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;">
+                    <tr>
+                <![endif]-->
+
+                <!--[if mso]>
+                <td valign="top" width="600" style="width:600px;">
+                <![endif]-->
+                <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
+                    <tbody><tr>
+
+                        <td valign="top" class="mcnTextContent" style="padding: 0 30px 10px;color: #9A9A9A;font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
+
+                            <h1>
+                                <br>
+                                <span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif">{{ 'icapps.mail.confirmation.intro'|trans({'%name%': username}) }}</span>
+                            </h1>&nbsp;
+
+                            <p style="color: #9A9A9A;font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
+                                <span style="color:rgba(0, 0, 0, 0.6)">
+                                    <span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif">{{ 'icapps.mail.confirmation.body'|trans({'%brand%': companyData.brand}) }}</span>
+                                </span>
+                                <br>
+                                <br>
+                            </p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--[if mso]>
+                </td>
+                <![endif]-->
+
+                <!--[if mso]>
+                </tr>
+                </table>
+                <![endif]-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

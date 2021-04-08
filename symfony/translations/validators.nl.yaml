@@ -1,0 +1,24 @@
+icapps:
+    registration:
+        firstname:
+            required: Voornaam verplicht
+            min_length: Voornaam moet minimaal uit 3 karakters bestaan
+            max_length: Voornaam mag maximaal uit 50 karakters bestaan
+        lastname:
+            required: Familienaam verplicht
+            min_length: Familienaam moet minimaal uit 3 karakters bestaan
+            max_length: Familienaam mag maximaal uit 50 karakters bestaan
+        email:
+            required: E-mailadres verplicht
+            invalid: "Dit is geen geldig e-mailadres: {{ value }}"
+            available: E-mailadres is beschikbaar
+            not_available: Dit E-mailadres is al in gebruik
+            min_length: E-mailadres moet minimaal uit 5 karakters bestaan
+            max_length: E-mailadres mag maximaal uit 50 karakters bestaan
+        password:
+            required: Wachtwoord verplicht
+            min_length: Wachtwoord moet minimaal uit 8 karakters bestaan
+            required_fields: oldPassword en newPassword zijn verplicht
+            invalid: Wachtwoord foutief
+        language:
+            invalid: "Dit is geen geldige taalkeuze: {{ value }}"
