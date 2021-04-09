@@ -5,7 +5,7 @@ namespace App\Service\Api\DataProvider;
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use App\ApiResource\SearchExample;
+use App\ApiResource\Examples\SearchExample;
 use App\Dto\SearchExampleOutput;
 
 /**

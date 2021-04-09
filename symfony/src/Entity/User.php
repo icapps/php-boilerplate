@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -60,6 +61,11 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=2, options={"default":"nl"})
      */
     private $language;
+
+    /**
+     * @ORM\OneToMany(targetEntity="\App\Entity\Device", mappedBy="user")
+     */
+    private $devices;
 
     public function getId(): ?int
     {
@@ -195,5 +201,13 @@ class User implements UserInterface
         $this->language = $language;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Device[]
+     */
+    public function getDevices(): Collection
+    {
+        return $this->devices;
     }
 }

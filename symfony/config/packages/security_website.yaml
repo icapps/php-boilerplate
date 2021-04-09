@@ -4,15 +4,17 @@ security:
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-      # used to reload user from session & other features (e.g. switch_user)
       app_user_provider:
-        entity:
-          class: App\Entity\User
-          property: email
+        id: App\Security\UserClientProvider
 
     firewalls:
       doc:
         pattern: ^/api/docs
+        stateless: true
+        anonymous: true
+
+      refresh:
+        pattern:  ^/api/auth/refresh
         stateless: true
         anonymous: true
 
@@ -21,7 +23,10 @@ security:
         stateless: true
         anonymous: true
         json_login:
+          provider: app_user_provider
           check_path: /api/auth/login
+          username_path: email
+          password_path: password
           success_handler: lexik_jwt_authentication.handler.authentication_success
           failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
