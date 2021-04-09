@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ApiResource()
  * @ORM\Table(name="icapps_user")
- * @UniqueEntity(fields={"email"}, message="This value is already used.")
+ * @UniqueEntity(fields={"email"}, message="This value is already used.", groups={"register:api-write"})
  * @ORM\Entity(repositoryClass=UserRepository::class)
  *
  */

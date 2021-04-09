@@ -3,6 +3,7 @@
 namespace App\Service\Api\DataPersister;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
+use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\ApiResource\Register;
 use App\Dto\RegisterOutput;
 use App\Entity\User;
@@ -19,10 +20,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 final class RegisterDataPersister implements DataPersisterInterface
 {
-    public function __construct(
-        private EntityManagerInterface $entityManager,
-        private UserPasswordEncoderInterface $userPasswordEncoder
-    ) {
+    public function __construct(private EntityManagerInterface $entityManager, private UserPasswordEncoderInterface $userPasswordEncoder, private ValidatorInterface $validator)
+    {
     }
 
     /**
@@ -54,6 +53,9 @@ final class RegisterDataPersister implements DataPersisterInterface
         $user->setPassword($this->userPasswordEncoder->encodePassword($user, $data->getPassword()));
         $user->setLanguage($data->getLanguage());
         $user->setEnabled(true);
+
+        $context["groups"] = "register:api-write";
+        $this->validator->validate($user, $context);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
