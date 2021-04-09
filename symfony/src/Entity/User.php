@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
- * @ORM\Table(name="icapps_user")
+ * @ORM\Table(name="icapps_users")
  * @UniqueEntity(fields={"email"}, message="This value is already used.", groups={"register:api-write"})
  * @ORM\Entity(repositoryClass=UserRepository::class)
  *
@@ -167,7 +167,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getEnabled(): ?bool
+    public function isEnabled(): ?bool
     {
         return $this->enabled;
     }

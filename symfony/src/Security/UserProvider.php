@@ -91,7 +91,7 @@ class UserProvider implements PayloadAwareUserProviderInterface
         }
 
         // Check if enabled.
-        if (!$user->getEnabled()) {
+        if (!$user->isEnabled()) {
             throw new AuthenticationException();
         }
 

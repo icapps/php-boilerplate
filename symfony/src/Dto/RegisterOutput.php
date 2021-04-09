@@ -17,7 +17,7 @@ class RegisterOutput
     /**
      * @var string
      *
-     * @Groups({"register:api-write"})
+     * @Groups({"register:api-get"})
      *
      * @Assert\NotBlank
      */
@@ -26,7 +26,7 @@ class RegisterOutput
     /**
      * @var string
      *
-     * @Groups({"register:api-write"})
+     * @Groups({"register:api-get"})
      *
      * @Assert\NotBlank
      */
@@ -35,7 +35,7 @@ class RegisterOutput
     /**
      * @var string
      *
-     * @Groups({"register:api-write"})
+     * @Groups({"register:api-get"})
      *
      * @Assert\NotBlank
      */
@@ -44,7 +44,7 @@ class RegisterOutput
     /**
      * @var string
      *
-     * @Groups({"register:api-write"})
+     * @Groups({"register:api-get"})
      *
      * @Assert\NotBlank
      */

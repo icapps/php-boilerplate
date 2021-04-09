@@ -22,7 +22,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         }
  *     },
  *     itemOperations={},
- *     shortName="Authentication",
+ *     shortName="Register",
+ *     normalizationContext={
+ *          "groups"={"register:api-get"},
+ *          "swagger_definition_name"="GET"
+ *     },
  *     denormalizationContext={
  *          "groups"={"register:api-write"},
  *          "swagger_definition_name"="WRITE"

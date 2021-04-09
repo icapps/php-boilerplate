@@ -58,6 +58,7 @@ final class RegisterDataPersister implements DataPersisterInterface
         $user->setLanguage($data->getLanguage());
         $user->setEnabled(true);
 
+        //This will validate and return a well formatted error response
         $context["groups"] = "register:api-write";
         $this->validator->validate($user, $context);
 
