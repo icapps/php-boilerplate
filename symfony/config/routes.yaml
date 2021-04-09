@@ -1,2 +1,1 @@
-icapps.api_login:
-  path: /api/auth/login
+# Define website routes in `routes_website.yaml` and admin routes in the `routes_admin.yaml`

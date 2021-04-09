@@ -13,4 +13,4 @@ framework:
             medium: ['email']
             low: ['email']
         admin_recipients:
-            - { email: sander.hofman@icapps.com }
+            - { email: '%env(ADMIN_EMAIL)%' }
