@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ApiResource;
+namespace App\ApiResource\Examples;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiProperty;

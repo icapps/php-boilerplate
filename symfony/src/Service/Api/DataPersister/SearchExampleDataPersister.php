@@ -3,7 +3,7 @@
 namespace App\Service\Api\DataPersister;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
-use App\ApiResource\SearchExample;
+use App\ApiResource\Examples\SearchExample;
 use App\Dto\SearchExampleOutput;
 
 /**

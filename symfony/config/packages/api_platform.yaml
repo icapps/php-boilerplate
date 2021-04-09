@@ -118,6 +118,10 @@ api_platform:
     # Swagger.
     swagger:
         versions: [3]
+        api_keys:
+            apiKey:
+                name: Authorization
+                type: header
 
     # The list of enabled formats. The first one will be the default.
     formats:

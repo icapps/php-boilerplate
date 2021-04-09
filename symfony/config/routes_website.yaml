@@ -9,3 +9,7 @@ homepage:
 # Admin base route.
 admin:
   path: /admin/
+
+# Authentication
+icapps.api_login:
+  path: /api/auth/login
