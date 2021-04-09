@@ -103,6 +103,7 @@ class Register
      * @Assert\Locale(
      *     canonicalize = true
      * )
+     * @Assert\Choice(message="This value is not a valid language.", callback={"App\Entity\User", "getLanguages"})
      */
     public string $language;
 
