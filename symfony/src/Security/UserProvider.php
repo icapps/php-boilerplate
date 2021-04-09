@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserClientProvider implements PayloadAwareUserProviderInterface
+class UserProvider implements PayloadAwareUserProviderInterface
 {
     /**
      * @var UserRepository

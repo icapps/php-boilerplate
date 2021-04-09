@@ -2,16 +2,26 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource()
+ * @ORM\Table(name="icapps_user")
+ * @UniqueEntity(fields={"email"}, message="This value is already used.", groups={"register:api-write"})
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ *
  */
 class User implements UserInterface
 {
+    const ROLE_USER = 'ROLE_USER';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const LANGUAGES = ['nl', 'en', 'fr'];
     const DEFAULT_LOCALE = 'nl';
 
     /**
@@ -23,6 +33,8 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"register:api-write"})
+     *
      */
     private $email;
 
@@ -50,12 +62,12 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $activation_token;
+    private $activationToken;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $reset_token;
+    private $resetToken;
 
     /**
      * @ORM\Column(type="string", length=2, options={"default":"nl"})
@@ -169,24 +181,24 @@ class User implements UserInterface
 
     public function getActivationToken(): ?string
     {
-        return $this->activation_token;
+        return $this->activationToken;
     }
 
-    public function setActivationToken(?string $activation_token): self
+    public function setActivationToken(?string $activationToken): self
     {
-        $this->activation_token = $activation_token;
+        $this->activationToken = $activationToken;
 
         return $this;
     }
 
     public function getResetToken(): ?string
     {
-        return $this->reset_token;
+        return $this->resetToken;
     }
 
-    public function setResetToken(?string $reset_token): self
+    public function setResetToken(?string $resetToken): self
     {
-        $this->reset_token = $reset_token;
+        $this->resetToken = $resetToken;
 
         return $this;
     }
@@ -201,6 +213,11 @@ class User implements UserInterface
         $this->language = $language;
 
         return $this;
+    }
+
+    public static function getAvailableLanguages(): array
+    {
+        return self::LANGUAGES;
     }
 
     /**

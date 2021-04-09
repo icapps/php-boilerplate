@@ -5,7 +5,7 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
       app_user_provider:
-        id: App\Security\UserClientProvider
+        id: App\Security\UserProvider
 
     firewalls:
       doc:
@@ -15,6 +15,11 @@ security:
 
       refresh:
         pattern:  ^/api/auth/refresh
+        stateless: true
+        anonymous: true
+
+      register:
+        pattern:  ^/api/auth/register
         stateless: true
         anonymous: true
 
