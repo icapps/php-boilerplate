@@ -2,16 +2,25 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource()
+ * @ORM\Table(name="icapps_user")
+ * @UniqueEntity(fields={"email"}, message="This value is already used.")
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ *
  */
 class User implements UserInterface
 {
     const DEFAULT_LOCALE = 'nl';
+    const ROLE_USER = 'ROLE_USER';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
 
     /**
      * @ORM\Id
@@ -22,6 +31,8 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"register:api-write"})
+     *
      */
     private $email;
 
