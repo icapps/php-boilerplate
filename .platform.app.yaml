@@ -36,6 +36,7 @@ relationships:
   database: "mysqldb:mysql"
 #  rabbitmqqueue: "rabbitmq:rabbitmq"
   rediscache: "cacheredis:redis"
+  essearch: "searchelastic:elasticsearch"
 
 # The size of the persistent disk of the application (in MB).
 disk: 2048

@@ -4,10 +4,19 @@
       "js": [
         "/build/website/runtime.d7fdc097.js",
         "/build/website/758.d8237321.js",
-        "/build/website/app.78a3a4c9.js"
+        "/build/website/app.193db066.js"
       ],
       "css": [
-        "/build/website/app.b75294ae.css"
+        "/build/website/app.31d6cfe0.css"
+      ]
+    },
+    "admin.override": {
+      "js": [
+        "/build/website/runtime.d7fdc097.js",
+        "/build/website/admin.override.27416bc8.js"
+      ],
+      "css": [
+        "/build/website/admin.override.c621da72.css"
       ]
     }
   }

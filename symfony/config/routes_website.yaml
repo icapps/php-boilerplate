@@ -9,3 +9,8 @@ homepage:
 # Admin base route.
 admin:
   path: /admin/
+
+#API Login route
+icapps.api_login:
+  path: /api/auth/login
+  methods: [ 'POST' ]

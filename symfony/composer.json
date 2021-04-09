@@ -1,17 +1,24 @@
 {
     "name": "icapps/symfony-template",
-    "license": "MIT",
+    "license": "proprietary",
     "type": "project",
     "description": "Symfony template project",
     "keywords": [
         "symfony",
+        "sulu",
+        "sulucms",
+        "cms",
         "web-application",
         "platform",
         "data-managment",
-        "project-template",
-        "headless"
+        "project-template"
     ],
-    "prefer-stable": true,
+    "support": {
+        "issues": "https://github.com/sulu/skeleton/issues",
+        "source": "https://github.com/sulu/skeleton",
+        "docs": "http://docs.sulu.io/",
+        "chat": "https://sulu.io/services-and-support#chat"
+    },
     "require": {
         "php": "^7.2 || ^8.0",
         "ext-bcmath": "*",
@@ -22,40 +29,49 @@
         "ext-redis": "*",
         "api-platform/core": "^2.6",
         "composer/package-versions-deprecated": "1.11.99.1",
+        "dantleech/phpcr-migrations-bundle": "^1.2",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.3",
+        "doctrine/doctrine-fixtures-bundle": "^3.0",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
         "lexik/jwt-authentication-bundle": "^2.11",
+        "elasticsearch/elasticsearch": "^7.12",
+        "friendsofsymfony/http-cache-bundle": "^2.8",
+        "handcraftedinthealps/zendsearch": "^2.0",
+        "jackalope/jackalope-doctrine-dbal": "^1.3",
         "phpdocumentor/reflection-docblock": "^5.2",
         "predis/predis": "^1.1",
         "sensio/framework-extra-bundle": "^5.1",
         "snc/redis-bundle": "^3.3",
+        "snc/redis-bundle": "^3.3",
+        "sulu/sulu": "~2.2.7",
         "symfony/amqp-messenger": "^5.1",
         "symfony/asset": "5.2.*",
         "symfony/cache": "^5.1",
         "symfony/config": "^5.1",
         "symfony/console": "5.2.*",
-        "symfony/dotenv": "5.2.*",
+        "symfony/dotenv": "^5.1",
         "symfony/expression-language": "5.2.*",
-        "symfony/flex": "^1.3.1",
+        "symfony/flex": "^1.2",
         "symfony/form": "5.2.*",
-        "symfony/framework-bundle": "5.2.*",
+        "symfony/framework-bundle": "^5.1",
         "symfony/http-client": "5.2.*",
         "symfony/intl": "5.2.*",
         "symfony/mailer": "5.2.*",
         "symfony/mime": "5.2.*",
+        "symfony/monolog-bridge": "^5.1",
         "symfony/monolog-bundle": "^3.1",
         "symfony/notifier": "5.2.*",
         "symfony/process": "5.2.*",
         "symfony/property-access": "5.2.*",
         "symfony/property-info": "5.2.*",
         "symfony/proxy-manager-bridge": "5.2.*",
-        "symfony/security-bundle": "5.2.*",
+        "symfony/security-bundle": "^5.1",
         "symfony/serializer": "5.2.*",
         "symfony/string": "5.2.*",
         "symfony/translation": "5.2.*",
-        "symfony/twig-bundle": "^5.2",
+        "symfony/twig-bundle": "^5.1",
         "symfony/validator": "5.2.*",
         "symfony/web-link": "5.2.*",
         "symfony/webpack-encore-bundle": "^1.7",
@@ -76,10 +92,13 @@
         "symfony/css-selector": "^5.2",
         "symfony/debug-bundle": "^5.2",
         "symfony/maker-bundle": "^1.0",
-        "symfony/phpunit-bridge": "^5.2",
         "symfony/stopwatch": "^5.2",
         "symfony/var-dumper": "^5.2",
-        "symfony/web-profiler-bundle": "^5.2"
+        "phpcr/phpcr-shell": "^1.2",
+        "symfony/error-handler": "^5.1",
+        "symfony/phpunit-bridge": "^5.1",
+        "symfony/thanks": "^1.1",
+        "symfony/web-profiler-bundle": "^5.1"
     },
     "config": {
         "optimize-autoloader": true,
@@ -99,14 +118,21 @@
         }
     },
     "replace": {
+        "paragonie/random_compat": "2.*",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php72": "*"
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php71": "*",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php56": "*"
     },
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "bin/websiteconsole cache:clear": "php-script",
+            "bin/adminconsole sulu:media:init": "php-script",
+            "bin/adminconsole massive:search:init": "php-script"
         },
         "post-install-cmd": [
             "@auto-scripts"
@@ -114,17 +140,20 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
+        "post-root-package-install": [
+            "@php -r \"file_put_contents('.env.local', 'APP_ENV=dev' . PHP_EOL);\"",
+            "@php -r \"file_put_contents('.env', str_replace('APP_SECRET=', 'APP_SECRET=' . bin2hex(random_bytes(16)), file_get_contents('.env')));\""
+        ],
+        "post-create-project-cmd": [
+            "@php -r \"file_put_contents('.gitignore', str_replace(['composer.lock' . PHP_EOL, 'symfony.lock' . PHP_EOL, 'package-lock.json' . PHP_EOL], ['', '', ''], file_get_contents('.gitignore')));\""
+        ],
         "post-autoload-dump": [
             "[ $COMPOSER_DEV_MODE -eq 0 ] || vendor/bin/grumphp git:init"
         ]
     },
-    "conflict": {
-        "symfony/symfony": "*"
-    },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
-            "require": "5.2.*"
+            "allow-contrib": true
         }
     }
 }
