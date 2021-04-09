@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Security;
-
 
 use App\Entity\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\User\PayloadAwareUserProviderInterface;
