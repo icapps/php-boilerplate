@@ -2,4 +2,3 @@ gesdinet_jwt_refresh_token:
   ttl: 2592000
   token_parameter_name: refreshToken
   user_identity_field: email
-  single_use: true

@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * // @TODO:: improve API docs (required fields)
  * @ApiResource()
  * @ORM\Table(name="icapps_users")
  * @UniqueEntity(fields={"email"}, message="This value is already used.", groups={"register:api-write"})

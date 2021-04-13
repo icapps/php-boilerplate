@@ -127,8 +127,8 @@ api_platform:
     formats:
         json:
             mime_types: ['application/json']
-        jsonld:
-            mime_types: ['application/ld+json']
+#        jsonld:
+#            mime_types: ['application/ld+json']
         html:
             mime_types: ['text/html']
 
@@ -136,10 +136,10 @@ api_platform:
     error_formats:
         json:
             mime_types: [ 'application/json' ]
-        jsonproblem:
-            mime_types: ['application/problem+json']
-        jsonld:
-            mime_types: ['application/ld+json']
+#        jsonproblem:
+#            mime_types: ['application/problem+json']
+#        jsonld:
+#            mime_types: ['application/ld+json']
 
     # Global resources defaults
     defaults:

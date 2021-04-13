@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Api\DataPersister;
+namespace App\Service\Api\DataPersister\Auth;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * This is a custom DataPersister for which incoming data can be handled, persisted and customized in any way.
  * More information: https://api-platform.com/docs/core/data-persisters.
  *
- * @package App\Service\Api\DataPersister
+ * @package App\Service\Api\DataPersister\Auth
  */
 final class RegisterDataPersister implements DataPersisterInterface
 {

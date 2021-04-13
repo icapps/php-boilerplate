@@ -3,17 +3,17 @@
 namespace App\ApiResource\Authentication;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Dto\AuthAccessOutput;
 use App\Dto\RegisterOutput;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * This is a custom API Platform ApiResource, with DataPersister and DataProvider.
- *
  * @ApiResource(
+ *     routePrefix=AuthAccessOutput::AUTH_ROUTE_PREFIX,
  *     collectionOperations={
  *         "post_register_api"={
- *              "path"= "/auth/register",
+ *              "path"= "/register",
  *              "method"="POST",
  *              "openapi_context"={
  *                  "summary"="Register a new user",
@@ -24,12 +24,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     itemOperations={},
  *     shortName="Register",
  *     normalizationContext={
- *          "groups"={"register:api-get"},
- *          "swagger_definition_name"="GET"
+ *          "groups"={"register:api-get", "api-get"},
+ *          "swagger_definition_name"="GET",
+ *          "openapi_context"={
+ *              "summary"="Register a new user",
+ *              "description"="Register a new user"
+ *          }
  *     },
  *     denormalizationContext={
- *          "groups"={"register:api-write"},
- *          "swagger_definition_name"="WRITE"
+ *          "groups"={"register:api-write", "api-write"},
+ *          "swagger_definition_name"="WRITE",
+ *          "openapi_context"={
+ *              "summary"="Register a new user",
+ *              "description"="Register a new user"
+ *          }
  *     },
  *     output=RegisterOutput::class
  * )

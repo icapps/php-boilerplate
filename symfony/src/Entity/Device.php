@@ -7,6 +7,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * // @TODO:: exclude from API docs.
  * @ORM\Table(name="icapps_devices")
  * @ORM\Entity(repositoryClass="App\Repository\DeviceRepository")
  */

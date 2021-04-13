@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Api\DataPersister;
+namespace App\Service\Api\DataPersister\Examples;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\ApiResource\Examples\SearchExample;
@@ -12,7 +12,7 @@ use App\Dto\SearchExampleOutput;
  * This is a custom DataPersister for which incoming data can be handled, persisted and customized in any way.
  * More information: https://api-platform.com/docs/core/data-persisters.
  *
- * @package App\Service\Api\DataPersister
+ * @package App\Service\Api\DataPersister\Examples
  */
 final class SearchExampleDataPersister implements DataPersisterInterface
 {
