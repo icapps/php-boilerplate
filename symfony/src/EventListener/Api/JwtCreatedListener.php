@@ -73,7 +73,7 @@ class JwtCreatedListener implements EventSubscriberInterface
         // Format response.
         $data = $event->getData();
         $response = [
-            'accessToken' => $data['token'] ?? null,
+            'token' => $data['token'] ?? null,
             'refreshToken' => $data['refreshToken'] ?? null,
         ];
 

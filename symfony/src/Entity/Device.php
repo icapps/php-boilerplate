@@ -4,12 +4,46 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Dto\AuthAccessOutput;
+use App\Dto\StatusOutput;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
+
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * // @TODO:: exclude from API docs.
  * @ORM\Table(name="icapps_devices")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\DeviceRepository")
+ *
+ * @ApiResource(
+ *     collectionOperations={},
+ *     itemOperations={
+ *         "get"={
+ *              "openapi_context"={
+ *                  "summary"="Get user device",
+ *                  "description"="Get device for active user"
+ *              }
+ *          },
+ *         "patch"={
+ *              "openapi_context"={
+ *                  "summary"="Update user device token",
+ *                  "description"="Update user device token"
+ *              }
+ *         }
+ *     },
+ *     shortName="UserDevice",
+ *     normalizationContext={
+ *          "groups"={"device:api-get", "api-get"},
+ *          "swagger_definition_name"="GET"
+ *     },
+ *     denormalizationContext={
+ *          "groups"={"device:api-write", "api-write"},
+ *          "swagger_definition_name"="WRITE"
+ *     }
+ * )
  */
 class Device
 {
@@ -21,6 +55,8 @@ class Device
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @ApiProperty(identifier=false)
      */
     private $id;
 
@@ -35,6 +71,11 @@ class Device
      * @var string
      *
      * @ORM\Column(type="string")
+     *
+     * @Assert\NotBlank()
+     *
+     * @ApiProperty(identifier=true)
+     * @Groups({"api-get"})
      */
     private $deviceId;
 
@@ -42,6 +83,10 @@ class Device
      * @var string
      *
      * @ORM\Column(type="string")
+     *
+     * @Assert\NotBlank()
+     *
+     * @Groups({"api-write", "api-get"})
      */
     private $deviceToken;
 

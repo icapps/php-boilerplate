@@ -10,6 +10,7 @@ use App\Repository\DeviceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class LogoutDataPersister
@@ -22,18 +23,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 final class LogoutDataPersister implements DataPersisterInterface
 {
     /**
-     * LogoutDataPersister constructor.
-     *
-     * @param EntityManagerInterface $entityManager
-     * @param UserPasswordEncoderInterface $userPasswordEncoder
-     * @param ValidatorInterface $validator
-     * @param DeviceRepository $deviceRepository
+     * {@inheritDoc}
      */
     public function __construct(
         private EntityManagerInterface $entityManager,
         private UserPasswordEncoderInterface $userPasswordEncoder,
         private ValidatorInterface $validator,
-        private DeviceRepository $deviceRepository
+        private DeviceRepository $deviceRepository,
+        private Security $security
     ) {
         //
     }
@@ -57,9 +54,8 @@ final class LogoutDataPersister implements DataPersisterInterface
         $output->message = 'Logout successful';
 
         // Mobile should throw away user session so we only have to clear device.
-        // @TODO:: clear refresh token?
         try {
-            if ($device = $this->deviceRepository->findOneBy(['deviceId' => $data->getDeviceId()])) {
+            if ($device = $this->deviceRepository->findOneBy(['user' => $this->security->getUser(), 'deviceId' => $data->getDeviceId()])) {
                 $this->deviceRepository->remove($device->getId());
             }
         } catch (\Exception $e) {

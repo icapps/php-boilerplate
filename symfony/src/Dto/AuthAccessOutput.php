@@ -24,7 +24,7 @@ class AuthAccessOutput
      *
      * @Assert\NotBlank
      */
-    public string $accessToken;
+    public string $token;
 
     /**
      * @var string

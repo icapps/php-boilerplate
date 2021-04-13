@@ -29,15 +29,15 @@ final class JwtDecorator implements OpenApiFactoryInterface
                             'application/json' => [
                                 'schema'  => [
                                     'type' => 'object',
-                                    'required' => ['accessToken', 'refreshToken'],
+                                    'required' => ['token', 'refreshToken'],
                                     'properties' =>
                                         [
-                                            'accessToken' => ['type' => 'string'],
+                                            'token' => ['type' => 'string'],
                                             'refreshToken' => ['type' => 'string'],
                                         ],
                                 ],
                                 'example' => [
-                                    'accessToken' => '97f1796cee6a319cbf42623d168ec7d030e1cc6658f01da884e8d59b368deda0e9f977b80cf19aedb3d6b43d8a4',
+                                    'token' => '97f1796cee6a319cbf42623d168ec7d030e1cc6658f01da884e8d59b368deda0e9f977b80cf19aedb3d6b43d8a4',
                                     'refreshToken' => '01645a2f86313ffc55332747054a7ad3ce6f497f1796cee6a319cbf42623d1',
                                 ],
                             ],
@@ -45,6 +45,12 @@ final class JwtDecorator implements OpenApiFactoryInterface
                     ],
                     '400' => [
                         'description' => 'Validation error',
+                    ],
+                    '403' => [
+                        'description' => 'User not activated',
+                    ],
+                    '404' => [
+                        'description' => 'User not found',
                     ],
                 ],
                 summary: 'Get JWT login token',

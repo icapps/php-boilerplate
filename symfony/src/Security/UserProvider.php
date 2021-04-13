@@ -87,12 +87,12 @@ class UserProvider implements PayloadAwareUserProviderInterface
 
         // Check if exists.
         if (null === $user) {
-            throw new UsernameNotFoundException();
+            throw new UsernameNotFoundException('User not found');
         }
 
         // Check if enabled.
         if (!$user->isEnabled()) {
-            throw new AuthenticationException();
+            throw new AuthenticationException('User not yet activated');
         }
 
         return $this->cache[$email] = $user;
