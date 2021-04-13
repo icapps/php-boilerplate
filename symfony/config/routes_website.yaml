@@ -1,0 +1,15 @@
+# No website, so redirect to admin.
+homepage:
+  path: /nl
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+  defaults:
+    path: /admin
+    permanent: true
+
+# Admin base route.
+admin:
+  path: /admin/
+
+# Authentication
+icapps.api_login:
+  path: /api/auth/login

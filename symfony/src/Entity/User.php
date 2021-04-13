@@ -2,26 +2,33 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Component\Model\Traits\EnableTrait;
 use App\Component\Model\EnableInterface;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
+// @TODO:: improve API docs (required fields)
 /**
+ * @ApiResource()
  * @ORM\Table(name="icapps_users",
  *    uniqueConstraints={
  *        @UniqueConstraint(name="user_unique",
  *            columns={"email", "profile_type"})
  *    }
  * )
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 class User implements UserInterface, EnableInterface
 {
     use EnableTrait;
 
+    const ROLE_USER = 'ROLE_USER';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
     const LANGUAGES = ['nl', 'en', 'fr'];
     const DEFAULT_LOCALE = 'nl';
 
@@ -42,7 +49,7 @@ class User implements UserInterface, EnableInterface
      *     minMessage="icapps.registration.email.min_length",
      *     maxMessage="icapps.registration.email.max_length",
      *     allowEmptyString = false,
-     *     groups={"registration"}
+     *     groups={"register:api-write", "registration"}
      * )
      */
     private string $email;
@@ -65,7 +72,7 @@ class User implements UserInterface, EnableInterface
      *     min = 8,
      *     minMessage="icapps.registration.password.min_length",
      *     allowEmptyString = false,
-     *     groups={"registration", "update-password"}
+     *     groups={"register:api-write", "registration", "update-password"}
      * )
      */
     private string $password;
@@ -100,6 +107,11 @@ class User implements UserInterface, EnableInterface
      * @ORM\Column(type="integer")
      */
     private int $profileId;
+
+    /**
+     * @ORM\OneToMany(targetEntity="\App\Entity\Device", mappedBy="user")
+     */
+    private Collection $devices;
 
     /**
      * @return int|null
@@ -320,5 +332,18 @@ class User implements UserInterface, EnableInterface
     public function getPendingEmail(): ?string
     {
         return $this->pendingEmail;
+    }
+
+    public static function getAvailableLanguages(): array
+    {
+        return self::LANGUAGES;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getDevices(): Collection
+    {
+        return $this->devices;
     }
 }

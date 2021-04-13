@@ -1,0 +1,19 @@
+/** Provide logo in login */
+.su-sulu:before {
+  background-image: url("../images/icapps-logo.png");
+  background-size: 50px;
+  width: 50px;
+  height: 50px;
+  content: "";
+  display: inline-block;
+}
+
+nav[class^='navigation--'] {
+  span[class^='header-title--'] {
+    display: none;
+  }
+
+  div[class^='header-content--'] {
+    display: none;
+  }
+}

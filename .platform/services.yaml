@@ -4,3 +4,7 @@ mysqldb:
 
 cacheredis:
   type: redis:6.0
+
+searchelastic:
+  type: elasticsearch:7.9
+  disk: 256

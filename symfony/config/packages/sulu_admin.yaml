@@ -1,0 +1,17 @@
+sulu_admin:
+    email: "%env(ADMIN_EMAIL)%"
+    forms:
+        directories:
+            - "%kernel.project_dir%/config/forms"
+    lists:
+        directories:
+            - "%kernel.project_dir%/config/lists"
+
+sulu_core:
+    locales:
+        nl: Nederlands
+        en: English
+    translations:
+        - nl
+        - en
+    fallback_locale: nl

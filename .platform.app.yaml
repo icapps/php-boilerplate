@@ -28,6 +28,7 @@ hooks:
     set -e
     cd symfony
     rm -rf var/cache/$APP_ENV/*
+    bin/console doctrine:migrations:migrate --no-interaction
     bin/console assets:install --symlink --relative public
     bin/console cache:clear
 
@@ -36,6 +37,7 @@ relationships:
   database: "mysqldb:mysql"
 #  rabbitmqqueue: "rabbitmq:rabbitmq"
   rediscache: "cacheredis:redis"
+  essearch: "searchelastic:elasticsearch"
 
 # The size of the persistent disk of the application (in MB).
 disk: 2048
@@ -51,6 +53,9 @@ mounts:
   "/symfony/var/sessions":
     source: local
     source_path: "sessions"
+  "/symfony/public/bundles":
+    source: local
+    source_path: "bundle-assets"
 
 # The configuration of app when it is exposed to the web.
 web:
