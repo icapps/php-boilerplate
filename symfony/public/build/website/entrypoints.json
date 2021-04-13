@@ -2,12 +2,23 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/build/website/runtime.d7fdc097.js",
-        "/build/website/758.aa545b10.js",
-        "/build/website/app.78a3a4c9.js"
+        "/build/website/runtime.js",
+        "/build/website/app.js"
       ],
       "css": [
-        "/build/website/app.b75294ae.css"
+        "/build/website/app.css"
+      ]
+    },
+    "main": {
+      "js": [
+        "/build/website/runtime.js",
+        "/build/website/main.js"
+      ]
+    },
+    "password": {
+      "js": [
+        "/build/website/runtime.js",
+        "/build/website/password.js"
       ]
     }
   }

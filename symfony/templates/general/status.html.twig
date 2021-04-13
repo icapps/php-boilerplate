@@ -1,26 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="l-container">
-        <div class="l-wrapper">
-            <div class="l-wrapper--user">
-                <div class="l-wrapper--content status">
-                    <a href="{{ companyData.siteURL }}" class="logo-mobile">
-                        {# Add your logo here #}
-                        <img src="{{ asset(companyData.logoURL) }}" alt="logo">
-                    </a>
-                    <div class="l-content">
-                        <h1 class="form-title">{{ title }}</h1>
-                        <p class="form-text">{{ message }}</p>
+    <section class="hero is-primary is-fullheight">
+        <div class="hero-head"></div>
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-vcentered">
+                    <div class="column is-one-third has-text-centered">
+                        <figure class="image is-128x128 is-inline-block">
+                            <a href="{{ companyData.siteURL }}" class="logo-mobile">
+                                <img src="{{ asset(companyData.logoURL) }}" alt="logo">
+                            </a>
+                        </figure>
                     </div>
-                </div>
-                <div class="l-wrapper--side">
-                    <a href="{{ companyData.siteURL }}" class="logo">
-                        {# Add your logo here #}
-                        <img src="{{ asset(companyData.logoURL) }}" alt="logo">
-                    </a>
+
+                    <div class="column">
+                        <h1 class="title">{{ title }}</h1>
+                        <p>{{ message }}</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="hero-foot"></div>
+    </section>
 {% endblock %}

@@ -65,25 +65,17 @@ class UserController extends AbstractController
     {
         // Validate reset token.
         $user = $this->userService->validatePasswordResetToken($token);
-        if (!$user) {
+        /*if (!$user) {
             return $this->render('general/status.html.twig', [
                 'companyData' => $this->companyHelper->getBaseCompanyInfo(),
                 'title' => $this->translator->trans('icapps.website.lbl_user.reset.failed_title', [], 'messages'),
                 'message' => $this->translator->trans('icapps.website.lbl_user.reset.failed_message', [], 'messages'),
             ]);
-        }
+        }*/
 
         // Get reset form.
-        $form = $this->createForm(PasswordResetType::class, [], [
-            'attr' => ['class' => 'user--reset-form validate-form'],
-        ]);
+        $form = $this->createForm(PasswordResetType::class);
 
-        // Include submit button.
-        $form->add('submit', SubmitType::class, [
-            'label' => $this->translator->trans('icapps.website.lbl_user.reset.form_submit', [], 'messages'),
-            'attr' => ['class' => 'c-button--btn'],
-            'disabled' => true,
-        ]);
 
         $companyData = $this->companyHelper->getBaseCompanyInfo();
 
