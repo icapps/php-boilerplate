@@ -7,11 +7,8 @@ use App\Form\PasswordResetType;
 use App\Repository\ProfileRepository;
 use App\Service\Website\UserService;
 use App\Utils\CompanyHelper;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends AbstractController
 {
 
-    public function __construct(private MailerInterface $mailer, private LoggerInterface $logger, private TranslatorInterface $translator, private UserService $userService, private ProfileRepository $profileRepository, private CompanyHelper $companyHelper)
+    public function __construct(private TranslatorInterface $translator, private UserService $userService, private ProfileRepository $profileRepository, private CompanyHelper $companyHelper)
     {
     }
 
@@ -65,13 +62,13 @@ class UserController extends AbstractController
     {
         // Validate reset token.
         $user = $this->userService->validatePasswordResetToken($token);
-        /*if (!$user) {
+        if (!$user) {
             return $this->render('general/status.html.twig', [
                 'companyData' => $this->companyHelper->getBaseCompanyInfo(),
                 'title' => $this->translator->trans('icapps.website.lbl_user.reset.failed_title', [], 'messages'),
                 'message' => $this->translator->trans('icapps.website.lbl_user.reset.failed_message', [], 'messages'),
             ]);
-        }*/
+        }
 
         // Get reset form.
         $form = $this->createForm(PasswordResetType::class);

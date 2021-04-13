@@ -40,10 +40,12 @@
             {% endblock %}
         </header>
 
-        <form action="{{ path('sulu_search.website_search') }}" method="GET">
-            <input name="q" type="text" placeholder="Search"/>
-            <input type="submit" value="Go"/>
-        </form>
+        {% block searchForm %}
+            <form action="{{ path('sulu_search.website_search') }}" method="GET">
+                <input name="q" type="text" placeholder="Search"/>
+                <input type="submit" value="Go"/>
+            </form>
+        {% endblock %}
 
         <section id="content">
             {% block content %}{% endblock %}
