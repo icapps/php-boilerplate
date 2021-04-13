@@ -7,6 +7,7 @@ use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\ApiResource\Authentication\Register;
 use App\Dto\RegisterOutput;
 use App\Entity\User;
+use App\Utils\AuthUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -56,9 +57,12 @@ final class RegisterDataPersister implements DataPersisterInterface
         $user->setUsername($data->getFirstName().'-'.$data->getLastName());
         $user->setPassword($this->userPasswordEncoder->encodePassword($user, $data->getPassword()));
         $user->setLanguage($data->getLanguage());
-        $user->setEnabled(true);
 
-        //This will validate and return a well formatted error response
+        // User only enabled by confirmation mail: set activation token.
+        $user->setEnabled(false);
+        $user->setActivationToken(AuthUtils::getUniqueToken());
+
+        // This will validate and return a well formatted error response.
         $context["groups"] = "register:api-write";
         $this->validator->validate($user, $context);
 
