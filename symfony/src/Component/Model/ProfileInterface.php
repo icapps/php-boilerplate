@@ -5,7 +5,7 @@ namespace App\Component\Model;
 /**
  * User Profiles implementing this interface must have these methods for automation boilerplate
  */
-interface ProfileInterface
+interface ProfileInterface extends EnableInterface
 {
     /**
      * @param string $firstName

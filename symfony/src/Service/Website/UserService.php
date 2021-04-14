@@ -6,18 +6,35 @@ use App\Entity\User;
 use App\Mail\MailHelper;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class UserService
 {
 
-    public function __construct(private UserRepository $userRepository, private ProfileRepository $profileRepository, private ValidatorInterface $validator, private TranslatorInterface $translator, private MailHelper $mailHelper, private LoggerInterface $logger, private UserPasswordEncoderInterface $encoder)
-    {
+    public function __construct(
+        private UserRepository $userRepository,
+        private ProfileRepository $profileRepository,
+        private MailHelper $mailHelper,
+        private LoggerInterface $logger,
+        private UserPasswordEncoderInterface $encoder
+    ) {
     }
 
+    /**
+     * @param string $activationToken
+     * @return User|null
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function activateUser(string $activationToken): ?User
     {
         // Get user by token.
@@ -43,6 +60,12 @@ class UserService
         return $user;
     }
 
+    /**
+     * @param string $activationToken
+     * @return User|null
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function activatePendingEmailOfUser(string $activationToken): ?User
     {
         // Get user by token.
@@ -63,11 +86,22 @@ class UserService
         return $user;
     }
 
+    /**
+     * @param string $resetToken
+     * @return User|null
+     */
     public function validatePasswordResetToken(string $resetToken): ?User
     {
         return $this->userRepository->findByResetToken($resetToken);
     }
 
+    /**
+     * @param User $user
+     * @param string $password
+     * @return User
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function passwordResetUser(User $user, string $password): User
     {
         // Update password.
