@@ -6,4 +6,4 @@
  */
 
 // Include SASS files to compile into one app.css.
-require('../css/admin.override.scss');
+import '../styles/_admin.overrides.scss';
