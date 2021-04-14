@@ -25,20 +25,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * Used to upgrade (rehash) the user's password automatically over time.
-     */
-    public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
-    {
-        if (!$user instanceof User) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
-        }
-
-        $user->setPassword($newEncodedPassword);
-        $this->_em->persist($user);
-        $this->_em->flush();
-    }
-
-    /**
      * @return User
      */
     public function create(): User
@@ -73,5 +59,85 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * Used to upgrade (rehash) the user's password automatically over time.
+     * @param UserInterface $user
+     * @param string $newEncodedPassword
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
+    {
+        if (!$user instanceof User) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+        }
+
+        $user->setPassword($newEncodedPassword);
+        $this->_em->persist($user);
+        $this->_em->flush();
+    }
+
+    /**
+     * Find user by activation token.
+     *
+     * @param string $activationToken
+     *
+     * @return User|null
+     */
+    public function findByActivationToken(string $activationToken): ?User
+    {
+        $user = $this->findOneBy([
+            'activationToken' => $activationToken,
+        ]);
+
+        if (!$user) {
+            return null;
+        }
+
+        return $user;
+    }
+
+    /**
+     * Find user by reset token.
+     *
+     * @param string $resetToken
+     *
+     * @return User|null
+     */
+    public function findByResetToken(string $resetToken): ?User
+    {
+        $user = $this->findOneBy([
+            'resetToken' => $resetToken,
+        ]);
+
+        if (!$user) {
+            return null;
+        }
+
+        return $user;
+    }
+
+    /**
+     * Find user by profile ID and type.
+     *
+     * @param int $profileId
+     * @param string $profileType
+     *
+     * @return User|null
+     */
+    public function findUserByProfile(int $profileId, string $profileType): ?User
+    {
+        $user = $this->findOneBy([
+            'profileId' => $profileId,
+            'profileType' => $profileType,
+        ]);
+
+        if (!$user) {
+            return null;
+        }
+
+        return $user;
     }
 }

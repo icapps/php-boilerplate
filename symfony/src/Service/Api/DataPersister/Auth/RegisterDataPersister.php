@@ -6,7 +6,10 @@ use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\ApiResource\Authentication\Register;
 use App\Dto\RegisterOutput;
+use App\Entity\Profile;
 use App\Entity\User;
+use App\Repository\ProfileRepository;
+use App\Repository\UserRepository;
 use App\Utils\AuthUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -22,9 +25,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 final class RegisterDataPersister implements DataPersisterInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
         private UserPasswordEncoderInterface $userPasswordEncoder,
-        private ValidatorInterface $validator
+        private ValidatorInterface $validator,
+        private UserRepository $userRepository,
+        private ProfileRepository $profileRepository,
     ) {
         //
     }
@@ -51,23 +55,36 @@ final class RegisterDataPersister implements DataPersisterInterface
         $output->email = $data->getEmail();
         $output->language = $data->getLanguage();
 
-        $user = new User();
+        // Create user.
+        $user = $this->userRepository->create();
         $user->setRoles([User::ROLE_USER]);
         $user->setEmail($data->getEmail());
         $user->setUsername($data->getFirstName().'-'.$data->getLastName());
         $user->setPassword($this->userPasswordEncoder->encodePassword($user, $data->getPassword()));
         $user->setLanguage($data->getLanguage());
+        $user->setProfileType(Profile::PROFILE_TYPE);
+
+        // Create user profile.
+        $profile = $this->profileRepository->create();
+        $profile->setFirstName($data->getFirstName());
+        $profile->setLastName($data->getLastName());
+
+        // Validate and save.
+        $context["groups"] = "register:api-write";
+        $this->validator->validate($profile, $context);
+        $this->profileRepository->save($profile);
+
+        $user->setProfileId($profile->getId());
 
         // User only enabled by confirmation mail: set activation token.
-        $user->setEnabled(false);
+        $user->disable();
         $user->setActivationToken(AuthUtils::getUniqueToken());
 
-        // This will validate and return a well formatted error response.
+        // Validate and save.
         $context["groups"] = "register:api-write";
         $this->validator->validate($user, $context);
 
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        $this->userRepository->save($user);
 
         return $output;
     }
