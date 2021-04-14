@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Form\PasswordResetType;
 use App\Repository\ProfileRepository;
 use App\Service\Website\UserService;
-use App\Utils\CompanyHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends AbstractController
 {
 
-    public function __construct(private TranslatorInterface $translator, private UserService $userService, private ProfileRepository $profileRepository, private CompanyHelper $companyHelper)
+    public function __construct(private TranslatorInterface $translator, private UserService $userService, private ProfileRepository $profileRepository)
     {
     }
 
@@ -64,7 +63,6 @@ class UserController extends AbstractController
         $user = $this->userService->validatePasswordResetToken($token);
         if (!$user) {
             return $this->render('general/status.html.twig', [
-                'companyData' => $this->companyHelper->getBaseCompanyInfo(),
                 'title' => $this->translator->trans('icapps.website.lbl_user.reset.failed_title', [], 'messages'),
                 'message' => $this->translator->trans('icapps.website.lbl_user.reset.failed_message', [], 'messages'),
             ]);
@@ -72,9 +70,6 @@ class UserController extends AbstractController
 
         // Get reset form.
         $form = $this->createForm(PasswordResetType::class);
-
-
-        $companyData = $this->companyHelper->getBaseCompanyInfo();
 
         // Check submission and validation.
         $form->handleRequest($request);
@@ -89,7 +84,6 @@ class UserController extends AbstractController
 
             // Success.
             return $this->render('general/status.html.twig', [
-                'companyData' => $companyData,
                 'title' => $this->translator->trans('icapps.website.lbl_user.reset.completed_title', ['%username' => $profile->getFirstName()], 'messages'),
                 'message' => $this->translator->trans('icapps.website.lbl_user.reset.completed_message', [], 'messages'),
             ]);
@@ -97,7 +91,6 @@ class UserController extends AbstractController
 
         // Password reset form.
         return $this->render('user/password-reset.html.twig', [
-            'companyData' => $companyData,
             'form' => $form->createView(),
         ]);
     }
@@ -108,10 +101,8 @@ class UserController extends AbstractController
      */
     private function confirmationResponse(?User $user): Response
     {
-        $companyData = $this->companyHelper->getBaseCompanyInfo();
         if (!$user) {
             return $this->render('general/status.html.twig', [
-                'companyData' => $companyData,
                 'title' => $this->translator->trans('icapps.website.lbl_user.activation.failed_title', [], 'messages'),
                 'message' => $this->translator->trans('icapps.website.lbl_user.activation.failed_message', [], 'messages'),
             ]);
@@ -120,7 +111,6 @@ class UserController extends AbstractController
         $profile = $this->profileRepository->findById($user->getProfileId());
 
         return $this->render('general/status.html.twig', [
-            'companyData' => $companyData,
             'title' => $this->translator->trans('icapps.website.lbl_user.activation.completed_title', ['%username' => $profile->getFirstName()], 'messages'),
             'message' => $this->translator->trans('icapps.website.lbl_user.activation.completed_message', [], 'messages'),
         ]);

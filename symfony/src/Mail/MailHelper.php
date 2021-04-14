@@ -2,10 +2,10 @@
 
 namespace App\Mail;
 
+use App\Component\Model\ProfileInterface;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Utils\CompanyHelper;
 use Psr\Log\LoggerInterface;
 use SplFileInfo;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -23,18 +23,23 @@ use Twig\Error\SyntaxError;
 class MailHelper
 {
 
-    public function __construct(private MailerInterface $mailer, private Environment $twig, private LoggerInterface $logger, private TranslatorInterface $translator, private RouterInterface $router, private UserRepository $userRepository)
-    {
+    public function __construct(
+        private MailerInterface $mailer,
+        private Environment $twig,
+        private LoggerInterface $logger,
+        private TranslatorInterface $translator,
+        private RouterInterface $router
+    ) {
     }
 
     /**
      * @param User $user
-     * @param CompanyHelper $companyHelper
+     * @param ProfileInterface $profile
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function sendRegistrationActivationMail(User $user, CompanyHelper $companyHelper): void
+    public function sendRegistrationActivationMail(User $user, ProfileInterface $profile): void
     {
         // Generate activation link.
         $link = $this->router->generate(
@@ -45,15 +50,16 @@ class MailHelper
 
         $defaultLocale = $this->translator->getLocale();
         $this->translator->setLocale($user->getLanguage());
-        $companyData = $companyHelper->getBaseCompanyInfo();
 
         // Get activation mail body.
-        $body = $this->twig->render('emails/registration-activation.html.twig', [
-            'username' => $user->getFirstName(),
-            'link' => $link,
-            'email' => $user->getEmail(),
-            'companyData' => $companyData,
-            ]);
+        $body = $this->twig->render(
+            'emails/registration-activation.html.twig',
+            [
+                'username' => $profile->getFirstName(),
+                'link' => $link,
+                'email' => $user->getEmail(),
+            ]
+        );
 
         $this->translator->setLocale($defaultLocale);
 
@@ -69,12 +75,12 @@ class MailHelper
     /**
      * Sends activation mail for a pending email address
      * @param User $user
-     * @param CompanyHelper $companyHelper
+     * @param ProfileInterface $profile
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function sendPendingEmailActivation(User $user, CompanyHelper $companyHelper): void
+    public function sendPendingEmailActivation(User $user, ProfileInterface $profile): void
     {
         // Generate activation link.
         $link = $this->router->generate(
@@ -86,15 +92,15 @@ class MailHelper
         $defaultLocale = $this->translator->getLocale();
         $this->translator->setLocale($user->getLanguage());
 
-        $companyData = $companyHelper->getBaseCompanyInfo();
-
         // Get mail body.
-        $body = $this->twig->render('emails/pending-email-activation.html.twig', [
-            'username' => $user->getFirstName(),
-            'link' => $link,
-            'email' => $user->getPendingEmail(),
-            'companyData' => $companyData,
-        ]);
+        $body = $this->twig->render(
+            'emails/pending-email-activation.html.twig',
+            [
+                'username' => $profile->getFirstName(),
+                'link' => $link,
+                'email' => $user->getPendingEmail(),
+            ]
+        );
 
         $this->translator->setLocale($defaultLocale);
 
@@ -109,24 +115,23 @@ class MailHelper
 
     /**
      * @param User $user
-     * @param Profile $profile
-     * @param CompanyHelper $companyHelper
+     * @param ProfileInterface $profile
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function sendRegistrationConfirmationMail(User $user, Profile $profile, CompanyHelper $companyHelper): void
+    public function sendRegistrationConfirmationMail(User $user, ProfileInterface $profile): void
     {
         $defaultLocale = $this->translator->getLocale();
         $this->translator->setLocale($user->getLanguage());
 
-        $companyData = $companyHelper->getBaseCompanyInfo();
-
         // Get activation mail body.
-        $body = $this->twig->render('emails/registration-confirmation.html.twig', [
-            'username' => $profile->getFirstName(),
-            'companyData' => $companyData,
-        ]);
+        $body = $this->twig->render(
+            'emails/registration-confirmation.html.twig',
+            [
+                'username' => $profile->getFirstName(),
+            ]
+        );
 
         $this->translator->setLocale($defaultLocale);
 
@@ -141,11 +146,12 @@ class MailHelper
 
     /**
      * @param User $user
+     * @param ProfileInterface $profile
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function sendUserPasswordResetMail(User $user): void
+    public function sendUserPasswordResetMail(User $user, ProfileInterface $profile): void
     {
         // Generate reset link.
         $link = $this->router->generate(
@@ -158,10 +164,13 @@ class MailHelper
         $this->translator->setLocale($user->getLanguage());
 
         // Get reset mail body.
-        $body = $this->twig->render('emails/user-password-reset.html.twig', [
-            'username' => $user->getFirstName(),
-            'link' => $link,
-        ]);
+        $body = $this->twig->render(
+            'emails/user-password-reset.html.twig',
+            [
+                'username' => $profile->getFirstName(),
+                'link' => $link,
+            ]
+        );
 
         $this->translator->setLocale($defaultLocale);
 
@@ -243,7 +252,7 @@ class MailHelper
         try {
             $this->mailer->send($message);
         } catch (TransportExceptionInterface $e) {
-            $this->logger->critical('Could not send email ' . $subject. ' :'. $e->getMessage() . ' / debug: ' . $e->getDebug());
+            $this->logger->critical('Could not send email '.$subject.' :'.$e->getMessage().' / debug: '.$e->getDebug());
             $this->logMailAction($subject, $sender, $recipient, $subject, $body, $plainText);
         }
     }
@@ -256,21 +265,29 @@ class MailHelper
      * @param mixed $body
      * @param mixed $plainText
      */
-    public function logMailAction(mixed $title, mixed $sender, mixed $recipient, mixed $subject, mixed $body, mixed $plainText): void
-    {
-        $this->logger->warning(sprintf(
-            'Error for mail %s: ' . PHP_EOL .
-            '   From: %s' . PHP_EOL .
-            '   To: %s' . PHP_EOL .
-            '   Subject: %s' . PHP_EOL .
-            '   Body: %s' . PHP_EOL .
-            '   Plain text: %s' . PHP_EOL,
-            is_string($title) ? $title : serialize($title),
-            is_string($sender) ? $sender : serialize($sender),
-            is_string($recipient) ? $recipient : serialize($recipient),
-            is_string($subject) ? $subject : serialize($subject),
-            is_string($body) ? $body : serialize($body),
-            is_string($plainText) ? $plainText : serialize($plainText)
-        ));
+    public function logMailAction(
+        mixed $title,
+        mixed $sender,
+        mixed $recipient,
+        mixed $subject,
+        mixed $body,
+        mixed $plainText
+    ): void {
+        $this->logger->warning(
+            sprintf(
+                'Error for mail %s: '.PHP_EOL.
+                '   From: %s'.PHP_EOL.
+                '   To: %s'.PHP_EOL.
+                '   Subject: %s'.PHP_EOL.
+                '   Body: %s'.PHP_EOL.
+                '   Plain text: %s'.PHP_EOL,
+                is_string($title) ? $title : serialize($title),
+                is_string($sender) ? $sender : serialize($sender),
+                is_string($recipient) ? $recipient : serialize($recipient),
+                is_string($subject) ? $subject : serialize($subject),
+                is_string($body) ? $body : serialize($body),
+                is_string($plainText) ? $plainText : serialize($plainText)
+            )
+        );
     }
 }

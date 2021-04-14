@@ -19,7 +19,7 @@ trait ProfileTrait
      *     minMessage="icapps.registration.firstname.min_length",
      *     maxMessage="icapps.registration.firstname.max_length",
      *     allowEmptyString = false,
-     *     groups={"registration", "profile-update", "admin"}
+     *     groups={"registration", "profile-update", "admin", "api-write"}
      * )
      */
     protected string $firstName;

@@ -24,7 +24,7 @@ class PasswordResetType extends AbstractType
         $builder
             ->add('password', PasswordType::class, [
                 'required' => true,
-                'label' => $this->translator->trans('Password'),
+                'label' => $this->translator->trans('icapps.website.lbl_user.reset.password'),
                 'attr' => [
                     'class' => 'input is-fullwidth is-expanded',
                 ],

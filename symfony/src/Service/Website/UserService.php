@@ -6,17 +6,15 @@ use App\Entity\User;
 use App\Mail\MailHelper;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
-use App\Utils\CompanyHelper;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserService
 {
 
-    public function __construct(private UserRepository $userRepository, private ProfileRepository $profileRepository, private ValidatorInterface $validator, private TranslatorInterface $translator, private MailHelper $mailHelper, private LoggerInterface $logger, private UserPasswordEncoderInterface $encoder, private CompanyHelper $companyHelper)
+    public function __construct(private UserRepository $userRepository, private ProfileRepository $profileRepository, private ValidatorInterface $validator, private TranslatorInterface $translator, private MailHelper $mailHelper, private LoggerInterface $logger, private UserPasswordEncoderInterface $encoder)
     {
     }
 
@@ -38,7 +36,7 @@ class UserService
         $profile = $this->profileRepository->findById($user->getProfileId());
 
         // Send confirmation mail.
-        $this->mailHelper->sendRegistrationConfirmationMail($user, $profile, $this->companyHelper);
+        $this->mailHelper->sendRegistrationConfirmationMail($user, $profile);
 
         $this->logger->info(sprintf('User activated [id: "%s", e-mail: "%s"]', $user->getId(), $user->getEmail()), ['user' => $user]);
 

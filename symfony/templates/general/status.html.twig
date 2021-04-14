@@ -8,8 +8,8 @@
                 <div class="columns is-vcentered">
                     <div class="column is-one-third has-text-centered">
                         <figure class="image is-128x128 is-inline-block">
-                            <a href="{{ companyData.siteURL }}" class="logo-mobile">
-                                <img src="{{ asset(companyData.logoURL) }}" alt="logo">
+                            <a href="{{ get_env('BASE_URL') }}" class="logo-mobile">
+                                <img src="{{ asset('/build/resources/images/logo.png') }}" alt="logo">
                             </a>
                         </figure>
                     </div>

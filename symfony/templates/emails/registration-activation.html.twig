@@ -21,7 +21,7 @@
 
                             <h1>
                                 <br>
-                                <span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif">{{ 'icapps.mail.activation.intro'|trans({'%name%': username, '%brand%': companyData.brand}) }}</span>
+                                <span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif">{{ 'icapps.mail.activation.intro'|trans({'%name%': username, '%brand%': get_env('BRAND')}) }}</span>
                             </h1>&nbsp;
 
                             <p style="color: #9A9A9A;font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
@@ -82,7 +82,7 @@
                         <td valign="top" class="mcnTextContent" style="padding: 0 30px 10px;color: #9A9A9A;font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
                             <p style="color: #9A9A9A;font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
                                 <span style="color:rgba(0, 0, 0, 0.6)">
-                                    <span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif">{{ 'icapps.mail.footer.ignore_text'|trans({'%brand%': companyData.brand}) }}<br>
+                                    <span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif">{{ 'icapps.mail.footer.ignore_text'|trans({'%brand%': get_env('BRAND')}) }}<br>
                                         <br>
                                         {{ 'icapps.mail.footer.thanks'|trans }}<br>
                                         <br>

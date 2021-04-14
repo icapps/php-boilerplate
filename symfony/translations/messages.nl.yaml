@@ -7,6 +7,7 @@ icapps:
         completed_message: "Je registratie is bevestigd! Je kunt nu inloggen met je e-mailadres en wachtwoord."
         failed_message: "Deze link is inmiddels vervallen of werd reeds gebruikt."
       reset:
+        password: "Wachtwoord"
         failed_title: "Link incorrect of reeds gebruikt"
         failed_message: "Deze link is inmiddels vervallen of werd reeds gebruikt."
         form_password_info: "Minimum 8 karakters."
