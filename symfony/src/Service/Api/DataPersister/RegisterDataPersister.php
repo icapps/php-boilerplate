@@ -6,7 +6,10 @@ use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\ApiResource\Authentication\Register;
 use App\Dto\RegisterOutput;
+use App\Entity\Profile;
 use App\Entity\User;
+use App\Repository\ProfileRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -21,9 +24,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 final class RegisterDataPersister implements DataPersisterInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
         private UserPasswordEncoderInterface $userPasswordEncoder,
-        private ValidatorInterface $validator
+        private ValidatorInterface $validator,
+        private UserRepository $userRepository,
+        private ProfileRepository $profileRepository,
     ) {
         //
     }
@@ -50,20 +54,28 @@ final class RegisterDataPersister implements DataPersisterInterface
         $output->email = $data->getEmail();
         $output->language = $data->getLanguage();
 
-        $user = new User();
+        $user = $this->userRepository->create();
         $user->setRoles([User::ROLE_USER]);
         $user->setEmail($data->getEmail());
         $user->setUsername($data->getFirstName().'-'.$data->getLastName());
         $user->setPassword($this->userPasswordEncoder->encodePassword($user, $data->getPassword()));
         $user->setLanguage($data->getLanguage());
-        $user->setEnabled(true);
+        $user->enable();
+        $user->setProfileType(Profile::PROFILE_TYPE);
+
+        $profile = $this->profileRepository->create();
+        $profile->setFirstName($data->getFirstName());
+        $profile->setLastName($data->getLastName());
+
+        $this->profileRepository->save($profile);
+
+        $user->setProfileId($profile->getId());
 
         //This will validate and return a well formatted error response
         $context["groups"] = "register:api-write";
         $this->validator->validate($user, $context);
 
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        $this->userRepository->save($user);
 
         return $output;
     }

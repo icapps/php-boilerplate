@@ -41,12 +41,12 @@ class ProfileRepository extends ServiceEntityRepository
      */
     public function remove(int $id): void
     {
-        $client = $this->getEntityManager()->getReference(
+        $profile = $this->getEntityManager()->getReference(
             $this->getClassName(),
             $id
         );
 
-        $this->getEntityManager()->remove($client);
+        $this->getEntityManager()->remove($profile);
         $this->getEntityManager()->flush();
     }
 
@@ -67,12 +67,12 @@ class ProfileRepository extends ServiceEntityRepository
      */
     public function findById(int $id): ?Profile
     {
-        $client = $this->find($id);
-        if (!$client) {
+        $profile = $this->find($id);
+        if (!$profile) {
             return null;
         }
 
-        return $client;
+        return $profile;
     }
 
     /**

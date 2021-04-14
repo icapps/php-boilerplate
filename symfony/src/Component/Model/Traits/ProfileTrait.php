@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 trait ProfileTrait
 {
-    use EnableTrait;
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="icapps.registration.firstname.required", groups={"registration", "profile-update"})
