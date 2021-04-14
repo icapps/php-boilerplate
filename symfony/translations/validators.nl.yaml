@@ -15,6 +15,7 @@ icapps:
             not_available: Dit E-mailadres is al in gebruik
             min_length: E-mailadres moet minimaal uit 5 karakters bestaan
             max_length: E-mailadres mag maximaal uit 50 karakters bestaan
+            unique: E-mailadres bestaat al
         password:
             required: Wachtwoord verplicht
             min_length: Wachtwoord moet minimaal uit 8 karakters bestaan

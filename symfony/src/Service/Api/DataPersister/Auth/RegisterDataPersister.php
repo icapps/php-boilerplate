@@ -5,13 +5,12 @@ namespace App\Service\Api\DataPersister\Auth;
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\ApiResource\Authentication\Register;
-use App\Dto\RegisterOutput;
+use App\Dto\UserProfileOutput;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
 use App\Utils\AuthUtils;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -47,7 +46,7 @@ final class RegisterDataPersister implements DataPersisterInterface
     public function persist($data)
     {
         // Create response.
-        $output = new RegisterOutput();
+        $output = new UserProfileOutput();
 
         /** @var Register $data */
         $output->firstName = $data->getFirstName();
@@ -59,18 +58,19 @@ final class RegisterDataPersister implements DataPersisterInterface
         $user = $this->userRepository->create();
         $user->setRoles([User::ROLE_USER]);
         $user->setEmail($data->getEmail());
-        $user->setUsername($data->getFirstName().'-'.$data->getLastName());
+        // @TODO:: useless username.
+        $user->setUsername($data->getFirstName() . '-' . $data->getLastName());
         $user->setPassword($this->userPasswordEncoder->encodePassword($user, $data->getPassword()));
         $user->setLanguage($data->getLanguage());
-        $user->setProfileType(Profile::PROFILE_TYPE);
+        $user->setProfileType(Profile::PROFILE_TYPE_DEFAULT);
 
         // Create user profile.
         $profile = $this->profileRepository->create();
         $profile->setFirstName($data->getFirstName());
         $profile->setLastName($data->getLastName());
 
-        // Validate and save.
-        $context["groups"] = "register:api-write";
+        // Validate and save profile.
+        $context['groups'] = 'api-write';
         $this->validator->validate($profile, $context);
         $this->profileRepository->save($profile);
 
@@ -80,8 +80,10 @@ final class RegisterDataPersister implements DataPersisterInterface
         $user->disable();
         $user->setActivationToken(AuthUtils::getUniqueToken());
 
-        // Validate and save.
-        $context["groups"] = "register:api-write";
+        // @TODO:: send activation mail.
+
+        // Validate and save user.
+        $context['groups'] = 'api-write';
         $this->validator->validate($user, $context);
 
         $this->userRepository->save($user);

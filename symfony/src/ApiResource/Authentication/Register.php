@@ -4,7 +4,7 @@ namespace App\ApiResource\Authentication;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Dto\AuthAccessOutput;
-use App\Dto\RegisterOutput;
+use App\Dto\UserProfileOutput;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -39,7 +39,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              "description"="Register a new user"
  *          }
  *     },
- *     output=RegisterOutput::class
+ *     output=UserProfileOutput::class
  * )
  */
 class Register

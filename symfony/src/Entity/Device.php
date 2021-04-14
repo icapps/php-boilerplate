@@ -21,13 +21,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *     collectionOperations={},
  *     itemOperations={
- *         "get"={
- *              "openapi_context"={
- *                  "summary"="Get user device",
- *                  "description"="Get device for active user"
- *              }
- *          },
  *         "patch"={
+ *              "path"= "/user/device/{device_id}",
  *              "openapi_context"={
  *                  "summary"="Update user device token",
  *                  "description"="Update user device token"
@@ -77,7 +72,7 @@ class Device
      * @ApiProperty(identifier=true)
      * @Groups({"api-get"})
      */
-    private $deviceId;
+    private string $deviceId;
 
     /**
      * @var string
@@ -88,7 +83,7 @@ class Device
      *
      * @Groups({"api-write", "api-get"})
      */
-    private $deviceToken;
+    private string $deviceToken;
 
     /**
      * @return int|null
