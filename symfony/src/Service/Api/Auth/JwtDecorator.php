@@ -17,44 +17,6 @@ final class JwtDecorator implements OpenApiFactoryInterface
     public function __invoke(array $context = []): OpenApi
     {
         $openApi = ($this->decorated)($context);
-        $schemas = $openApi->getComponents()->getSchemas();
-
-        $schemas['Token'] = new \ArrayObject(
-            [
-                'type' => 'object',
-                'properties' => [
-                    'token' => [
-                        'type' => 'string',
-                        'readOnly' => true,
-                    ],
-                ],
-            ]
-        );
-        $schemas['Credentials'] = new \ArrayObject(
-            [
-                'type' => 'object',
-                'required' => ['email', 'password', 'deviceId', 'deviceToken'],
-                'properties' => [
-                    'email' => [
-                        'type' => 'string',
-                        'example' => 'john@doe.com',
-                    ],
-                    'password' => [
-                        'type' => 'string',
-                        'example' => 'test123',
-                    ],
-                    'deviceId' => [
-                        'type' => 'string',
-                        'example' => '123456789',
-                    ],
-                    'deviceToken' => [
-                        'type' => 'string',
-                        'example' => '123456789',
-                    ],
-                ],
-            ]
-        );
-
         $pathItem = new Model\PathItem(
             ref: 'JWT Token',
             post: new Model\Operation(
@@ -62,17 +24,33 @@ final class JwtDecorator implements OpenApiFactoryInterface
                 tags: ['Authentication'],
                 responses: [
                     '200' => [
-                        'description' => 'Get JWT token',
+                        'description' => 'Get JWT tokens',
                         'content' => [
                             'application/json' => [
-                                'schema' => [
-                                    '$ref' => '#/components/schemas/Token',
+                                'schema'  => [
+                                    'type' => 'object',
+                                    'required' => ['token', 'refreshToken'],
+                                    'properties' =>
+                                        [
+                                            'token' => ['type' => 'string'],
+                                            'refreshToken' => ['type' => 'string'],
+                                        ],
+                                ],
+                                'example' => [
+                                    'token' => '97f1796cee6a319cbf42623d168ec7d030e1cc6658f01da884e8d59b368deda0e9f977b80cf19aedb3d6b43d8a4',
+                                    'refreshToken' => '01645a2f86313ffc55332747054a7ad3ce6f497f1796cee6a319cbf42623d1',
                                 ],
                             ],
                         ],
                     ],
                     '400' => [
                         'description' => 'Validation error',
+                    ],
+                    '403' => [
+                        'description' => 'User not activated',
+                    ],
+                    '404' => [
+                        'description' => 'User not found',
                     ],
                 ],
                 summary: 'Get JWT login token',
@@ -81,8 +59,22 @@ final class JwtDecorator implements OpenApiFactoryInterface
                     content: new \ArrayObject(
                         [
                         'application/json' => [
-                            'schema' => [
-                                '$ref' => '#/components/schemas/Credentials',
+                            'schema'  => [
+                                'type' => 'object',
+                                'required' => ['email', 'password', 'deviceId', 'deviceToken'],
+                                'properties' =>
+                                    [
+                                        'email' => ['type' => 'string'],
+                                        'password' => ['type' => 'string'],
+                                        'deviceId' => ['type' => 'string'],
+                                        'deviceToken' => ['type' => 'string'],
+                                    ],
+                            ],
+                            'example' => [
+                                'email' => 'info@example.com',
+                                'password' => '123456789',
+                                'deviceId' => '1234567890',
+                                'deviceToken' => '1234567890',
                             ],
                         ],
                         ]

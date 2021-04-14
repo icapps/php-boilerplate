@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use App\Entity\Profile;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\User\PayloadAwareUserProviderInterface;
@@ -41,8 +42,7 @@ class UserProvider implements PayloadAwareUserProviderInterface
      */
     public function loadUserByUsernameAndPayload($email, array $payload)
     {
-        // @TODO:: provide profile type.
-        return $this->loadUserByPayload($email, $payload, 'default');
+        return $this->loadUserByPayload($email, $payload, Profile::PROFILE_TYPE_DEFAULT);
     }
 
     /**
@@ -79,20 +79,19 @@ class UserProvider implements PayloadAwareUserProviderInterface
         }
 
         /** @var User $user */
-        // @TODO:: include profile type.
         $user = $this->userRepository->findOneBy([
             'email' => $email,
-            //'profileType' => $profileType,
+            'profileType' => Profile::PROFILE_TYPE_DEFAULT,
         ]);
 
         // Check if exists.
         if (null === $user) {
-            throw new UsernameNotFoundException();
+            throw new UsernameNotFoundException('User not found');
         }
 
         // Check if enabled.
         if (!$user->isEnabled()) {
-            throw new AuthenticationException();
+            throw new AuthenticationException('User not yet activated');
         }
 
         return $this->cache[$email] = $user;

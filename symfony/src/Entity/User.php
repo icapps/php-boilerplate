@@ -9,17 +9,29 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-// @TODO:: improve API docs (required fields)
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={},
+ *     itemOperations={},
+ * )
+ *
  * @ORM\Table(name="icapps_users",
  *    uniqueConstraints={
- *        @UniqueConstraint(name="user_unique",
- *            columns={"email", "profile_type"})
+ *        @UniqueConstraint(
+ *            name="user_unique",
+ *            columns={"email", "profile_type"},
+ *        )
  *    }
+ * )
+ * @UniqueEntity(
+ *     fields={"email", "profileType"},
+ *     message="icapps.registration.email.unique",
+ *     groups={"api-write"},
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
@@ -40,16 +52,18 @@ class User implements UserInterface, EnableInterface
     private $id;
 
     /**
+     * @Groups({"api-get", "api-write"})
+     *
      * @ORM\Column(type="string", length=50)
-     * @Assert\NotBlank(message="icapps.registration.email.required", groups={"registration"})
-     * @Assert\Email(message="icapps.registration.email.invalid", groups={"registration"})
+     *
+     * @Assert\NotBlank(message="icapps.registration.email.required")
+     * @Assert\Email(message="icapps.registration.email.invalid")
      * @Assert\Length(
      *     min = 5,
      *     max = 50,
      *     minMessage="icapps.registration.email.min_length",
      *     maxMessage="icapps.registration.email.max_length",
-     *     allowEmptyString = false,
-     *     groups={"register:api-write", "registration"}
+     *     allowEmptyString = false
      * )
      */
     private string $email;
@@ -66,13 +80,14 @@ class User implements UserInterface, EnableInterface
     private array $roles = [];
 
     /**
+     * @Groups({"api-get", "api-write"})
+     *
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="icapps.registration.password.required", groups={"registration"})
+     * @Assert\NotBlank(message="icapps.registration.password.required")
      * @Assert\Length(
      *     min = 8,
      *     minMessage="icapps.registration.password.min_length",
-     *     allowEmptyString = false,
-     *     groups={"register:api-write", "registration", "update-password"}
+     *     allowEmptyString = false
      * )
      */
     private string $password;
@@ -93,8 +108,10 @@ class User implements UserInterface, EnableInterface
     private ?string $resetToken;
 
     /**
+     * @Groups({"api-get", "api-write"})
+     *
      * @ORM\Column(type="string", length=2, options={"default":User::DEFAULT_LOCALE})
-     * @Assert\Choice(message="icapps.registration.language.invalid", choices=User::LANGUAGES, groups={"registration"})
+     * @Assert\Choice(message="icapps.registration.language.invalid", choices=User::LANGUAGES)
      */
     private string $language;
 
@@ -109,6 +126,8 @@ class User implements UserInterface, EnableInterface
     private int $profileId;
 
     /**
+     * @Groups({"api-get"})
+     *
      * @ORM\OneToMany(targetEntity="\App\Entity\Device", mappedBy="user")
      */
     private Collection $devices;

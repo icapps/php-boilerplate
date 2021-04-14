@@ -27,7 +27,7 @@
         "ext-intl": "*",
         "ext-json": "*",
         "ext-redis": "*",
-        "api-platform/core": "^2.6",
+        "api-platform/core": "2.6.3",
         "composer/package-versions-deprecated": "1.11.99.1",
         "dantleech/phpcr-migrations-bundle": "^1.2",
         "doctrine/annotations": "^1.0",
