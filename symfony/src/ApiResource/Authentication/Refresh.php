@@ -3,13 +3,13 @@
 namespace App\ApiResource\Authentication;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Dto\AuthAccessOutput;
+use App\Dto\AuthAccessDto;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *     routePrefix=AuthAccessOutput::AUTH_ROUTE_PREFIX,
+ *     routePrefix=AuthAccessDto::AUTH_ROUTE_PREFIX,
  *     collectionOperations={
  *         "post_refresh_api"={
  *              "path"= "/refresh",
@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "groups"={"refresh:api-write", "api-write"},
  *          "swagger_definition_name"="WRITE"
  *     },
- *     output=AuthAccessOutput::class
+ *     output=AuthAccessDto::class
  * )
  */
 class Refresh

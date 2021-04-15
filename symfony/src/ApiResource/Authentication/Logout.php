@@ -3,14 +3,14 @@
 namespace App\ApiResource\Authentication;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Dto\AuthAccessOutput;
-use App\Dto\StatusOutput;
+use App\Dto\AuthAccessDto;
+use App\Dto\StatusDto;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *     routePrefix=AuthAccessOutput::AUTH_ROUTE_PREFIX,
+ *     routePrefix=AuthAccessDto::AUTH_ROUTE_PREFIX,
  *     collectionOperations={
  *         "post_logout_api"={
  *              "path"= "/logout",
@@ -31,7 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "groups"={"logout:api-write", "api-write"},
  *          "swagger_definition_name"="WRITE"
  *     },
- *     output=StatusOutput::class
+ *     output=StatusDto::class
  * )
  */
 class Logout

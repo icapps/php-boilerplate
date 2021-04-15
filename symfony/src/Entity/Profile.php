@@ -21,9 +21,9 @@ use Sulu\Component\Persistence\Model\AuditableTrait;
  */
 class Profile implements ProfileInterface, AuditableInterface
 {
-
     use AuditableTrait;
     use ProfileTrait;
+
     const RESOURCE_KEY = 'profiles';
     const PROFILE_TYPE_DEFAULT = 'default';
 

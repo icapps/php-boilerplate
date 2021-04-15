@@ -6,20 +6,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class UserProfileOutput
+ * Class UserProfileDto
  *
  * All custom ApiResource responses should be included using a proper DTO.
  *
  * @package App\Dto
  */
-class UserProfileOutput
+class UserProfileDto
 {
     const USER_ROUTE_PREFIX = '/user';
 
     /**
      * @var string
      *
-     * @Groups({"api-get"})
+     * @Groups({"api-get", "api-write"})
      *
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -34,7 +34,7 @@ class UserProfileOutput
     /**
      * @var string
      *
-     * @Groups({"api-get"})
+     * @Groups({"api-get", "api-write"})
      *
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -49,7 +49,7 @@ class UserProfileOutput
     /**
      * @var string
      *
-     * @Groups({"api-get"})
+     * @Groups({"api-get", "api-write"})
      *
      * @Assert\NotBlank()
      * @Assert\Email(
@@ -67,7 +67,7 @@ class UserProfileOutput
     /**
      * @var string
      *
-     * @Groups({"api-get"})
+     * @Groups({"api-get", "api-write"})
      *
      * @Assert\NotBlank()
      * @Assert\Locale(

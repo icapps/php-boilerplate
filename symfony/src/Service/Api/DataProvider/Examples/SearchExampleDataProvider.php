@@ -6,7 +6,7 @@ use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\ApiResource\Examples\SearchExample;
-use App\Dto\SearchExampleOutput;
+use App\Dto\SearchExampleDto;
 
 /**
  * Class SearchExampleDataProvider
@@ -37,9 +37,9 @@ final class SearchExampleDataProvider implements ItemDataProviderInterface, Cont
     /**
      * {@inheritDoc}
      */
-    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?SearchExampleOutput
+    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?SearchExampleDto
     {
-        $result = new SearchExampleOutput();
+        $result = new SearchExampleDto();
         $result->title = 'Test item #1';
         $result->description = 'Test detail item';
 
@@ -51,7 +51,7 @@ final class SearchExampleDataProvider implements ItemDataProviderInterface, Cont
      */
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
-        $result = new SearchExampleOutput();
+        $result = new SearchExampleDto();
         $result->title = 'Test item #1';
         $result->description = 'Test collection items';
 

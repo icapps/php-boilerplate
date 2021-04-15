@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Dto\AuthAccessOutput;
-use App\Dto\StatusOutput;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -21,8 +18,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *     collectionOperations={},
  *     itemOperations={
+ *         "get"={
+ *              "path"= "/user/devices/{deviceId}",
+ *              "openapi_context"={
+ *                  "summary"="Get user device",
+ *                  "description"="Get user device"
+ *              }
+ *         },
  *         "patch"={
- *              "path"= "/user/device/{device_id}",
+ *              "path"= "/user/devices/{deviceId}",
  *              "openapi_context"={
  *                  "summary"="Update user device token",
  *                  "description"="Update user device token"

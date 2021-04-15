@@ -6,13 +6,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class SearchExampleOutput
+ * Class SearchExampleDto
  *
  * All custom ApiResource responses should be included using a proper DTO.
  *
  * @package App\Dto
  */
-class SearchExampleOutput
+class SearchExampleDto
 {
     /**
      * @var string

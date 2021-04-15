@@ -5,7 +5,7 @@ namespace App\Service\Api\DataPersister\Auth;
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\ApiResource\Authentication\Logout;
-use App\Dto\StatusOutput;
+use App\Dto\StatusDto;
 use App\Repository\DeviceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,7 +49,7 @@ final class LogoutDataPersister implements DataPersisterInterface
     public function persist($data)
     {
         // Create response.
-        $output = new StatusOutput();
+        $output = new StatusDto();
         $output->code = Response::HTTP_CREATED;
         $output->message = 'Logout successful';
 

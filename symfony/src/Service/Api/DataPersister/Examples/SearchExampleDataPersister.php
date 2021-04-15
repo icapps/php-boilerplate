@@ -4,7 +4,7 @@ namespace App\Service\Api\DataPersister\Examples;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\ApiResource\Examples\SearchExample;
-use App\Dto\SearchExampleOutput;
+use App\Dto\SearchExampleDto;
 
 /**
  * Class SearchExampleDataPersister
@@ -30,7 +30,7 @@ final class SearchExampleDataPersister implements DataPersisterInterface
     public function persist($data)
     {
         // Create response.
-        $output = new SearchExampleOutput();
+        $output = new SearchExampleDto();
 
         /** @var SearchExample $data */
         $output->title = 'Search result for: ' . $data->getKeyword();

@@ -22,4 +22,5 @@ icapps:
             required_fields: oldPassword en newPassword zijn verplicht
             invalid: Wachtwoord foutief
         language:
+            required: Taalkeuze verplicht
             invalid: "Dit is geen geldige taalkeuze: {{ value }}"

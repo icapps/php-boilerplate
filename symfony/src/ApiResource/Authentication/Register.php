@@ -3,14 +3,14 @@
 namespace App\ApiResource\Authentication;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Dto\AuthAccessOutput;
-use App\Dto\UserProfileOutput;
+use App\Dto\AuthAccessDto;
+use App\Dto\UserProfileDto;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *     routePrefix=AuthAccessOutput::AUTH_ROUTE_PREFIX,
+ *     routePrefix=AuthAccessDto::AUTH_ROUTE_PREFIX,
  *     collectionOperations={
  *         "post_register_api"={
  *              "path"= "/register",
@@ -39,7 +39,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              "description"="Register a new user"
  *          }
  *     },
- *     output=UserProfileOutput::class
+ *     output=UserProfileDto::class
  * )
  */
 class Register
@@ -63,6 +63,7 @@ class Register
      * @var string
      *
      * @Groups({"register:api-write"})
+     *
      * @Assert\NotBlank()
      * @Assert\Length(
      *     min = 1,

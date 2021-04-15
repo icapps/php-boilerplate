@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Component\Model\Traits\EnableTrait;
 use App\Component\Model\EnableInterface;
+use App\Dto\UserProfileDto;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,7 +18,23 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ApiResource(
  *     collectionOperations={},
- *     itemOperations={},
+ *     itemOperations={
+ *         "get"={
+ *              "openapi_context"={
+ *                  "summary"="Get active user profile",
+ *                  "description"="Get active user profile"
+ *              }
+ *         }
+ *     },
+ *     normalizationContext={
+ *          "groups"={"user:api-get", "api-get"},
+ *          "swagger_definition_name"="GET"
+ *     },
+ *     denormalizationContext={
+ *          "groups"={"user:api-write", "api-write"},
+ *          "swagger_definition_name"="WRITE"
+ *     },
+ *     output=UserProfileDto::class
  * )
  *
  * @ORM\Table(name="icapps_users",
@@ -80,7 +97,7 @@ class User implements UserInterface, EnableInterface
     private array $roles = [];
 
     /**
-     * @Groups({"api-get", "api-write"})
+     * @Groups({"api-write"})
      *
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="icapps.registration.password.required")
@@ -111,9 +128,10 @@ class User implements UserInterface, EnableInterface
      * @Groups({"api-get", "api-write"})
      *
      * @ORM\Column(type="string", length=2, options={"default":User::DEFAULT_LOCALE})
+     * @Assert\NotBlank(message="icapps.registration.language.required")
      * @Assert\Choice(message="icapps.registration.language.invalid", choices=User::LANGUAGES)
      */
-    private string $language;
+    private string $language = self::DEFAULT_LOCALE;
 
     /**
      * @ORM\Column(type="string", length=25)
@@ -126,8 +144,6 @@ class User implements UserInterface, EnableInterface
     private int $profileId;
 
     /**
-     * @Groups({"api-get"})
-     *
      * @ORM\OneToMany(targetEntity="\App\Entity\Device", mappedBy="user")
      */
     private Collection $devices;

@@ -5,7 +5,7 @@ namespace App\Service\Api\DataPersister\Auth;
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\ApiResource\Authentication\Register;
-use App\Dto\UserProfileOutput;
+use App\Dto\UserProfileDto;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Repository\ProfileRepository;
@@ -46,7 +46,7 @@ final class RegisterDataPersister implements DataPersisterInterface
     public function persist($data)
     {
         // Create response.
-        $output = new UserProfileOutput();
+        $output = new UserProfileDto();
 
         /** @var Register $data */
         $output->firstName = $data->getFirstName();

@@ -4,7 +4,7 @@ namespace App\ApiResource\Examples;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiProperty;
-use App\Dto\SearchExampleOutput;
+use App\Dto\SearchExampleDto;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -46,7 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "groups"={"search-examples:api-write"},
  *          "swagger_definition_name"="WRITE"
  *     },
- *     output=SearchExampleOutput::class
+ *     output=SearchExampleDto::class
  * )
  */
 class SearchExample
