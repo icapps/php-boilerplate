@@ -5,50 +5,32 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Component\Model\Traits\EnableTrait;
 use App\Component\Model\EnableInterface;
-use App\Dto\UserProfileDto;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
  *     collectionOperations={},
- *     itemOperations={
- *         "get"={
- *              "openapi_context"={
- *                  "summary"="Get active user profile",
- *                  "description"="Get active user profile"
- *              }
- *         }
- *     },
- *     normalizationContext={
- *          "groups"={"user:api-get", "api-get"},
- *          "swagger_definition_name"="GET"
- *     },
- *     denormalizationContext={
- *          "groups"={"user:api-write", "api-write"},
- *          "swagger_definition_name"="WRITE"
- *     },
- *     output=UserProfileDto::class
+ *     itemOperations={}
  * )
  *
  * @ORM\Table(name="icapps_users",
  *    uniqueConstraints={
  *        @UniqueConstraint(
  *            name="user_unique",
- *            columns={"email", "profile_type"},
+ *            columns={"email"},
  *        )
  *    }
  * )
  * @UniqueEntity(
- *     fields={"email", "profileType"},
+ *     fields={"email"},
  *     message="icapps.registration.email.unique",
- *     groups={"api-write"},
+ *     groups={"orm-registration", "orm-user-update"}
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
@@ -69,25 +51,17 @@ class User implements UserInterface, EnableInterface
     private $id;
 
     /**
-     * @Groups({"api-get", "api-write"})
-     *
      * @ORM\Column(type="string", length=50)
      *
-     * @Assert\NotBlank(message="icapps.registration.email.required")
-     * @Assert\Email(message="icapps.registration.email.invalid")
-     * @Assert\Length(
-     *     min = 5,
-     *     max = 50,
-     *     minMessage="icapps.registration.email.min_length",
-     *     maxMessage="icapps.registration.email.max_length",
-     *     allowEmptyString = false
+     * @Assert\NotBlank(
+     *     message="icapps.registration.email.required",
+     *     groups={"orm-registration", "orm-user-update"}
      * )
      */
     private string $email;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     *
      */
     private ?string $pendingEmail;
 
@@ -97,22 +71,14 @@ class User implements UserInterface, EnableInterface
     private array $roles = [];
 
     /**
-     * @Groups({"api-write"})
-     *
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="icapps.registration.password.required")
-     * @Assert\Length(
-     *     min = 8,
-     *     minMessage="icapps.registration.password.min_length",
-     *     allowEmptyString = false
+     *
+     * @Assert\NotBlank(
+     *     message="icapps.registration.password.required",
+     *     groups={"orm-registration", "orm-user-update"}
      * )
      */
     private string $password;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private string $username;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -125,23 +91,20 @@ class User implements UserInterface, EnableInterface
     private ?string $resetToken;
 
     /**
-     * @Groups({"api-get", "api-write"})
-     *
      * @ORM\Column(type="string", length=2, options={"default":User::DEFAULT_LOCALE})
-     * @Assert\NotBlank(message="icapps.registration.language.required")
-     * @Assert\Choice(message="icapps.registration.language.invalid", choices=User::LANGUAGES)
+     *
+     * @Assert\NotBlank(
+     *     message="icapps.registration.language.required",
+     *     groups={"orm-registration", "orm-user-update"}
+     * )
      */
     private string $language = self::DEFAULT_LOCALE;
 
     /**
-     * @ORM\Column(type="string", length=25)
+     * @ORM\OneToOne(targetEntity=Profile::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private string $profileType;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private int $profileId;
+    private Profile $profile;
 
     /**
      * @ORM\OneToMany(targetEntity="\App\Entity\Device", mappedBy="user")
@@ -248,17 +211,6 @@ class User implements UserInterface, EnableInterface
     }
 
     /**
-     * @param string $username
-     * @return $this
-     */
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getActivationToken(): ?string
@@ -316,44 +268,6 @@ class User implements UserInterface, EnableInterface
     }
 
     /**
-     * @return string
-     */
-    public function getProfileType(): string
-    {
-        return $this->profileType;
-    }
-
-    /**
-     * @param string $profileType
-     * @return $this
-     */
-    public function setProfileType(string $profileType): self
-    {
-        $this->profileType = $profileType;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getProfileId(): int
-    {
-        return $this->profileId;
-    }
-
-    /**
-     * @param int $profileId
-     * @return $this
-     */
-    public function setProfileId(int $profileId): self
-    {
-        $this->profileId = $profileId;
-
-        return $this;
-    }
-
-    /**
      * @param string|null $pendingEmail
      */
     public function setPendingEmail(?string $pendingEmail): void
@@ -380,5 +294,17 @@ class User implements UserInterface, EnableInterface
     public function getDevices(): Collection
     {
         return $this->devices;
+    }
+
+    public function getProfile(): ?Profile
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(Profile $profile): self
+    {
+        $this->profile = $profile;
+
+        return $this;
     }
 }

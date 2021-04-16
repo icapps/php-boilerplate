@@ -1,32 +1,34 @@
 <?php
 
-namespace App\Dto;
+namespace App\Dto\Examples;
 
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class StatusDto
+ * Class SearchExampleDto
  *
  * All custom ApiResource responses should be included using a proper DTO.
  *
  * @package App\Dto
  */
-class StatusDto
+class SearchExampleDto
 {
     /**
-     * @var int
+     * @var string
      *
-     * @Groups({"api-get"})
+     * @Groups({"search-examples:api-get"})
+     *
+     * @Assert\NotBlank
      */
-    public int $code = 200;
+    public string $title;
 
     /**
      * @var string
      *
-     * @Groups({"api-get"})
+     * @Groups({"search-examples:api-get"})
      *
      * @Assert\NotBlank
      */
-    public string $message = '';
+    public string $description;
 }

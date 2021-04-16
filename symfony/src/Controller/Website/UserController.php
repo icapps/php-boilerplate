@@ -80,7 +80,7 @@ class UserController extends AbstractController
 
             // Reset password.
             $user = $this->userService->passwordResetUser($user, $password);
-            $profile = $this->profileRepository->findById($user->getProfileId());
+            $profile = $user->getProfile();
 
             // Success.
             return $this->render('general/status.html.twig', [
@@ -108,7 +108,7 @@ class UserController extends AbstractController
             ]);
         }
 
-        $profile = $this->profileRepository->findById($user->getProfileId());
+        $profile = $user->getProfile();
 
         return $this->render('general/status.html.twig', [
             'title' => $this->translator->trans('icapps.website.lbl_user.activation.completed_title', ['%username' => $profile->getFirstName()], 'messages'),

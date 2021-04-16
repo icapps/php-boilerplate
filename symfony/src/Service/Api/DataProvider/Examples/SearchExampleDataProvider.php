@@ -6,7 +6,7 @@ use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\ApiResource\Examples\SearchExample;
-use App\Dto\SearchExampleDto;
+use App\Dto\Examples\SearchExampleDto;
 
 /**
  * Class SearchExampleDataProvider

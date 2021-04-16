@@ -1,10 +1,9 @@
 <?php
 
-namespace App\ApiResource\Authentication;
+namespace App\ApiResource\Auth;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Dto\AuthAccessDto;
-use App\Dto\StatusDto;
+use App\Dto\Auth\AuthAccessDto;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,44 +11,44 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *     routePrefix=AuthAccessDto::AUTH_ROUTE_PREFIX,
  *     collectionOperations={
- *         "post_logout_api"={
- *              "path"= "/logout",
+ *         "post_refresh_api"={
+ *              "path"= "/refresh",
  *              "method"="POST",
  *              "openapi_context"={
- *                  "summary"="Logout user",
- *                  "description"="Logout user, remove session and device"
+ *                  "summary"="Refresh user access token",
+ *                  "description"="Refresh user access token"
  *              }
  *         }
  *     },
  *     itemOperations={},
- *     shortName="Logout",
+ *     shortName="Refresh",
  *     normalizationContext={
- *          "groups"={"logout:api-get", "api-get"},
+ *          "groups"={"refresh:api-get", "api-get"},
  *          "swagger_definition_name"="GET"
  *     },
  *     denormalizationContext={
- *          "groups"={"logout:api-write", "api-write"},
+ *          "groups"={"refresh:api-write", "api-write"},
  *          "swagger_definition_name"="WRITE"
  *     },
- *     output=StatusDto::class
+ *     output=AuthAccessDto::class
  * )
  */
-class Logout
+class Refresh
 {
     /**
      * @var string
      *
-     * @Groups({"logout:api-write"})
+     * @Groups({"refresh:api-write"})
      *
      * @Assert\NotBlank()
      */
-    public string $deviceId;
+    public string $refreshToken;
 
     /**
      * @return string
      */
-    public function getDeviceId(): string
+    public function getRefreshToken(): string
     {
-        return $this->deviceId;
+        return $this->refreshToken;
     }
 }

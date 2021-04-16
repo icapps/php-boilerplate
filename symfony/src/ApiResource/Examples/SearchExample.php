@@ -4,7 +4,7 @@ namespace App\ApiResource\Examples;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiProperty;
-use App\Dto\SearchExampleDto;
+use App\Dto\Examples\SearchExampleDto;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 

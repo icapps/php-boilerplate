@@ -51,11 +51,11 @@ class Device
     /**
      * @var int|null
      *
+     * @ApiProperty(identifier=false)
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     *
-     * @ApiProperty(identifier=false)
      */
     private $id;
 
@@ -69,23 +69,23 @@ class Device
     /**
      * @var string
      *
+     * @ApiProperty(identifier=true)
+     * @Groups({"api-get"})
+     *
      * @ORM\Column(type="string")
      *
      * @Assert\NotBlank()
-     *
-     * @ApiProperty(identifier=true)
-     * @Groups({"api-get"})
      */
     private string $deviceId;
 
     /**
      * @var string
      *
+     * @Groups({"api-write", "api-get", "orm-device"})
+     *
      * @ORM\Column(type="string")
      *
      * @Assert\NotBlank()
-     *
-     * @Groups({"api-write", "api-get"})
      */
     private string $deviceToken;
 

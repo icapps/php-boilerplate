@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Dto;
+namespace App\Dto\User;
 
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,19 +14,26 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UserProfileDto
 {
-    const USER_ROUTE_PREFIX = '/user';
+    const USER_ROUTE_PREFIX = '/users';
 
     /**
      * @var string
      *
-     * @Groups({"api-get", "api-write"})
+     */
+    public int $id;
+
+    /**
+     * @var string
+     *
+     * @Groups({"api-get", "profile:api-get", "profile:api-post"})
      *
      * @Assert\NotBlank()
+     *
      * @Assert\Length(
      *     min = 1,
      *     max = 50,
-     *     minMessage="Minimim length 1 characters",
-     *     maxMessage="Maximum length 50 characters"
+     *     minMessage="icapps.registration.firstname.min_length",
+     *     maxMessage="icapps.registration.firstname.max_length"
      * )
      */
     public string $firstName;
@@ -34,14 +41,15 @@ class UserProfileDto
     /**
      * @var string
      *
-     * @Groups({"api-get", "api-write"})
+     * @Groups({"api-get", "profile:api-get", "profile:api-post"})
      *
      * @Assert\NotBlank()
+     *
      * @Assert\Length(
      *     min = 1,
      *     max = 50,
-     *     minMessage="Minimim length 1 characters",
-     *     maxMessage="Maximum length 50 characters"
+     *     minMessage="icapps.registration.lastname.min_length",
+     *     maxMessage="icapps.registration.lastname.max_length"
      * )
      */
     public string $lastName;
@@ -49,32 +57,31 @@ class UserProfileDto
     /**
      * @var string
      *
-     * @Groups({"api-get", "api-write"})
+     * @Groups({"api-get", "profile:api-get"})
      *
      * @Assert\NotBlank()
+     *
      * @Assert\Email(
-     *     message = "The email '{{ value }}' is not a valid email."
+     *     message="icapps.registration.email.invalid",
      * )
      * @Assert\Length(
      *     min = 1,
      *     max = 50,
-     *     minMessage="Minimim length 1 characters",
-     *     maxMessage="Maximum length 50 characters"
+     *     minMessage="icapps.registration.email.min_length",
+     *     maxMessage="icapps.registration.email.max_length"
      * )
      */
     public string $email;
-    
+
     /**
      * @var string
      *
-     * @Groups({"api-get", "api-write"})
+     * @Groups({"api-get", "profile:api-get", "profile:api-post"})
      *
      * @Assert\NotBlank()
-     * @Assert\Locale(
-     *     canonicalize = true
-     * )
+     *
      * @Assert\Choice(
-     *     message="This value is not a valid language.",
+     *     message="icapps.registration.language.invalid",
      *     callback={"App\Entity\User", "getAvailableLanguages"}
      * )
      */

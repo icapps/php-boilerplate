@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Service\Api\DataProvider\User;
+namespace App\Service\Api\DataPersister\User;
 
-use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
-use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
+use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\ApiResource\User\User;
 use App\Dto\User\UserProfileDto;
 use App\Repository\ProfileRepository;
@@ -12,14 +10,14 @@ use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * Class UserDataProvider
+ * Class UserDataPersister
  *
  * This is a custom DataProvider for which getItem and getCollection can be customized to retrieve data.
  * More information: https://api-platform.com/docs/core/data-providers.
  *
  * @package App\Service\Api\DataProvider\Examples
  */
-final class UserDataProvider implements ItemDataProviderInterface, ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
+final class UserDataPersister implements DataPersisterInterface
 {
     /**
      * {@inheritDoc}
@@ -35,18 +33,19 @@ final class UserDataProvider implements ItemDataProviderInterface, ContextAwareC
     /**
      * {@inheritDoc}
      */
-    public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
+    public function supports($data): bool
     {
-        return $resourceClass === User::class;
+        return $data instanceof UserProfileDto;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?UserProfileDto
+    public function persist($data)
     {
         // Load user.
-        $user = $this->userRepository->find($id);
+        /** @var User $data */
+        $user = $this->userRepository->find($data->id);
 
         // @TODO:: unify security checks?
         // Check user + access.
@@ -56,6 +55,12 @@ final class UserDataProvider implements ItemDataProviderInterface, ContextAwareC
 
         // Get user profile.
         $profile = $user->getProfile();
+
+        // Update profile.
+        /** @var UserProfileDto $data */
+        $profile->setFirstName($data->firstName);
+        $profile->setLastName($data->lastName);
+        $this->profileRepository->save($profile);
 
         // Create output.
         $output = new UserProfileDto();
@@ -71,8 +76,8 @@ final class UserDataProvider implements ItemDataProviderInterface, ContextAwareC
     /**
      * {@inheritDoc}
      */
-    public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
+    public function remove($data)
     {
-        return $this->userRepository->findAll();
+        // this method just need to be presented
     }
 }

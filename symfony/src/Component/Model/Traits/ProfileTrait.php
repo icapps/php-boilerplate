@@ -12,28 +12,18 @@ trait ProfileTrait
 {
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="icapps.registration.firstname.required", groups={"registration", "profile-update"})
-     * @Assert\Length(
-     *     min = 1,
-     *     max = 50,
-     *     minMessage="icapps.registration.firstname.min_length",
-     *     maxMessage="icapps.registration.firstname.max_length",
-     *     allowEmptyString = false,
-     *     groups={"registration", "profile-update", "admin", "api-write"}
+     * @Assert\NotBlank(
+     *     message="icapps.registration.firstname.required",
+     *     groups={"orm-registration", "orm-profile-update"}
      * )
      */
     protected string $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="icapps.registration.lastname.required", groups={"registration", "profile-update"})
-     * @Assert\Length(
-     *     min = 1,
-     *     max = 50,
-     *     minMessage="icapps.registration.lastname.min_length",
-     *     maxMessage="icapps.registration.lastname.max_length",
-     *     allowEmptyString = false,
-     *     groups={"registration", "profile-update", "admin"}
+     * @Assert\NotBlank(
+     *     message="icapps.registration.lastname.required",
+     *     groups={"orm-registration", "orm-profile-update"}
      * )
      */
     protected string $lastName;

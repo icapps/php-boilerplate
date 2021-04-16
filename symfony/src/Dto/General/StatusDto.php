@@ -1,21 +1,25 @@
 <?php
 
-namespace App\Dto;
+namespace App\Dto\General;
 
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class AuthAccessDto
+ * Class StatusDto
  *
  * All custom ApiResource responses should be included using a proper DTO.
  *
  * @package App\Dto
  */
-class AuthAccessDto
+class StatusDto
 {
-    const AUTH_ROUTE_PREFIX = '/auth';
-    const AUTH_BUNDLE_TAG = 'Authentication';
+    /**
+     * @var int
+     *
+     * @Groups({"api-get"})
+     */
+    public int $code = 200;
 
     /**
      * @var string
@@ -24,14 +28,5 @@ class AuthAccessDto
      *
      * @Assert\NotBlank
      */
-    public string $token;
-
-    /**
-     * @var string
-     *
-     * @Groups({"api-get"})
-     *
-     * @Assert\NotBlank
-     */
-    public string $refreshToken;
+    public string $message = '';
 }

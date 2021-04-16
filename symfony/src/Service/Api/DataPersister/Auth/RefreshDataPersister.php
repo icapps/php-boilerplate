@@ -4,7 +4,7 @@ namespace App\Service\Api\DataPersister\Auth;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
-use App\ApiResource\Authentication\Refresh;
+use App\ApiResource\Auth\Refresh;
 use Doctrine\ORM\EntityManagerInterface;
 use Gesdinet\JWTRefreshTokenBundle\Service\RefreshToken;
 use Symfony\Component\HttpFoundation\RequestStack;

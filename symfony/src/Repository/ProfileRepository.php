@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Profile;
+use App\Repository\Traits\Transactional;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\OptimisticLockException;
@@ -20,6 +21,7 @@ use Doctrine\ORM\ORMException;
  */
 class ProfileRepository extends ServiceEntityRepository
 {
+    use Transactional;
 
     public function __construct(ManagerRegistry $registry)
     {

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Repository\Traits\Transactional;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -19,6 +20,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+    use Transactional;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
@@ -110,28 +113,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         $user = $this->findOneBy([
             'resetToken' => $resetToken,
-        ]);
-
-        if (!$user) {
-            return null;
-        }
-
-        return $user;
-    }
-
-    /**
-     * Find user by profile ID and type.
-     *
-     * @param int $profileId
-     * @param string $profileType
-     *
-     * @return User|null
-     */
-    public function findUserByProfile(int $profileId, string $profileType): ?User
-    {
-        $user = $this->findOneBy([
-            'profileId' => $profileId,
-            'profileType' => $profileType,
         ]);
 
         if (!$user) {

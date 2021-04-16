@@ -3,10 +3,10 @@
 namespace App\Service\Api\DataPersister\Auth;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
+use ApiPlatform\Core\Validator\Exception\ValidationException;
 use ApiPlatform\Core\Validator\ValidatorInterface;
-use App\ApiResource\Authentication\Register;
-use App\Dto\UserProfileDto;
-use App\Entity\Profile;
+use App\Dto\User\UserProfileDto;
+use App\Dto\Auth\UserRegisterDto;
 use App\Entity\User;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
@@ -37,7 +37,7 @@ final class RegisterDataPersister implements DataPersisterInterface
      */
     public function supports($data): bool
     {
-        return $data instanceof Register;
+        return $data instanceof UserRegisterDto;
     }
 
     /**
@@ -45,48 +45,58 @@ final class RegisterDataPersister implements DataPersisterInterface
      */
     public function persist($data)
     {
-        // Create response.
-        $output = new UserProfileDto();
-
-        /** @var Register $data */
-        $output->firstName = $data->getFirstName();
-        $output->lastName = $data->getLastName();
-        $output->email = $data->getEmail();
-        $output->language = $data->getLanguage();
-
         // Create user.
+        /** @var UserRegisterDto $data */
         $user = $this->userRepository->create();
         $user->setRoles([User::ROLE_USER]);
-        $user->setEmail($data->getEmail());
-        // @TODO:: useless username.
-        $user->setUsername($data->getFirstName() . '-' . $data->getLastName());
-        $user->setPassword($this->userPasswordEncoder->encodePassword($user, $data->getPassword()));
-        $user->setLanguage($data->getLanguage());
-        $user->setProfileType(Profile::PROFILE_TYPE_DEFAULT);
+        $user->setEmail($data->email);
+        $user->setPassword($this->userPasswordEncoder->encodePassword($user, $data->password));
+        $user->setLanguage($data->language);
 
-        // Create user profile.
-        $profile = $this->profileRepository->create();
-        $profile->setFirstName($data->getFirstName());
-        $profile->setLastName($data->getLastName());
-
-        // Validate and save profile.
-        $context['groups'] = 'api-write';
-        $this->validator->validate($profile, $context);
-        $this->profileRepository->save($profile);
-
-        $user->setProfileId($profile->getId());
-
-        // User only enabled by confirmation mail: set activation token.
+        // User only enabled by confirmation mail.
+        // @TODO:: send activation mail.
         $user->disable();
         $user->setActivationToken(AuthUtils::getUniqueToken());
 
-        // @TODO:: send activation mail.
+        // Create user profile.
+        $profile = $this->profileRepository->create();
+        $profile->setFirstName($data->firstName);
+        $profile->setLastName($data->lastName);
+
+        // Validate and save profile.
+        $context['groups'] = 'orm-registration';
+        $this->validator->validate($profile, $context);
 
         // Validate and save user.
-        $context['groups'] = 'api-write';
-        $this->validator->validate($user, $context);
+        $this->profileRepository->beginTransaction();
+        $this->userRepository->beginTransaction();
+        try {
+            // Save + set user profile.
+            $this->profileRepository->save($profile);
+            $user->setProfile($profile);
 
-        $this->userRepository->save($user);
+            // Validate user.
+            $context['groups'] = 'orm-registration';
+            $this->validator->validate($user, $context);
+
+            // Save user.
+            $this->userRepository->save($user);
+
+            // Commit changes.
+            $this->profileRepository->commit();
+            $this->userRepository->commit();
+        } catch (ValidationException $exception) {
+            $this->profileRepository->rollback();
+            $this->userRepository->rollback();
+            throw $exception;
+        }
+
+        // Create output.
+        $output = new UserProfileDto();
+        $output->firstName = $data->firstName;
+        $output->lastName = $data->lastName;
+        $output->email = $data->email;
+        $output->language = $data->language;
 
         return $output;
     }

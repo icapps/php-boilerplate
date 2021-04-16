@@ -50,7 +50,7 @@ class UserService
         $user->enable();
         $this->userRepository->save($user);
 
-        $profile = $this->profileRepository->findById($user->getProfileId());
+        $profile = $user->getProfile();
 
         // Send confirmation mail.
         $this->mailHelper->sendRegistrationConfirmationMail($user, $profile);

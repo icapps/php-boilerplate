@@ -1,9 +1,10 @@
 <?php
 
-namespace App\ApiResource\Authentication;
+namespace App\ApiResource\Auth;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Dto\AuthAccessDto;
+use App\Dto\Auth\AuthAccessDto;
+use App\Dto\General\StatusDto;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,44 +12,44 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *     routePrefix=AuthAccessDto::AUTH_ROUTE_PREFIX,
  *     collectionOperations={
- *         "post_refresh_api"={
- *              "path"= "/refresh",
+ *         "post_logout_api"={
+ *              "path"= "/logout",
  *              "method"="POST",
  *              "openapi_context"={
- *                  "summary"="Refresh user access token",
- *                  "description"="Refresh user access token"
+ *                  "summary"="Logout user",
+ *                  "description"="Logout user, remove session and device"
  *              }
  *         }
  *     },
  *     itemOperations={},
- *     shortName="Refresh",
+ *     shortName="Logout",
  *     normalizationContext={
- *          "groups"={"refresh:api-get", "api-get"},
+ *          "groups"={"logout:api-get", "api-get"},
  *          "swagger_definition_name"="GET"
  *     },
  *     denormalizationContext={
- *          "groups"={"refresh:api-write", "api-write"},
+ *          "groups"={"logout:api-write", "api-write"},
  *          "swagger_definition_name"="WRITE"
  *     },
- *     output=AuthAccessDto::class
+ *     output=StatusDto::class
  * )
  */
-class Refresh
+class Logout
 {
     /**
      * @var string
      *
-     * @Groups({"refresh:api-write"})
+     * @Groups({"logout:api-write"})
      *
      * @Assert\NotBlank()
      */
-    public string $refreshToken;
+    public string $deviceId;
 
     /**
      * @return string
      */
-    public function getRefreshToken(): string
+    public function getDeviceId(): string
     {
-        return $this->refreshToken;
+        return $this->deviceId;
     }
 }

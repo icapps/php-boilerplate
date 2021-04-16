@@ -4,7 +4,7 @@ namespace App\Service\Api\DataPersister\Examples;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\ApiResource\Examples\SearchExample;
-use App\Dto\SearchExampleDto;
+use App\Dto\Examples\SearchExampleDto;
 
 /**
  * Class SearchExampleDataPersister

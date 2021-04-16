@@ -42,7 +42,7 @@ class UserProvider implements PayloadAwareUserProviderInterface
      */
     public function loadUserByUsernameAndPayload($email, array $payload)
     {
-        return $this->loadUserByPayload($email, $payload, Profile::PROFILE_TYPE_DEFAULT);
+        return $this->loadUserByPayload($email, $payload);
     }
 
     /**
@@ -54,7 +54,7 @@ class UserProvider implements PayloadAwareUserProviderInterface
      *
      * @return User|mixed
      */
-    public function loadUserByPayload($email, array $payload, string $profileType)
+    public function loadUserByPayload($email, array $payload)
     {
         // Check cache.
         if (isset($this->cache[$email])) {
@@ -81,7 +81,6 @@ class UserProvider implements PayloadAwareUserProviderInterface
         /** @var User $user */
         $user = $this->userRepository->findOneBy([
             'email' => $email,
-            'profileType' => Profile::PROFILE_TYPE_DEFAULT,
         ]);
 
         // Check if exists.

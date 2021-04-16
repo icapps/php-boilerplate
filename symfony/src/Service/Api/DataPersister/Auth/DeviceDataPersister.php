@@ -51,7 +51,7 @@ final class DeviceDataPersister implements DataPersisterInterface
     {
         /** @var Device $data */
         // Validate device input.
-        $context["groups"] = "api-write";
+        $context["groups"] = "orm-device";
         $this->validator->validate($data, $context);
 
         // Persist.

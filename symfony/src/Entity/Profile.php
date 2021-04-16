@@ -25,7 +25,6 @@ class Profile implements ProfileInterface, AuditableInterface
     use ProfileTrait;
 
     const RESOURCE_KEY = 'profiles';
-    const PROFILE_TYPE_DEFAULT = 'default';
 
     /**
      * @ORM\Id()

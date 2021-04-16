@@ -30,8 +30,6 @@ class UserService extends ApiService
         return $this->response([
             'userId' => $user->getId(),
             'email' => $user->getEmail(),
-            'profileId' => $user->getProfileId(),
-            'profileType' => $user->getProfileType(),
         ]);
     }
 }
