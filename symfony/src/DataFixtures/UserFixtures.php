@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Profile;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -28,6 +29,13 @@ class UserFixtures extends Fixture
         );
         $user->setRoles(['ROLE_ADMIN']);
 
+        //Also create a Profile for this user
+        $profile = new Profile();
+        $profile->setFirstName('john');
+        $profile->setLastName('doe');
+        $user->setProfile($profile);
+
+        $manager->persist($profile);
         $manager->persist($user);
         $manager->flush();
     }
