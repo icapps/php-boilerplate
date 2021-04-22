@@ -21,6 +21,11 @@ For initial set-up including Sulu Admin portal, run:
 symfony console sulu:build dev
 ```
 
+To create a default user for the login flow, run:
+
+```bash
+symfony php bin/websiteconsole doctrine:fixtures:load
+```
 ## icapps ❤️ PHP
 
 For further questions, ask the icapps PHP team.
