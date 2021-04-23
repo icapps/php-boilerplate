@@ -1,0 +1,13 @@
+{% extends 'general/status.html.twig' %}
+{% block title %}
+    {{ status_code }} | {{ 'icapps.website.errors.404.title'|trans|raw }}
+{% endblock %}
+{% block message %}
+    {{ 'icapps.website.errors.404.message'|trans|raw }} <br>
+    <a class="button is-link is-light mt-5" href="{{ get_env('BASE_URL') }}">
+        <span class="icon is-small">
+          <i class="fas fa-home"></i>
+        </span>
+        <span>{{ 'icapps.website.errors.404.homepage'|trans|raw }}</span>
+    </a>
+{% endblock %}

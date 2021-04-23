@@ -1,5 +1,16 @@
 icapps:
   website:
+    errors:
+      404:
+        title: "Pagina niet gevonden"
+        message: "De opgevragen pagina kon niet worden gevonden. Controleer of de URL correct is of ga terug naar"
+        homepage: "Start Pagina"
+      500:
+        title: "Intern server probleem"
+        message: "Onze excuses, er is een fout opgetreden op onze server. Een medewerker zal uitpluizen wat er misgelopen is <i class=\"fas fa-binoculars\"></i>."
+      503:
+        title: "Service onbeschikbaar"
+        message: "Onze server is momenteel druk bezig. Gelieve later nog eens te proberen."
     lbl_user:
       activation:
         completed_title: "Bedankt, %username%!"
