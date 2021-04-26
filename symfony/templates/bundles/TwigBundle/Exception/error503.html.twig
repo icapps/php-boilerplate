@@ -1,0 +1,7 @@
+{% extends 'general/status.html.twig' %}
+{% block title %}
+    {{ status_code }} | {{ 'icapps.website.errors.503.title'|trans|raw }}
+{% endblock %}
+{% block message %}
+    {{ 'icapps.website.errors.503.message'|trans|raw }} <br>
+{% endblock %}

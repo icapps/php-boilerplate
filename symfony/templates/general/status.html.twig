@@ -14,9 +14,11 @@
                         </figure>
                     </div>
 
-                    <div class="column">
-                        <h1 class="title">{{ title }}</h1>
-                        <p>{{ message }}</p>
+                    <div class="column is-two-fifths">
+                        {% block status %}
+                            <h1 class="title is-1 is-spaced">{% block title %}{{ title }}{% endblock %}</h1>
+                            <p class="subtitle is-5">{% block message %}{{ message }}{% endblock %}</p>
+                        {% endblock %}
                     </div>
                 </div>
             </div>
