@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Controller\Website;
+namespace App\Controller\Website\User;
 
 use App\Entity\User;
 use App\Form\PasswordResetType;
 use App\Repository\ProfileRepository;
-use App\Service\Website\UserService;
+use App\Service\Website\User\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class UserController
- * @package App\Controller\Website
+ * @package App\Controller\Website\User
  * @Route("/user", name="icapps_website.user")
  */
 class UserController extends AbstractController

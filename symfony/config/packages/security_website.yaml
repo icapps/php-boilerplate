@@ -23,6 +23,11 @@ security:
         stateless: true
         anonymous: true
 
+      password_reset:
+        pattern: ^/api/auth/password-reset
+        stateless: true
+        anonymous: true
+
       login:
         pattern: ^/api/auth/login
         stateless: true

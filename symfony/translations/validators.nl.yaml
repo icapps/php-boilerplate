@@ -24,3 +24,6 @@ icapps:
         language:
             required: Taalkeuze verplicht
             invalid: "Dit is geen geldige taalkeuze: {{ value }}"
+    reset:
+        email:
+            not_found: Gebruiker met e-mailadres niet gevonden
