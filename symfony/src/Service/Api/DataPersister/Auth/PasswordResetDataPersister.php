@@ -59,14 +59,10 @@ final class PasswordResetDataPersister implements DataPersisterInterface
      */
     public function persist($data)
     {
-        // Validate input.
-        $context["groups"] = "password-reset";
-        $this->validator->validate($data, $context);
-
         // Default response.
         $output = new StatusDto();
-        $output->code = Response::HTTP_CREATED;
-        $output->message = 'Password reset mail sent to user.';
+        $output->code = Response::HTTP_OK;
+        $output->message = $this->translator->trans("icapps.mail.reset_password.sent", [], "messages");
 
         $user = $this->userRepository->findOneBy(['email' => $data->getEmail()]);
 

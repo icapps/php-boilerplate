@@ -40,7 +40,9 @@ class PasswordReset
      * @var string
      *
      * @Groups({"password-reset:api-write"})
-     *
+     * @Assert\Email(
+     *     message="icapps.registration.email.invalid",
+     * )
      * @Assert\NotBlank()
      */
     public string $email;

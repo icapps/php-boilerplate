@@ -41,3 +41,4 @@ icapps:
       button_text: "Wachtwoord herstellen"
       ignore_text: "Indien de vraag niet van jou kwam, mag je deze e-mail negeren. Je wachtwoord blijft veilig en onveranderd."
       title: "Herstel je wachtwoord bij %env(BRAND)%"
+      sent: "E-mail met reset instructies werd verzonden"
