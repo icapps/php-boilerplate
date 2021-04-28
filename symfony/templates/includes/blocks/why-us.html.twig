@@ -1,0 +1,36 @@
+<section class="choose_us_area">
+    <div class="col-md-6">
+        <div class="row left_choose_image">
+            <ul>
+                {% for mockup_item in mockupItems %}
+                    {% set parallax = '' %}
+                    {% if loop.index == 2 %}
+                        {% set parallax = '{"x": 25, "y": -50}' %}
+                    {% elseif loop.index == 3 %}
+                        {% set parallax = '{"x": 50, "y": -100}' %}
+                    {% elseif loop.index == 4 %}
+                        {% set parallax = '{"x": 90, "y": -180}' %}
+                    {% elseif loop.index == 5 %}
+                        {% set parallax = '{"x": 20, "y": -30}' %}
+                    {% elseif loop.index == 6 %}
+                        {% set parallax = '{"x": 90, "y": -100}' %}
+                    {% elseif loop.index == 8 %}
+                        {% set parallax = '{"x": 90, "y": -180}' %}
+                    {% endif %}
+
+                    <li>
+                        <img src="{{ mockup_item.image.url }}" alt="{{ mockup_item.image.title }}" data-parallax="{{ parallax }}">
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="right_choose_image">
+            <div class="left_title">
+                <h2>{{ title }}</h2>
+                {{ text|raw }}
+            </div>
+        </div>
+    </div>
+</section>

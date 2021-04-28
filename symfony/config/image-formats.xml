@@ -12,4 +12,10 @@
         </meta>
         <scale x="400" y="400"/>
     </format>
+    <format key="features-244x517">
+        <meta>
+            <title lang="en">Features 244x517</title>
+        </meta>
+        <scale x="244" y="517"/>
+    </format>
 </formats>

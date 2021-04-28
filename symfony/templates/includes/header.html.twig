@@ -1,0 +1,40 @@
+{% block header %}
+<header class="main_header_area">
+    <div class="main_menu_area">
+        <div class="container">
+            <nav class="navbar navbar-default navbar-demo">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/home">
+                        icapps ❤ PHP
+                    </a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="/home">Home</a></li>
+                        <li><a href="/home#feature">Features</a></li>
+                        <li><a href="/home#about">About</a></li>
+                        <li><a href="/home#contact">Contact</a></li>
+                        {% for localization in localizations %}
+                            <li>
+                                <a href="{{ localization.url }}">{{ localization.locale }}</a>
+                                {% if loop.last is same as (false) %}
+                                    |
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </nav>
+        </div>
+    </div>
+</header>
+{% endblock %}

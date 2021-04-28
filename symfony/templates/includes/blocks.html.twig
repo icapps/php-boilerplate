@@ -1,0 +1,5 @@
+{% if blocks|default([])|length %}
+    {% for block in blocks %}
+        {% include 'includes/blocks/' ~ block.type ~ '.html.twig' with block only %}
+    {% endfor %}
+{% endif %}

@@ -53,6 +53,12 @@ mounts:
   "/symfony/var/sessions":
     source: local
     source_path: "sessions"
+  "/symfony/var/uploads":
+    source: local
+    source_path: "uploads"
+  "/symfony/public/uploads":
+    source: local
+    source_path: "public-uploads"
   "/symfony/public/bundles":
     source: local
     source_path: "bundle-assets"

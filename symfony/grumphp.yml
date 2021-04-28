@@ -26,7 +26,7 @@ grumphp:
         phpunit: null
         twigcs:
             path: 'templates'
-            severity: 'warning'
+            severity: 'error'
             ruleset: 'FriendsOfTwig\Twigcs\Ruleset\Official'
         xmllint: null
         yamllint: null

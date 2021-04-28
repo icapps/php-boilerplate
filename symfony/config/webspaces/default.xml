@@ -4,12 +4,13 @@
           xsi:schemaLocation="http://schemas.sulu.io/webspace/webspace http://schemas.sulu.io/webspace/webspace-1.1.xsd">
     <!-- See: http://docs.sulu.io/en/latest/book/webspaces.html how to configure your webspace-->
 
-    <name>PHP Boilerplate</name>
+    <name>Symfony Demo</name>
     <key>default</key>
 
     <localizations>
         <!-- See: http://docs.sulu.io/en/latest/book/localization.html how to add new localizations -->
         <localization language="nl" default="true"/>
+        <localization language="en" />
     </localizations>
 
     <default-templates>
@@ -35,28 +36,32 @@
 
     <portals>
         <portal>
-            <name>PHP Boilerplate</name>
+            <name>Symfony Demo</name>
             <key>default</key>
 
             <environments>
                 <environment type="prod">
                     <urls>
                         <url>{host}/{localization}</url>
+                        <url>{host}/{localization}/home</url>
                     </urls>
                 </environment>
                 <environment type="stage">
                     <urls>
                         <url>{host}/{localization}</url>
+                        <url>{host}/{localization}/home</url>
                     </urls>
                 </environment>
                 <environment type="test">
                     <urls>
                         <url>{host}/{localization}</url>
+                        <url>{host}/{localization}/home</url>
                     </urls>
                 </environment>
                 <environment type="dev">
                     <urls>
                         <url>{host}/{localization}</url>
+                        <url>{host}/{localization}/home</url>
                     </urls>
                 </environment>
             </environments>

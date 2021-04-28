@@ -1,0 +1,59 @@
+<properties xmlns="http://schemas.sulu.io/template/template"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd">
+    <block name="blocks" default-type="text">
+        <types>
+            <type name="why-us">
+                <meta>
+                    <title lang="en">Why Us</title>
+                </meta>
+
+                <properties>
+                    <property name="title" type="text_line" mandatory="true">
+                        <meta>
+                            <title lang="en">Title</title>
+                        </meta>
+                    </property>
+
+                    <property name="text" type="text_editor" mandatory="true">
+                        <meta>
+                            <title lang="en">Text</title>
+                        </meta>
+                    </property>
+
+                    <!-- Hero -->
+                    <section name="mockups">
+                        <meta>
+                            <title>Mock-ups</title>
+                        </meta>
+                        <properties>
+                            <block name="mockupItems" default-type="mockupItem" minOccurs="8" maxOccurs="8">
+                                <types>
+                                    <type name="mockupItem">
+                                        <meta>
+                                            <title>Mock-up</title>
+                                        </meta>
+                                        <properties>
+                                            <property name="image" type="single_media_selection" mandatory="true">
+                                                <meta>
+                                                    <title lang="en">Image</title>
+                                                </meta>
+
+                                                <params>
+                                                    <param name="types" value="image"/>
+                                                    <param name="formats" type="collection">
+                                                        <param name="mockups-297x371" />
+                                                    </param>
+                                                </params>
+                                            </property>
+                                        </properties>
+                                    </type>
+                                </types>
+                            </block>
+                        </properties>
+                    </section>
+                </properties>
+            </type>
+        </types>
+    </block>
+</properties>

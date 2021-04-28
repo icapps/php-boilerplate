@@ -1,6 +1,7 @@
 <?xml version="1.0" ?>
 <template xmlns="http://schemas.sulu.io/template/template"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:xi="http://www.w3.org/2001/XInclude"
           xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd">
 
     <key>default</key>
@@ -18,7 +19,6 @@
         <property name="title" type="text_line" mandatory="true">
             <meta>
                 <title lang="en">Title</title>
-                <title lang="nl">Titel</title>
             </meta>
             <params>
                 <param name="headline" value="true"/>
@@ -30,17 +30,20 @@
         <property name="url" type="resource_locator" mandatory="true">
             <meta>
                 <title lang="en">Resourcelocator</title>
-                <title lang="nl">Adres</title>
             </meta>
 
             <tag name="sulu.rlp"/>
         </property>
 
-        <property name="article" type="text_editor">
+        <!-- Content blocks -->
+        <section name="content">
             <meta>
-                <title lang="en">Article</title>
-                <title lang="nl">Artikel</title>
+                <title lang="en">Content</title>
             </meta>
-        </property>
+            <properties>
+                <xi:include href="../includes/blocks.xml"
+                            xpointer="xmlns(sulu=http://schemas.sulu.io/template/template)xpointer(/sulu:properties/sulu:block)"/>
+            </properties>
+        </section>
     </properties>
 </template>

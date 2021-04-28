@@ -1,0 +1,113 @@
+<properties xmlns="http://schemas.sulu.io/template/template"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd">
+    <block name="blocks" default-type="text">
+        <types>
+            <type name="features">
+                <meta>
+                    <title lang="en">Features</title>
+                </meta>
+
+                <properties>
+                    <property name="title" type="text_line" mandatory="true">
+                        <meta>
+                            <title lang="en">Title</title>
+                        </meta>
+                    </property>
+
+                    <property name="text" type="text_editor" mandatory="true">
+                        <meta>
+                            <title lang="en">Text</title>
+                        </meta>
+                    </property>
+
+                    <property name="image" type="single_media_selection">
+                        <meta>
+                            <title lang="en">Image</title>
+                        </meta>
+
+                        <params>
+                            <param name="types" value="image"/>
+                            <param name="formats" type="collection">
+                                <param name="features-244x517" />
+                            </param>
+                        </params>
+                    </property>
+
+                    <!-- Hero -->
+                    <section name="Features">
+                        <meta>
+                            <title>Features</title>
+                        </meta>
+                        <properties>
+                            <block name="featureItems" default-type="featureItem" minOccurs="5" maxOccurs="5">
+                                <types>
+                                    <type name="featureItem">
+                                        <meta>
+                                            <title>Feature</title>
+                                        </meta>
+                                        <properties>
+                                            <property name="icon" type="single_select">
+                                                <meta>
+                                                    <title lang="en">Icon</title>
+                                                </meta>
+                                                <params>
+                                                    <param name="default_value" value="diamond"/>
+                                                    <param name="values" type="collection">
+                                                        <param name="diamond">
+                                                            <meta>
+                                                                <title lang="en">Diamond</title>
+                                                            </meta>
+                                                        </param>
+                                                        <param name="bar-chart">
+                                                            <meta>
+                                                                <title lang="en">Chart</title>
+                                                            </meta>
+                                                        </param>
+                                                        <param name="comments-o">
+                                                            <meta>
+                                                                <title lang="en">Conversation</title>
+                                                            </meta>
+                                                        </param>
+                                                        <param name="cloud-download">
+                                                            <meta>
+                                                                <title lang="en">Download</title>
+                                                            </meta>
+                                                        </param>
+                                                        <param name="stack-overflow">
+                                                            <meta>
+                                                                <title lang="en">Stack Overflow</title>
+                                                            </meta>
+                                                        </param>
+                                                    </param>
+                                                </params>
+                                            </property>
+
+                                            <property name="title" type="text_line" mandatory="true">
+                                                <meta>
+                                                    <title lang="en">Title</title>
+                                                </meta>
+                                            </property>
+
+                                            <property name="link" type="single_page_selection">
+                                                <meta>
+                                                    <title lang="en">Link</title>
+                                                </meta>
+                                            </property>
+
+                                            <property name="text" type="text_editor" mandatory="true">
+                                                <meta>
+                                                    <title lang="en">Text</title>
+                                                </meta>
+                                            </property>
+                                        </properties>
+                                    </type>
+                                </types>
+                            </block>
+                        </properties>
+                    </section>
+                </properties>
+            </type>
+        </types>
+    </block>
+</properties>
