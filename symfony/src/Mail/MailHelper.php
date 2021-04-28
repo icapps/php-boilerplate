@@ -3,9 +3,7 @@
 namespace App\Mail;
 
 use App\Component\Model\ProfileInterface;
-use App\Entity\Profile;
 use App\Entity\User;
-use App\Repository\UserRepository;
 use Psr\Log\LoggerInterface;
 use SplFileInfo;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Website;
+namespace App\Service\Website\User;
 
 use App\Entity\User;
 use App\Mail\MailHelper;
