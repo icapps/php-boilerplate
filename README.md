@@ -26,6 +26,12 @@ To create a default user for the login flow, run:
 ```bash
 symfony php bin/websiteconsole doctrine:fixtures:load
 ```
+
+For setting up LexikJWTAuth .pem files, run:
+
+```bash
+symfony console lexik:jwt:generate-keypair
+```
 ## icapps ❤️ PHP
 
 For further questions, ask the icapps PHP team.
