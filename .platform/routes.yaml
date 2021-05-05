@@ -1,6 +1,9 @@
 "https://{default}/":
   type: upstream
-  upstream: "app:http"
+  upstream: "varnish:http"
+  cache:
+    # As this does not support Vary, and purging, we can't use this as Sf Proxy drop in.
+    enabled: false
 
 "https://www.{default}/":
   type: redirect
