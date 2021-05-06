@@ -2,7 +2,7 @@
     <div class="col-md-6">
         <div class="row left_choose_image">
             <ul>
-                {% for mockup_item in mockupItems %}
+                {% for mockup_item in content.mockupItems %}
                     {% set parallax = '' %}
                     {% if loop.index == 2 %}
                         {% set parallax = '{"x": 25, "y": -50}' %}
@@ -19,7 +19,7 @@
                     {% endif %}
 
                     <li>
-                        <img src="{{ mockup_item.image.url }}" alt="{{ mockup_item.image.title }}" data-parallax="{{ parallax }}">
+                        <img src="{{ mockup_item.url }}" alt="{{ mockup_item.title }}" data-parallax="{{ parallax }}">
                     </li>
                 {% endfor %}
             </ul>
@@ -28,8 +28,8 @@
     <div class="col-md-6">
         <div class="right_choose_image">
             <div class="left_title">
-                <h2>{{ title }}</h2>
-                {{ text|raw }}
+                <h2>{{ content.title }}</h2>
+                {{ content.text|raw }}
             </div>
         </div>
     </div>

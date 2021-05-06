@@ -25,10 +25,16 @@
                             <h3>General</h3>
                         </div>
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="/home#about">About</a></li>
-                            <li><a href="/home#feature">Features</a></li>
-                            <li><a href="/home#contact">Contact</a></li>
+                            <li>
+                                <a href="/" title="Home">Home</a>
+                            </li>
+                            {% for item in sulu_navigation_root_tree('footer_general') %}
+                                <li>
+                                    <a href="{{ sulu_content_path(item.url) }}"
+                                       title="{{ item.title }}">{{ item.title }}
+                                    </a>
+                                </li>
+                            {% endfor %}
                         </ul>
                     </aside>
                 </div>
@@ -38,8 +44,13 @@
                             <h3>Support</h3>
                         </div>
                         <ul>
-                            <li><a href="#">FAQ</a></li>
-                            <li><a href="#">Contact</a></li>
+                            {% for item in sulu_navigation_root_tree('footer_support') %}
+                                <li>
+                                    <a href="{{ sulu_content_path(item.url) }}"
+                                       title="{{ item.title }}">{{ item.title }}
+                                    </a>
+                                </li>
+                            {% endfor %}
                         </ul>
                     </aside>
                 </div>

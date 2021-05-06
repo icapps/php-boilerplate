@@ -1,0 +1,17 @@
+<section class="question_area">
+    <div class="container">
+        <div class="main_title">
+            <h2>{{ content.title }}</h2>
+            {{ content.text|raw }}
+        </div>
+
+        {% if content.form %}
+            {% if app.request.get('send') != 'true' %}
+                {% form_theme content.form 'form/theme.html.twig' %}
+                {{ form(content.form) }}
+            {% else %}
+                {{ view.form.entity.successText|raw }}
+            {% endif %}
+        {% endif %}
+    </div>
+</section>

@@ -1,0 +1,41 @@
+<section class="question_area">
+    <div class="container">
+        <div class="main_title">
+            <h2>{{ content.title }}</h2>
+            {{ content.text|raw }}
+        </div>
+        <div class="row">
+            <div class="col-md-7">
+                <div class="left_question_inner">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        {% if content.faqItems is not empty %}
+                            {% for faq_item in content.faqItems %}
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="heading{{ loop.index }}">
+                                        <h4 class="panel-title">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}">
+                                                {{ faq_item.title }}
+                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse{{ loop.index }}" class="panel-collapse collapse {% if loop.first %}in{% endif %}" role="tabpanel" aria-labelledby="heading{{ loop.index }}">
+                                        <div class="panel-body">
+                                            {{ faq_item.text|raw }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="right_question_img">
+                    <img src="{{ content.image.thumbnails['faq-458x424'] }}" alt="{{ content.image.title }}" title="{{ content.image.description|default(content.image.title) }}">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

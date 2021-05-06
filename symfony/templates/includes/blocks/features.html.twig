@@ -1,15 +1,15 @@
 <section class="app_feature_area" id="feature">
     <div class="container">
         <div class="main_title">
-            <h2>{{ title }}</h2>
-            {{ text|raw }}
+            <h2>{{ content.title }}</h2>
+            {{ content.text|raw }}
         </div>
 
-        {% if featureItems is not empty %}
+        {% if content.featureItems is not empty %}
             <div class="row app_feature_inner">
                 <div class="col-md-3">
                     <div class="app_feature_item_inner">
-                        {% for feature_item in featureItems|slice(0, 2) %}
+                        {% for feature_item in content.featureItems|slice(0, 2) %}
                         <div class="app_feature_item">
                             <div class="round_icon">
                                 <i class="fa fa-{{ feature_item.icon }}"></i>
@@ -26,10 +26,10 @@
                 <div class="col-md-6">
                     <div class="app_round_image">
                         <img class="round_c" src="{{ asset('build/demo/img/round-circle.png') }}">
-                        <img class="app_mobile" src="{{ image.thumbnails['features-244x517'] }}" alt="{{ image.title }}">
+                        <img class="app_mobile" src="{{ content.image.thumbnails['features-244x517'] }}" alt="{{ content.image.title }}">
                     </div>
 
-                    {% for feature_item in featureItems|slice(2, 1) %}
+                    {% for feature_item in content.featureItems|slice(2, 1) %}
                         <div class="app_feature_item app_middle">
                             <div class="round_icon">
                                 <i class="fa fa-{{ feature_item.icon }}"></i>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="app_feature_item_inner left_feature">
-                        {% for feature_item in featureItems|slice(3, 2) %}
+                        {% for feature_item in content.featureItems|slice(3, 2) %}
                             <div class="app_feature_item">
                                 <div class="round_icon">
                                     <i class="fa fa-{{ feature_item.icon }}"></i>

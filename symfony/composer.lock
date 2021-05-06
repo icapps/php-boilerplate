@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8f202a2b637e09c801eb9ae5bb3751d5",
+    "content-hash": "01c30282e088581bfce87c3b3d738c44",
     "packages": [
         {
             "name": "antishov/doctrine-extensions-bundle",
@@ -6206,6 +6206,95 @@
                 "symfony"
             ],
             "time": "2021-01-12T19:20:24+00:00"
+        },
+        {
+            "name": "sulu/form-bundle",
+            "version": "2.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sulu/SuluFormBundle.git",
+                "reference": "31fbd35d15edfd0a4275267465cea9eced034176"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sulu/SuluFormBundle/zipball/31fbd35d15edfd0a4275267465cea9eced034176",
+                "reference": "31fbd35d15edfd0a4275267465cea9eced034176",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/collections": "^1.0",
+                "doctrine/orm": "^2.5.3",
+                "doctrine/persistence": "^1.3 || ^2.0",
+                "php": "^7.2 || ^8.0",
+                "sulu/sulu": "^2.0.3 || 2.3@dev",
+                "symfony/config": "^4.3 || ^5.0",
+                "symfony/console": "^4.3 || ^5.0",
+                "symfony/dependency-injection": "^4.3 || ^5.0",
+                "symfony/event-dispatcher": "^4.3 || ^5.0",
+                "symfony/event-dispatcher-contracts": "^1.0 || ^2.0",
+                "symfony/form": "^4.3 || ^5.0",
+                "symfony/swiftmailer-bundle": "^3.1.4",
+                "symfony/translation": "^4.3 || ^5.0",
+                "symfony/validator": "^4.3 || ^5.0",
+                "twig/twig": "^1.41 || ^2.0 || ^3.0"
+            },
+            "replace": {
+                "sulu/sulu-form-bundle": "self.version"
+            },
+            "require-dev": {
+                "doctrine/data-fixtures": "^1.3.3",
+                "doctrine/doctrine-bundle": "^1.10 || ^2.0",
+                "drewm/mailchimp-api": "^2.2",
+                "excelwebzone/recaptcha-bundle": "^1.4.2",
+                "friendsofphp/php-cs-fixer": "^2.17",
+                "handcraftedinthealps/zendsearch": "^2.0",
+                "jackalope/jackalope-doctrine-dbal": "^1.3.2",
+                "jangregor/phpstan-prophecy": "^0.8",
+                "massive/search-bundle": "^2.0",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-doctrine": "^0.12",
+                "phpstan/phpstan-phpunit": "^0.12",
+                "phpstan/phpstan-symfony": "^0.12",
+                "phpunit/phpunit": "^8.0",
+                "symfony/browser-kit": "^4.3 || ^5.0",
+                "symfony/dotenv": "^4.3 || ^5.0",
+                "symfony/monolog-bundle": "^3.1",
+                "symfony/stopwatch": "^4.3 || ^5.0",
+                "symfony/var-dumper": "^4.3 || ^5.0",
+                "thecodingmachine/phpstan-strict-rules": "^0.12"
+            },
+            "suggest": {
+                "drewm/mailchimp-api": "Allows to add a newsletter subscription over mailchimp to any dynamic form",
+                "excelwebzone/recaptcha-bundle": "Allows to add recaptcha to any dynamic form"
+            },
+            "type": "sulu-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Sulu\\Bundle\\FormBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sulu Form Contributors",
+                    "homepage": "https://github.com/sulu/SuluFormBundle/contributors"
+                }
+            ],
+            "description": "Bundle for creating forms in Sulu.",
+            "homepage": "https://github.com/sulu/SuluFormBundle",
+            "keywords": [
+                "dynamic",
+                "form",
+                "form manager",
+                "sulu"
+            ],
+            "time": "2021-04-21T15:19:59+00:00"
         },
         {
             "name": "sulu/sulu",

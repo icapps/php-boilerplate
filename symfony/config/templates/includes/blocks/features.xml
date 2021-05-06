@@ -34,8 +34,7 @@
                         </params>
                     </property>
 
-                    <!-- Hero -->
-                    <section name="Features">
+                    <section name="features">
                         <meta>
                             <title>Features</title>
                         </meta>

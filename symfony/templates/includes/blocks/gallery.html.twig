@@ -1,0 +1,17 @@
+<section class="app_screen_area" id="screenshot">
+    <div class="container">
+        <div class="main_title">
+            <h2>{{ content.title }}</h2>
+            {{ content.text|raw }}
+        </div>
+        <div class="app_screen_inner">
+            <div class="app_screen_slider owl-carousel">
+                {% for image in content.images %}
+                    <div class="item">
+                        <img src="{{ image.thumbnails['gallery-254x452'] }}" alt="{{ image.title }}" title="{{ image.description|default(image.title) }}">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>

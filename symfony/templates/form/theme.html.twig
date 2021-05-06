@@ -1,0 +1,39 @@
+{% extends '@SuluForm/themes/basic.html.twig' %}
+
+{# Grid classes #}
+{%- block sulu_form_row_class_name -%}
+    {{- 'form-group col-md-' ~ attr.widthNumber|default(12) -}}
+{%- endblock sulu_form_row_class_name -%}
+
+{# Customize simple input #}
+{%- block form_widget_simple -%}
+    {%- set type = type|default('text') -%}
+    {%- if type == 'range' or type == 'color' -%}
+        {%- set required = false -%}
+    {%- endif -%}
+    <input type="{{ type }}" class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{%- endblock form_widget_simple -%}
+
+{# Customize textarea #}
+{%- block textarea_widget -%}
+    <textarea class="form-control" {{ block('widget_attributes') }}>{{ value }}</textarea>
+{%- endblock textarea_widget -%}
+
+{# Customize button #}
+{%- block button_widget -%}
+    {% set attr = attr|merge({class: 'btn submint_btn form-control'}) %}
+    {{ parent() }}
+{%- endblock button_widget -%}
+
+{# Customize email #}
+{%- block email_widget -%}
+    {%- set type = type|default('email') -%}
+    {{ block('form_widget_simple') }}
+{%- endblock email_widget -%}
+
+{# Customize honeypot #}
+{%- block honeypot_row -%}
+    <div class="form-block-honung" style="display: none">
+        {{- block('form_row') -}}
+    </div>
+{%- endblock -%}

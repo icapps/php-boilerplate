@@ -2245,7 +2245,7 @@ iframe {
 
 .app_screen_inner:before {
   content: "";
-  background: url(../img/screenshot/mobile-mockup2.png) no-repeat scroll center center;
+  background: url("../img/mobile-mockup2.png") no-repeat scroll center center;
   width: 501px;
   min-height: 611px;
   left: 50.40%;

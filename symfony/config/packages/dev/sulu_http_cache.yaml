@@ -1,0 +1,14 @@
+sulu_http_cache:
+  debug:
+    enabled: false
+  tags:
+    enabled: true
+  cache:
+    max_age: 240 # 4 minutes
+    shared_max_age: 480 # 8 minutes
+  proxy_client:
+    symfony:
+      enabled: true
+    varnish:
+      enabled: false
+      servers: [ '127.0.0.1:80' ]

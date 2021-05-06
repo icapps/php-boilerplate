@@ -1,0 +1,67 @@
+<properties xmlns="http://schemas.sulu.io/template/template"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd">
+    <block name="blocks" default-type="text">
+        <types>
+            <type name="faq">
+                <meta>
+                    <title lang="en">FAQ</title>
+                </meta>
+
+                <properties>
+                    <property name="title" type="text_line" mandatory="true">
+                        <meta>
+                            <title lang="en">Title</title>
+                        </meta>
+                    </property>
+
+                    <property name="text" type="text_editor" mandatory="true">
+                        <meta>
+                            <title lang="en">Text</title>
+                        </meta>
+                    </property>
+
+                    <property name="image" type="single_media_selection">
+                        <meta>
+                            <title lang="en">Image</title>
+                        </meta>
+
+                        <params>
+                            <param name="types" value="image"/>
+                        </params>
+                    </property>
+
+                    <section name="faqs">
+                        <meta>
+                            <title>FAQ's</title>
+                        </meta>
+                        <properties>
+                            <block name="faqItems" default-type="faqItem" minOccurs="1" maxOccurs="5">
+                                <types>
+                                    <type name="faqItem">
+                                        <meta>
+                                            <title>FAQ</title>
+                                        </meta>
+                                        <properties>
+                                            <property name="title" type="text_line" mandatory="true">
+                                                <meta>
+                                                    <title lang="en">Title</title>
+                                                </meta>
+                                            </property>
+
+                                            <property name="text" type="text_editor" mandatory="true">
+                                                <meta>
+                                                    <title lang="en">Text</title>
+                                                </meta>
+                                            </property>
+                                        </properties>
+                                    </type>
+                                </types>
+                            </block>
+                        </properties>
+                    </section>
+                </properties>
+            </type>
+        </types>
+    </block>
+</properties>

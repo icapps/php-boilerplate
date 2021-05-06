@@ -3,9 +3,9 @@
             xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd">
     <block name="blocks" default-type="text">
         <types>
-            <type name="why-us">
+            <type name="gallery">
                 <meta>
-                    <title lang="en">Why Us</title>
+                    <title lang="en">Gallery</title>
                 </meta>
 
                 <properties>
@@ -21,7 +21,7 @@
                         </meta>
                     </property>
 
-                    <property name="mockupItems" type="media_selection">
+                    <property name="images" type="media_selection">
                         <meta>
                             <title lang="en">Images</title>
                         </meta>
