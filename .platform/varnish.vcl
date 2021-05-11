@@ -1,5 +1,5 @@
-# /etc/varnish/default.vcl
 import xkey;
+import std;
 
 acl invalidators {
     "localhost";
@@ -67,16 +67,7 @@ sub vcl_backend_response {
     }
 
     if (beresp.http.X-Reverse-Proxy-TTL) {
-        /*
-         * Note that there is a ``beresp.ttl`` field in VCL but unfortunately
-         * it can only be set to absolute values and not dynamically. Thus we
-         * have to resort to an inline C code fragment.
-         *
-         * As of Varnish 4.0, inline C is disabled by default. To use this
-         * feature, you need to add `-p vcc_allow_inline_c=on` to your Varnish
-         * startup command.
-         */
-
+        set beresp.ttl = std.duration(beresp.http.X-Reverse-Proxy-TTL + "s", 0s);
         unset beresp.http.X-Reverse-Proxy-TTL;
     }
 }
