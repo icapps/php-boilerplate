@@ -10,9 +10,9 @@ sub vcl_recv {
     set req.backend_hint = app.backend();
 
     if (req.method == "PURGE") {
-        if (!client.ip ~ invalidators) {
-            return (synth(405, "Not allowed"));
-        }
+#        if (!client.ip ~ invalidators) {
+#            return (synth(405, "Not allowed"));
+#        }
         return (purge);
     }
 
