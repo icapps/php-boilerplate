@@ -34,15 +34,6 @@ final class SwaggerDecorator implements OpenApiFactoryInterface
                     ));
                 }
             }
-
-            // Bundle user requests.
-            if (str_contains($url, UserProfileDto::USER_ROUTE_PREFIX)) {
-                if ($operation = $pathItem->getPost()) {
-                    $openApi->getPaths()->addPath($url, $pathItem->withPost(
-                        $operation->withTags([UserProfileDto::USER_BUNDLE_TAG])
-                    ));
-                }
-            }
         }
 
         // Include user info endpoint.

@@ -79,7 +79,7 @@ final class UserPasswordDataPersister implements DataPersisterInterface
 
         // Return status output.
         return new StatusDto(
-            Response::HTTP_CREATED,
+            Response::HTTP_OK,
             $this->translator->trans('icapps.registration.password.updated', [], 'validators')
         );
     }
