@@ -15,8 +15,7 @@ use Symfony\Component\Security\Core\Security;
 /**
  * Class LogoutDataPersister
  *
- * This is a custom DataPersister for which incoming data can be handled, persisted and customized in any way.
- * More information: https://api-platform.com/docs/core/data-persisters.
+ * @link: https://api-platform.com/docs/core/data-persisters.
  *
  * @package App\Service\Api\DataPersister\Auth
  */
@@ -49,9 +48,10 @@ final class LogoutDataPersister implements DataPersisterInterface
     public function persist($data)
     {
         // Default response.
-        $output = new StatusDto();
-        $output->code = Response::HTTP_CREATED;
-        $output->message = 'Logout successful';
+        $output = new StatusDto(
+            Response::HTTP_CREATED,
+            'Logout successful'
+        );
 
         // Mobile should throw away user session so we only have to clear device.
         try {

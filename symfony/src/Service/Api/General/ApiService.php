@@ -100,7 +100,6 @@ class ApiService
         return new JsonResponse($data, $this->getStatusCode(), $headers);
     }
 
-
     /**
      * Sets an error message and returns a JSON response
      *

@@ -28,7 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  *     denormalizationContext={
  *          "groups"={"refresh:api-write", "api-write"},
- *          "swagger_definition_name"="WRITE"
+ *          "swagger_definition_name"="POST"
  *     },
  *     output=AuthAccessDto::class
  * )

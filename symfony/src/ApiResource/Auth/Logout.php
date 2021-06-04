@@ -29,7 +29,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  *     denormalizationContext={
  *          "groups"={"logout:api-write", "api-write"},
- *          "swagger_definition_name"="WRITE"
+ *          "swagger_definition_name"="POST"
  *     },
  *     output=StatusDto::class
  * )

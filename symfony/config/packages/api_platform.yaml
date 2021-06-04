@@ -157,4 +157,4 @@ api_platform:
         ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_UNPROCESSABLE_ENTITY
 
         # Custom mapping
-        # App\Exception\CustomNotFoundException: 404
+        App\Exception\InvalidPasswordException: 400

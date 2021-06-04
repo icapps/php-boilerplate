@@ -7,13 +7,14 @@ use App\ApiResource\User\User;
 use App\Dto\User\UserProfileDto;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
 
 /**
  * Class UserDataPersister
  *
- * This is a custom DataProvider for which getItem and getCollection can be customized to retrieve data.
- * More information: https://api-platform.com/docs/core/data-providers.
+ * @link: https://api-platform.com/docs/core/data-persisters.
  *
  * @package App\Service\Api\DataProvider\Examples
  */
@@ -45,12 +46,13 @@ final class UserDataPersister implements DataPersisterInterface
     {
         // Load user.
         /** @var User $data */
-        $user = $this->userRepository->find($data->id);
+        if (!$user = $this->userRepository->find($data->id)) {
+            throw new NotFoundHttpException('User not found', null, 404);
+        }
 
-        // @TODO:: unify security checks?
-        // Check user + access.
-        if (!$user || $this->security->getUser() !== $user) {
-            return null;
+        // Check access.
+        if ($this->security->getUser() !== $user) {
+            throw new AuthenticationException();
         }
 
         // Get user profile.

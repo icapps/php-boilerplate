@@ -35,7 +35,7 @@ jobs:
         working-directory: symfony
 
       - name: Install dependencies
-        run: composer update --prefer-dist --no-progress --no-suggest
+        run: composer install --optimize-autoloader --dev --classmap-authoritative
         working-directory: symfony
 
       - name: Run tests

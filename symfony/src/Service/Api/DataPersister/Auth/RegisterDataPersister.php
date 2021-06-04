@@ -16,8 +16,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 /**
  * Class RegisterDataPersister
  *
- * This is a custom DataPersister for which incoming data can be handled, persisted and customized in any way.
- * More information: https://api-platform.com/docs/core/data-persisters.
+ * @link: https://api-platform.com/docs/core/data-persisters.
  *
  * @package App\Service\Api\DataPersister\Auth
  */

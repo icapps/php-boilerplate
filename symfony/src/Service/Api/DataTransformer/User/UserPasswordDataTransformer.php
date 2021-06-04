@@ -4,10 +4,10 @@ namespace App\Service\Api\DataTransformer\User;
 
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
-use App\ApiResource\User\User;
-use App\Dto\User\UserProfileDto;
+use App\ApiResource\User\PasswordUpdate;
+use App\Dto\User\UserPasswordDto;
 
-final class UserDataTransformer implements DataTransformerInterface
+final class UserPasswordDataTransformer implements DataTransformerInterface
 {
     public function __construct(
         private ValidatorInterface $validator
@@ -28,11 +28,11 @@ final class UserDataTransformer implements DataTransformerInterface
      */
     public function supportsTransformation($data, string $to, array $context = []): bool
     {
-        // If it's a UserProfileDto we transformed the data already
-        if ($data instanceof UserProfileDto) {
+        // If it's a UserPasswordDto we transformed the data already
+        if ($data instanceof UserPasswordDto) {
             return false;
         }
 
-        return User::class === $to && null !== ($context['input']['class'] ?? null);
+        return PasswordUpdate::class === $to && null !== ($context['input']['class'] ?? null);
     }
 }

@@ -18,9 +18,9 @@ final class UserRegisterDataTransformer implements DataTransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function transform($data, string $to, array $context = [])
+    public function transform($object, string $to, array $context = []): object
     {
-        return $data;
+        return $object;
     }
 
     /**
@@ -28,7 +28,7 @@ final class UserRegisterDataTransformer implements DataTransformerInterface
      */
     public function supportsTransformation($data, string $to, array $context = []): bool
     {
-        // If it's a UserProfileDto we transformed the data already
+        // If it's a UserRegisterDto we transformed the data already
         if ($data instanceof UserRegisterDto) {
             return false;
         }

@@ -9,15 +9,16 @@ use App\ApiResource\User\User;
 use App\Dto\User\UserProfileDto;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
 
 /**
  * Class UserDataProvider
  *
- * This is a custom DataProvider for which getItem and getCollection can be customized to retrieve data.
- * More information: https://api-platform.com/docs/core/data-providers.
+ * @link: https://api-platform.com/docs/core/data-providers.
  *
- * @package App\Service\Api\DataProvider\Examples
+ * @package App\Service\Api\DataProvider\User
  */
 final class UserDataProvider implements ItemDataProviderInterface, ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
@@ -46,12 +47,13 @@ final class UserDataProvider implements ItemDataProviderInterface, ContextAwareC
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?UserProfileDto
     {
         // Load user.
-        $user = $this->userRepository->find($id);
+        if (!$user = $this->userRepository->find($id)) {
+            throw new NotFoundHttpException('User not found', null, 404);
+        }
 
-        // @TODO:: unify security checks?
-        // Check user + access.
-        if (!$user || $this->security->getUser() !== $user) {
-            return null;
+        // Check access.
+        if ($this->security->getUser() !== $user) {
+            throw new AuthenticationException();
         }
 
         // Get user profile.

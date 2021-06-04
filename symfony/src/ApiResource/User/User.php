@@ -22,9 +22,8 @@ use App\Dto\User\UserProfileDto;
  *              "openapi_context"={
  *                  "summary"="Update user profile",
  *                  "description"="Update user profile"
- *              },
- *              "input"=UserProfileDto::class
- *         },
+ *              }
+ *         }
  *     },
  *     normalizationContext={
  *          "groups"={"profile:api-get"},
@@ -32,8 +31,9 @@ use App\Dto\User\UserProfileDto;
  *     },
  *     denormalizationContext={
  *          "groups"={"profile:api-post"},
- *          "swagger_definition_name"="WRITE"
+ *          "swagger_definition_name"="PATCH"
  *     },
+ *     input=UserProfileDto::class,
  *     output=UserProfileDto::class
  * )
  */
