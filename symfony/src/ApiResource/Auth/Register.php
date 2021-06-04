@@ -17,8 +17,7 @@ use App\Dto\User\UserProfileDto;
  *              "openapi_context"={
  *                  "summary"="Register a new user",
  *                  "description"="Register a new user"
- *              },
- *              "input"=UserRegisterDto::class
+ *              }
  *         }
  *     },
  *     itemOperations={},
@@ -33,12 +32,13 @@ use App\Dto\User\UserProfileDto;
  *     },
  *     denormalizationContext={
  *          "groups"={"register:api-post"},
- *          "swagger_definition_name"="WRITE",
+ *          "swagger_definition_name"="POST",
  *          "openapi_context"={
  *              "summary"="Register a new user",
  *              "description"="Register a new user"
  *          }
  *     },
+ *     input=UserRegisterDto::class,
  *     output=UserProfileDto::class
  * )
  */

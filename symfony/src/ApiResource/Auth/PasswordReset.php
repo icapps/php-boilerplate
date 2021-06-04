@@ -22,14 +22,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         }
  *     },
  *     itemOperations={},
- *     shortName="Password reset",
+ *     shortName="PasswordReset",
  *     normalizationContext={
  *          "groups"={"password-reset:api-get", "api-get"},
  *          "swagger_definition_name"="GET"
  *     },
  *     denormalizationContext={
  *          "groups"={"password-reset:api-write", "api-write"},
- *          "swagger_definition_name"="WRITE"
+ *          "swagger_definition_name"="POST"
  *     },
  *     output=StatusDto::class
  * )

@@ -18,9 +18,9 @@ final class UserDataTransformer implements DataTransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function transform($data, string $to, array $context = [])
+    public function transform($object, string $to, array $context = []): object
     {
-        return $data;
+        return $object;
     }
 
     /**

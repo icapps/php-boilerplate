@@ -8,6 +8,7 @@ use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
 use ApiPlatform\Core\OpenApi\OpenApi;
 use ApiPlatform\Core\OpenApi\Model;
 use App\Dto\Auth\AuthAccessDto;
+use App\Dto\User\UserProfileDto;
 
 final class SwaggerDecorator implements OpenApiFactoryInterface
 {
@@ -25,11 +26,13 @@ final class SwaggerDecorator implements OpenApiFactoryInterface
 
         // Bundle resources in Swagger.
         foreach ($openApi->getPaths()->getPaths() as $url => $pathItem) {
+            // Bundle authentication requests.
             if (str_contains($url, AuthAccessDto::AUTH_ROUTE_PREFIX)) {
-                $operation = $pathItem->getPost();
-                $openApi->getPaths()->addPath($url, $pathItem->withPost(
-                    $operation->withTags([AuthAccessDto::AUTH_BUNDLE_TAG])
-                ));
+                if ($operation = $pathItem->getPost()) {
+                    $openApi->getPaths()->addPath($url, $pathItem->withPost(
+                        $operation->withTags([AuthAccessDto::AUTH_BUNDLE_TAG])
+                    ));
+                }
             }
         }
 

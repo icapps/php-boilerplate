@@ -12,10 +12,9 @@ use Symfony\Component\Security\Core\Security;
 /**
  * Class DeviceDataProvider
  *
- * This is a custom DataProvider for which getItem and getCollection can be customized to retrieve data.
- * More information: https://api-platform.com/docs/core/data-providers.
+ * @link: https://api-platform.com/docs/core/data-providers.
  *
- * @package App\Service\Api\DataProvider\Examples
+ * @package App\Service\Api\DataProvider\Auth
  */
 final class DeviceDataProvider implements ItemDataProviderInterface, ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {

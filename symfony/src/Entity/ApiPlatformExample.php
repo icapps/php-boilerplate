@@ -30,7 +30,7 @@ use App\Validator\Constraints\LocationMinimalProperties;
  *     },
  *     denormalizationContext={
  *          "groups"={"examples:api-write"},
- *          "swagger_definition_name"="WRITE"
+ *          "swagger_definition_name"="POST"
  *     },
  * )
  * @ORM\Table(name="icapps_examples")

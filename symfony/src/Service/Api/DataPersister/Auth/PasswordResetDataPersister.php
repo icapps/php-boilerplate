@@ -21,8 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class PasswordResetDataPersister
  *
- * This is a custom DataPersister for which incoming data can be handled, persisted and customized in any way.
- * More information: https://api-platform.com/docs/core/data-persisters.
+ * @link: https://api-platform.com/docs/core/data-persisters.
  *
  * @package App\Service\Api\DataPersister\Auth
  */
@@ -60,35 +59,34 @@ final class PasswordResetDataPersister implements DataPersisterInterface
     public function persist($data)
     {
         // Default response.
-        $output = new StatusDto();
-        $output->code = Response::HTTP_OK;
-        $output->message = $this->translator->trans("icapps.mail.reset_password.sent", [], "messages");
+        $output = new StatusDto(
+            Response::HTTP_OK,
+            $this->translator->trans("icapps.mail.reset_password.sent", [], "messages"),
+        );
 
-        $user = $this->userRepository->findOneBy(['email' => $data->getEmail()]);
-
-        if (!$user) {
-            //silent error
+        // Find user.
+        if (!$user = $this->userRepository->findOneBy(['email' => $data->getEmail()])) {
+            // Silent error
             $errors = $this->translator->trans('icapps.reset.email.not_found', [], 'validators');
             $this->logger->warning($errors);
-
             return $output;
         }
 
         // Set reset token for user.
-        $user->setResetToken(AuthUtils::getUniqueToken());
         try {
+            $user->setResetToken(AuthUtils::getUniqueToken());
             $this->userRepository->save($user);
         } catch (\Exception $e) {
-            $output->code = Response::HTTP_INTERNAL_SERVER_ERROR;
-            $output->message = $e->getMessage();
+            // Silent failure.
+            $this->logger->critical('User password reset failure: ' . $e->getMessage());
         }
 
         // Send reset mail.
         try {
             $this->mailHelper->sendUserPasswordResetMail($user, $user->getProfile());
         } catch (\Exception $e) {
-            $output->code = Response::HTTP_INTERNAL_SERVER_ERROR;
-            $output->message = $e->getMessage();
+            // Silent failure.
+            $this->logger->critical('User password reset failure: ' . $e->getMessage());
         }
 
         // Log it.

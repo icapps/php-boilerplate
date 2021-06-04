@@ -29,4 +29,14 @@ class StatusDto
      * @Assert\NotBlank
      */
     public string $message = '';
+
+    /**
+     * @param int $code
+     * @param string $message
+     */
+    public function __construct(int $code, string $message)
+    {
+        $this->code = $code;
+        $this->message = $message;
+    }
 }

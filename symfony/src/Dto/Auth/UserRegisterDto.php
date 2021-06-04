@@ -90,5 +90,21 @@ class UserRegisterDto
      *     allowEmptyString = false,
      * )
      */
+
+    /**
+     * @var string
+     *
+     * @Groups({"register:api-post"})
+     *
+     * @Assert\NotBlank()
+     * @Assert\NotCompromisedPassword()
+     *
+     * @Assert\Length(
+     *     min = 1,
+     *     max = 50,
+     *     minMessage="icapps.registration.password.min_length",
+     *     maxMessage="icapps.registration.password.max_length"
+     * )
+     */
     public string $password;
 }
