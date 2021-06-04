@@ -21,6 +21,22 @@ class UserPasswordDto
      * @Groups({"api-post", "password:api-post"})
      *
      * @Assert\NotBlank()
+     *
+     * @Assert\Length(
+     *     min = 1,
+     *     max = 50,
+     *     minMessage="icapps.registration.password.min_length",
+     *     maxMessage="icapps.registration.password.max_length"
+     * )
+     */
+    public string $oldPassword = '';
+
+    /**
+     * @var string
+     *
+     * @Groups({"api-get", "password:api-get", "password:api-post"})
+     *
+     * @Assert\NotBlank()
      * @Assert\NotCompromisedPassword()
      *
      * @Assert\Length(
@@ -30,21 +46,5 @@ class UserPasswordDto
      *     maxMessage="icapps.registration.password.max_length"
      * )
      */
-    public string $oldPassword;
-
-    /**
-     * @var string
-     *
-     * @Groups({"api-get", "password:api-get", "password:api-post"})
-     *
-     * @Assert\NotBlank()
-     *
-     * @Assert\Length(
-     *     min = 1,
-     *     max = 50,
-     *     minMessage="icapps.registration.password.min_length",
-     *     maxMessage="icapps.registration.password.max_length"
-     * )
-     */
-    public string $password;
+    public string $password = '';
 }
