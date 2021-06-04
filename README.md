@@ -32,6 +32,14 @@ For setting up LexikJWTAuth .pem files, run:
 ```bash
 symfony console lexik:jwt:generate-keypair
 ```
+
+For DateTime use Carbon (also integrated standard Doctrine datetime):
+
+```php
+$tomorrow = Carbon::now()->addDay();
+$lastWeek = Carbon::now()->subWeek();
+```
+https://carbon.nesbot.com/docs/
 ## icapps ❤️ PHP
 
 For further questions, ask the icapps PHP team.
