@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Api\DataPersister\Auth;
+namespace App\Service\Api\DataPersister\User;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
@@ -10,13 +10,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * Class DeviceDataPersister
+ * Class UserDeviceDataPersister
  *
  * @link: https://api-platform.com/docs/core/data-persisters.
  *
- * @package App\Service\Api\DataPersister\Auth
+ * @package App\Service\Api\DataPersister\User
  */
-final class DeviceDataPersister implements DataPersisterInterface
+final class UserDeviceDataPersister implements DataPersisterInterface
 {
     /**
      * DeviceDataPersister constructor.
