@@ -33,7 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              }
  *         }
  *     },
- *     shortName="UserDevice",
+ *     shortName="User Device",
  *     normalizationContext={
  *          "groups"={"device:api-get", "api-get"},
  *          "swagger_definition_name"="GET"

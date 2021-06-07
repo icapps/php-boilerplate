@@ -50,7 +50,7 @@ use App\Dto\User\UserPasswordDto;
  *     output=UserProfileDto::class
  * )
  */
-class User
+final class User
 {
     public $id;
 }

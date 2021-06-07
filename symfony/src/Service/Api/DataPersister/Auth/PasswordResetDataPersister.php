@@ -4,7 +4,7 @@ namespace App\Service\Api\DataPersister\Auth;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
-use App\ApiResource\Auth\PasswordReset;
+use App\Dto\Auth\UserPasswordResetDto;
 use App\Dto\General\StatusDto;
 use App\Mail\MailHelper;
 use App\Repository\DeviceRepository;
@@ -50,7 +50,7 @@ final class PasswordResetDataPersister implements DataPersisterInterface
      */
     public function supports($data): bool
     {
-        return $data instanceof PasswordReset;
+        return $data instanceof UserPasswordResetDto;
     }
 
     /**
@@ -61,11 +61,11 @@ final class PasswordResetDataPersister implements DataPersisterInterface
         // Default response.
         $output = new StatusDto(
             Response::HTTP_OK,
-            $this->translator->trans("icapps.mail.reset_password.sent", [], "messages"),
+            $this->translator->trans('icapps.mail.reset_password.sent', [], 'messages'),
         );
 
         // Find user.
-        if (!$user = $this->userRepository->findOneBy(['email' => $data->getEmail()])) {
+        if (!$user = $this->userRepository->findOneBy(['email' => $data->email])) {
             // Silent error
             $errors = $this->translator->trans('icapps.reset.email.not_found', [], 'validators');
             $this->logger->warning($errors);

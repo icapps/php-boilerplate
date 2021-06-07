@@ -4,7 +4,7 @@ namespace App\Service\Api\DataPersister\Auth;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
-use App\ApiResource\Auth\Refresh;
+use App\Dto\Auth\UserRefreshDto;
 use Doctrine\ORM\EntityManagerInterface;
 use Gesdinet\JWTRefreshTokenBundle\Service\RefreshToken;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -42,7 +42,7 @@ final class RefreshDataPersister implements DataPersisterInterface
      */
     public function supports($data): bool
     {
-        return $data instanceof Refresh;
+        return $data instanceof UserRefreshDto;
     }
 
     /**

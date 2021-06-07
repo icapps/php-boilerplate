@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @package App\Dto
  */
-class UserRegisterDto
+final class UserRegisterDto
 {
     /**
      * @var string

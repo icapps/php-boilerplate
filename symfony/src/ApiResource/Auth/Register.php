@@ -42,7 +42,7 @@ use App\Dto\User\UserProfileDto;
  *     output=UserProfileDto::class
  * )
  */
-class Register
+final class Register
 {
     public $id;
 }

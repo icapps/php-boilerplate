@@ -4,7 +4,7 @@ namespace App\Service\Api\DataPersister\Auth;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
-use App\ApiResource\Auth\Logout;
+use App\Dto\Auth\UserLogoutDto;
 use App\Dto\General\StatusDto;
 use App\Repository\DeviceRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,7 +39,7 @@ final class LogoutDataPersister implements DataPersisterInterface
      */
     public function supports($data): bool
     {
-        return $data instanceof Logout;
+        return $data instanceof UserLogoutDto;
     }
 
     /**
@@ -49,13 +49,13 @@ final class LogoutDataPersister implements DataPersisterInterface
     {
         // Default response.
         $output = new StatusDto(
-            Response::HTTP_CREATED,
+            Response::HTTP_OK,
             'Logout successful'
         );
 
         // Mobile should throw away user session so we only have to clear device.
         try {
-            if ($device = $this->deviceRepository->findOneBy(['user' => $this->security->getUser(), 'deviceId' => $data->getDeviceId()])) {
+            if ($device = $this->deviceRepository->findOneBy(['user' => $this->security->getUser(), 'deviceId' => $data->deviceId])) {
                 $this->deviceRepository->remove($device->getId());
             }
         } catch (\Exception $e) {

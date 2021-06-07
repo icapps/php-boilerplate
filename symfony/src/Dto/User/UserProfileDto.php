@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @package App\Dto
  */
-class UserProfileDto
+final class UserProfileDto
 {
     const USER_ROUTE_PREFIX = '/users';
     const USER_BUNDLE_TAG = 'User';
