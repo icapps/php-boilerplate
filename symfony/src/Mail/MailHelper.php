@@ -8,6 +8,8 @@ use Psr\Log\LoggerInterface;
 use SplFileInfo;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Message;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -182,6 +184,34 @@ class MailHelper
     }
 
     /**
+     * @param string $to
+     */
+    public function sendTestMail(string $to): void
+    {
+        // Add your mail and ADMIN_EMAIl to Authorized Recipients first!
+        // If using Europe server change @default to @api.eu.mailgun.net
+        // Use your full private Key
+        // Domain can be a sandbox ref to test. ex: sandboxXXXX.mailgun.org
+        $body = '
+            <p>📞📞<br>Hello, hello, baby</p>
+            <p>You called, I can&apos;t hear a thing</p>
+            <p>I have got no service</p>
+            <p>In the club, you see, see</p>
+            <p>Wha-wha-what did you say?</p>
+            <p>Oh, you&apos;re breaking up on me</p>
+            <p>Sorry, I cannot hear you</p>
+            <p>I&apos;m kinda busy</p>
+            <p>K-kinda busy</p>
+            <p>K-kinda busy</p>
+            <p>Sorry, I cannot hear you</p>
+            <p>I&apos;m kinda busy</p>
+            <p>👸</p>
+        ';
+        // Send mail.
+        $this->sendMail('✨Hello From iCapps❤️❤️❤️', $body, $to, 'test');
+    }
+
+    /**
      * @param string $subject
      * @param string $body
      * @param string $recipient
@@ -206,8 +236,10 @@ class MailHelper
 
         // Set defaults.
         if (!$sender) {
-            $sender = $_ENV['ADMIN_EMAIL'];
+            $sender = new Address($_ENV['ADMIN_EMAIL']);
         }
+
+        $recipient = new Address($recipient);
 
         if ($html) {
             $message->html($body);
