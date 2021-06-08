@@ -29,7 +29,7 @@ use App\Validator\Constraints\LocationMinimalProperties;
  *          "swagger_definition_name"="GET"
  *     },
  *     denormalizationContext={
- *          "groups"={"examples:api-write"},
+ *          "groups"={"examples:api-post"},
  *          "swagger_definition_name"="POST"
  *     },
  * )
@@ -50,7 +50,7 @@ class ApiPlatformExample
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"examples:api-get", "examples:api-write"})
+     * @Groups({"examples:api-get", "examples:api-post"})
      *
      * @Assert\NotBlank
      */
@@ -59,7 +59,7 @@ class ApiPlatformExample
     /**
      * @ORM\Column(type="array")
      *
-     * @Groups({"examples:api-get", "examples:api-write"})
+     * @Groups({"examples:api-get", "examples:api-post"})
      *
      * @Assert\NotBlank
      * @LocationMinimalProperties()
@@ -82,7 +82,7 @@ class ApiPlatformExample
     /**
      * @ORM\Column(type="string")
      *
-     * @Groups({"examples:api-get", "examples:api-write"})
+     * @Groups({"examples:api-get", "examples:api-post"})
      *
      * @Assert\NotBlank
      *

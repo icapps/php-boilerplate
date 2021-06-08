@@ -43,7 +43,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "swagger_definition_name"="GET"
  *     },
  *     denormalizationContext={
- *          "groups"={"search-examples:api-write"},
+ *          "groups"={"search-examples:api-post"},
  *          "swagger_definition_name"="POST"
  *     },
  *     output=SearchExampleDto::class
@@ -61,7 +61,7 @@ class SearchExample
     /**
      * @var string
      *
-     * @Groups({"search-examples:api-write"})
+     * @Groups({"search-examples:api-post"})
      *
      * @Assert\NotBlank()
      * @Assert\Length(

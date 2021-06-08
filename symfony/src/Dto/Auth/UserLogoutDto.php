@@ -17,7 +17,7 @@ final class UserLogoutDto
     /**
      * @var string
      *
-     * @Groups({"auth:api-write"})
+     * @Groups({"auth:api-post"})
      *
      * @Assert\NotBlank()
      */
