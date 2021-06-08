@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Symfony\Component\Serializer\Annotation\Groups;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,35 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="icapps_devices")
  *
  * @ORM\Entity(repositoryClass="App\Repository\DeviceRepository")
- *
- * @ApiResource(
- *     collectionOperations={},
- *     itemOperations={
- *         "get"={
- *              "path"= "/user/devices/{deviceId}",
- *              "openapi_context"={
- *                  "summary"="Get user device",
- *                  "description"="Get user device"
- *              }
- *         },
- *         "patch"={
- *              "path"= "/user/devices/{deviceId}",
- *              "openapi_context"={
- *                  "summary"="Update user device token",
- *                  "description"="Update user device token"
- *              }
- *         }
- *     },
- *     shortName="User Device",
- *     normalizationContext={
- *          "groups"={"device:api-get", "api-get"},
- *          "swagger_definition_name"="GET"
- *     },
- *     denormalizationContext={
- *          "groups"={"device:api-write", "api-write"},
- *          "swagger_definition_name"="POST"
- *     }
- * )
  */
 class Device
 {
@@ -50,8 +18,6 @@ class Device
 
     /**
      * @var int|null
-     *
-     * @ApiProperty(identifier=false)
      *
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -69,9 +35,6 @@ class Device
     /**
      * @var string
      *
-     * @ApiProperty(identifier=true)
-     * @Groups({"api-get"})
-     *
      * @ORM\Column(type="string")
      *
      * @Assert\NotBlank()
@@ -80,8 +43,6 @@ class Device
 
     /**
      * @var string
-     *
-     * @Groups({"api-write", "api-get", "orm-device"})
      *
      * @ORM\Column(type="string")
      *

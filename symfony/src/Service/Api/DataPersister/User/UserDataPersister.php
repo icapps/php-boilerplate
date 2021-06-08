@@ -58,8 +58,12 @@ final class UserDataPersister implements DataPersisterInterface
         // Get user profile.
         $profile = $user->getProfile();
 
-        // Update profile.
         /** @var UserProfileDto $data */
+        // Update user.
+        $user->setLanguage($data->language);
+        $this->userRepository->save($user);
+
+        // Update profile.
         $profile->setFirstName($data->firstName);
         $profile->setLastName($data->lastName);
         $this->profileRepository->save($profile);

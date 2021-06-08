@@ -4,10 +4,12 @@ namespace App\Service\Api\DataPersister\User;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
-use App\Entity\Device;
+use App\Dto\User\UserDeviceDto;
 use App\Repository\DeviceRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class UserDeviceDataPersister
@@ -19,18 +21,20 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 final class UserDeviceDataPersister implements DataPersisterInterface
 {
     /**
-     * DeviceDataPersister constructor.
+     * UserDeviceDataPersister constructor.
      *
      * @param EntityManagerInterface $entityManager
      * @param UserPasswordEncoderInterface $userPasswordEncoder
      * @param ValidatorInterface $validator
      * @param DeviceRepository $deviceRepository
+     * @param Security $security
      */
     public function __construct(
         private EntityManagerInterface $entityManager,
         private UserPasswordEncoderInterface $userPasswordEncoder,
         private ValidatorInterface $validator,
-        private DeviceRepository $deviceRepository
+        private DeviceRepository $deviceRepository,
+        private Security $security
     ) {
         //
     }
@@ -40,7 +44,7 @@ final class UserDeviceDataPersister implements DataPersisterInterface
      */
     public function supports($data): bool
     {
-        return $data instanceof Device;
+        return $data instanceof UserDeviceDto;
     }
 
     /**
@@ -48,16 +52,22 @@ final class UserDeviceDataPersister implements DataPersisterInterface
      */
     public function persist($data): object
     {
-        /** @var Device $data */
-        // Validate device input.
-        $context['groups'] = 'orm-device';
-        $this->validator->validate($data, $context);
+        /** @var UserDeviceDto $data */
+        if (!$device = $this->deviceRepository->findOneBy([
+            'user' => $this->security->getUser(),
+            'deviceId' => $data->deviceId
+        ])) {
+            throw new NotFoundHttpException('Device not found', null, 404);
+        }
 
-        // Persist.
-        $this->entityManager->persist($data);
-        $this->entityManager->flush();
+        // Update device.
+        $device->setDeviceToken($data->deviceToken);
+        $this->deviceRepository->save($device);
 
-        return $data;
+        return new UserDeviceDto(
+            $device->getDeviceId(),
+            $device->getDeviceToken(),
+        );
     }
 
     /**

@@ -79,11 +79,11 @@ api_platform:
 
     http_cache:
         # To make all responses public by default.
-        public: null
+        public: ~
 
         # Enable the tags-based cache invalidation system.
         invalidation:
-            enabled: false
+            enabled: true
 
             # URLs of the Varnish servers to purge using cache tags when a resource is updated.
             varnish_urls: []
@@ -145,6 +145,19 @@ api_platform:
     defaults:
         pagination_enabled: false
         pagination_client_enabled: false
+
+        cache_headers:
+            # Automatically generate etags for API responses.
+            etag: true
+
+            # Default value for the response max age.
+            max_age: 3600
+
+            # Default value for the response shared (proxy) max age.
+            shared_max_age: 3600
+
+            # Default values of the "Vary" HTTP header.
+            vary: ['Accept']
 
     exception_to_status:
         # The 4 following handlers are registered by default, keep these lines.

@@ -8,6 +8,7 @@ use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
 use ApiPlatform\Core\OpenApi\OpenApi;
 use ApiPlatform\Core\OpenApi\Model;
 use App\Dto\Auth\AuthAccessDto;
+use App\Dto\User\UserDeviceDto;
 use App\Dto\User\UserProfileDto;
 
 final class SwaggerDecorator implements OpenApiFactoryInterface
@@ -51,12 +52,11 @@ final class SwaggerDecorator implements OpenApiFactoryInterface
                             'application/json' => [
                                 'schema'  => [
                                     'type' => 'object',
-                                    'required' => ['userId', 'email', 'profileId'],
+                                    'required' => ['userId', 'email'],
                                     'properties' =>
                                         [
                                             'userId' => ['type' => 'integer'],
                                             'email' => ['type' => 'string'],
-                                            'profileId' => ['type' => 'integer'],
                                         ],
                                 ],
                             ],

@@ -17,7 +17,7 @@ final class UserPasswordResetDto
     /**
      * @var string
      *
-     * @Groups({"auth:api-write"})
+     * @Groups({"auth:api-post"})
      * @Assert\Email(
      *     message="icapps.registration.email.invalid",
      * )
