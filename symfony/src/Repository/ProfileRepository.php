@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Component\Model\ProfileInterface;
 use App\Entity\Profile;
+use App\Repository\Model\ProfileRepositoryInterface;
+use App\Repository\Model\TransactionalInterface;
 use App\Repository\Traits\Transactional;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use http\Exception\InvalidArgumentException;
 
 /**
  * @method Profile|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,7 +23,7 @@ use Doctrine\ORM\ORMException;
  *
  * @extends ServiceEntityRepository<Location>
  */
-class ProfileRepository extends ServiceEntityRepository
+class ProfileRepository extends ServiceEntityRepository implements ProfileRepositoryInterface
 {
     use Transactional;
 
@@ -57,8 +61,12 @@ class ProfileRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function save(Profile $profile): void
+    public function save(ProfileInterface $profile): void
     {
+        // Check type explicitly
+        if (!($profile instanceof Profile)) {
+            throw new InvalidArgumentException();
+        }
         $this->getEntityManager()->persist($profile);
         $this->getEntityManager()->flush();
     }

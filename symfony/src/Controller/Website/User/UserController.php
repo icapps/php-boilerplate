@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\PasswordResetType;
 use App\Repository\ProfileRepository;
 use App\Service\Website\User\UserService;
+use App\Utils\ProfileHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,8 +21,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UserController extends AbstractController
 {
 
-    public function __construct(private TranslatorInterface $translator, private UserService $userService, private ProfileRepository $profileRepository)
-    {
+    public function __construct(
+        private TranslatorInterface $translator,
+        private UserService $userService,
+        private ProfileHelper $profileHelper
+    ) {
     }
 
     /**
@@ -80,7 +84,7 @@ class UserController extends AbstractController
 
             // Reset password.
             $user = $this->userService->passwordResetUser($user, $password);
-            $profile = $user->getProfile();
+            $profile = $this->profileHelper->getProfile($user);
 
             // Success.
             return $this->render('general/status.html.twig', [
@@ -108,7 +112,7 @@ class UserController extends AbstractController
             ]);
         }
 
-        $profile = $user->getProfile();
+        $profile = $this->profileHelper->getProfile($user);
 
         return $this->render('general/status.html.twig', [
             'title' => $this->translator->trans('icapps.website.lbl_user.activation.completed_title', ['%username' => $profile->getFirstName()], 'messages'),

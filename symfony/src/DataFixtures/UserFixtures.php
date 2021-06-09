@@ -33,9 +33,10 @@ class UserFixtures extends Fixture
         $profile = new Profile();
         $profile->setFirstName('john');
         $profile->setLastName('doe');
-        $user->setProfile($profile);
-
+        $user->setProfileType(Profile::PROFILE_TYPE);
         $manager->persist($profile);
+        $manager->flush();
+        $user->setProfileId($profile->getId());
         $manager->persist($user);
         $manager->flush();
     }

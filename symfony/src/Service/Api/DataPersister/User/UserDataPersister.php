@@ -7,6 +7,7 @@ use App\ApiResource\User\User;
 use App\Dto\User\UserProfileDto;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
+use App\Utils\ProfileHelper;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
@@ -25,8 +26,8 @@ final class UserDataPersister implements DataPersisterInterface
      */
     public function __construct(
         private UserRepository $userRepository,
-        private ProfileRepository $profileRepository,
-        private Security $security
+        private Security $security,
+        private ProfileHelper $profileHelper,
     ) {
         //
     }
@@ -56,7 +57,7 @@ final class UserDataPersister implements DataPersisterInterface
         }
 
         // Get user profile.
-        $profile = $user->getProfile();
+        $profile = $this->profileHelper->getProfile($user);
 
         /** @var UserProfileDto $data */
         // Update user.
@@ -66,7 +67,7 @@ final class UserDataPersister implements DataPersisterInterface
         // Update profile.
         $profile->setFirstName($data->firstName);
         $profile->setLastName($data->lastName);
-        $this->profileRepository->save($profile);
+        $this->profileHelper->getProfileRepository($user)->save($profile);
 
         // Create output.
         $output = new UserProfileDto();

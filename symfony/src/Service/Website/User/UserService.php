@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Mail\MailHelper;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
+use App\Utils\ProfileHelper;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Psr\Log\LoggerInterface;
@@ -19,7 +20,7 @@ class UserService
 
     public function __construct(
         private UserRepository $userRepository,
-        private ProfileRepository $profileRepository,
+        private ProfileHelper $profileHelper,
         private MailHelper $mailHelper,
         private LoggerInterface $logger,
         private UserPasswordEncoderInterface $encoder
@@ -50,7 +51,7 @@ class UserService
         $user->enable();
         $this->userRepository->save($user);
 
-        $profile = $user->getProfile();
+        $profile = $this->profileHelper->getProfile($user);
 
         // Send confirmation mail.
         $this->mailHelper->sendRegistrationConfirmationMail($user, $profile);

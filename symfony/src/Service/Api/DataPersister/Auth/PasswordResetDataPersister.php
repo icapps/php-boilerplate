@@ -11,6 +11,7 @@ use App\Repository\DeviceRepository;
 use App\Repository\UserRepository;
 use App\Service\Website\User\UserService;
 use App\Utils\AuthUtils;
+use App\Utils\ProfileHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,7 +41,8 @@ final class PasswordResetDataPersister implements DataPersisterInterface
         private UserRepository $userRepository,
         private MailHelper $mailHelper,
         private LoggerInterface $logger,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
+        private ProfileHelper $profileHelper
     ) {
         //
     }
@@ -83,7 +85,7 @@ final class PasswordResetDataPersister implements DataPersisterInterface
 
         // Send reset mail.
         try {
-            $this->mailHelper->sendUserPasswordResetMail($user, $user->getProfile());
+            $this->mailHelper->sendUserPasswordResetMail($user, $this->profileHelper->getProfile($user));
         } catch (\Exception $e) {
             // Silent failure.
             $this->logger->critical('User password reset failure: ' . $e->getMessage());

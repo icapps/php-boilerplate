@@ -7,10 +7,11 @@ use ApiPlatform\Core\Validator\Exception\ValidationException;
 use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Dto\User\UserProfileDto;
 use App\Dto\Auth\UserRegisterDto;
+use App\Entity\Profile;
 use App\Entity\User;
-use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
 use App\Utils\AuthUtils;
+use App\Utils\ProfileHelper;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -26,7 +27,7 @@ final class RegisterDataPersister implements DataPersisterInterface
         private UserPasswordEncoderInterface $userPasswordEncoder,
         private ValidatorInterface $validator,
         private UserRepository $userRepository,
-        private ProfileRepository $profileRepository,
+        private ProfileHelper $profileHelper,
     ) {
         //
     }
@@ -58,7 +59,8 @@ final class RegisterDataPersister implements DataPersisterInterface
         $user->setActivationToken(AuthUtils::getUniqueToken());
 
         // Create user profile.
-        $profile = $this->profileRepository->create();
+        $profileRepository = $this->profileHelper->getProfileRepository($user);
+        $profile = $profileRepository->create();
         $profile->setFirstName($data->firstName);
         $profile->setLastName($data->lastName);
 
@@ -67,13 +69,16 @@ final class RegisterDataPersister implements DataPersisterInterface
         $this->validator->validate($profile, $context);
 
         // Validate and save user.
-        $this->profileRepository->beginTransaction();
+        $profileRepository->beginTransaction();
         $this->userRepository->beginTransaction();
         try {
             // Save + set user profile.
-            $this->profileRepository->save($profile);
-            $user->setProfile($profile);
+            $profileRepository->save($profile);
+            if ($profile instanceof Profile) {
+                $user->setProfileType(Profile::PROFILE_TYPE);
+            }
 
+            $user->setProfileId($profile->getId());
             // Validate user.
             $context['groups'] = 'orm-registration';
             $this->validator->validate($user, $context);
@@ -82,10 +87,10 @@ final class RegisterDataPersister implements DataPersisterInterface
             $this->userRepository->save($user);
 
             // Commit changes.
-            $this->profileRepository->commit();
+            $profileRepository->commit();
             $this->userRepository->commit();
         } catch (ValidationException $exception) {
-            $this->profileRepository->rollback();
+            $profileRepository->rollback();
             $this->userRepository->rollback();
             throw $exception;
         }

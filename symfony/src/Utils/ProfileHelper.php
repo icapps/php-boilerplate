@@ -6,6 +6,7 @@ use App\Component\Model\ProfileInterface;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Mail\MailHelper;
+use App\Repository\Model\ProfileRepositoryInterface;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
 use App\Service\Api\General\AuthService;
@@ -130,5 +131,35 @@ class ProfileHelper
 
         $success = $this->translator->trans('icapps.password.update.completed', [], 'validators');
         return $this->authService->respondWithSuccess($success);
+    }
+
+    /**
+     * Gives the correct User Profile
+     *
+     * @param User $user
+     * @return ProfileInterface
+     */
+    public function getProfile(User $user): ProfileInterface
+    {
+        // Extend Profile types if more Profiles are used
+        return match ($user->getProfileType()) {
+            Profile::PROFILE_TYPE => $this->profileRepository->findById($user->getProfileId()),
+            default => $this->profileRepository->findById($user->getProfileId())
+        };
+    }
+
+    /**
+     * Gives the correct User Profile
+     *
+     * @param User $user
+     * @return ProfileRepositoryInterface
+     */
+    public function getProfileRepository(User $user): ProfileRepositoryInterface
+    {
+        // Extend Profile types if more Profiles are used
+        return match ($user->getProfileType()) {
+            Profile::PROFILE_TYPE => $this->profileRepository,
+            default => $this->profileRepository
+        };
     }
 }

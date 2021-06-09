@@ -9,6 +9,7 @@ use App\ApiResource\User\User;
 use App\Dto\User\UserProfileDto;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
+use App\Utils\ProfileHelper;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
@@ -27,7 +28,7 @@ final class UserDataProvider implements ItemDataProviderInterface, ContextAwareC
      */
     public function __construct(
         private UserRepository $userRepository,
-        private ProfileRepository $profileRepository,
+        private ProfileHelper $profileHelper,
         private Security $security
     ) {
         //
@@ -57,7 +58,7 @@ final class UserDataProvider implements ItemDataProviderInterface, ContextAwareC
         }
 
         // Get user profile.
-        $profile = $user->getProfile();
+        $profile = $this->profileHelper->getProfile($user);
 
         // Create output.
         $output = new UserProfileDto();
