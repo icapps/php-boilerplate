@@ -13,14 +13,14 @@ use App\Dto\User\UserPasswordDto;
  *     collectionOperations={},
  *     itemOperations={
  *         "get"={
- *              "path"= "/profile/{id}",
+ *              "path"= "/{id}/profile",
  *              "openapi_context"={
  *                  "summary"="Get active user profile",
  *                  "description"="Get active user profile"
  *              }
  *         },
  *         "patch"={
- *              "path"= "/profile/{id}",
+ *              "path"= "/{id}/profile",
  *              "openapi_context"={
  *                  "summary"="Update user profile",
  *                  "description"="Update user profile"
@@ -28,7 +28,7 @@ use App\Dto\User\UserPasswordDto;
  *         },
  *         "password_update"={
  *              "status"=200,
- *              "path"="/profile/{id}/password",
+ *              "path"="/{id}/password",
  *              "input"=UserPasswordDto::class,
  *              "output"=StatusDto::class,
  *              "method"="PATCH",
@@ -43,7 +43,7 @@ use App\Dto\User\UserPasswordDto;
  *          "swagger_definition_name"="GET"
  *     },
  *     denormalizationContext={
- *          "groups"={"profile:api-post", "password:api-post"},
+ *          "groups"={"api-post", "profile:api-post", "password:api-post"},
  *          "swagger_definition_name"="PATCH"
  *     },
  *     input=UserProfileDto::class,

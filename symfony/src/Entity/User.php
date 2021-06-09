@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Component\Model\Traits\EnableTrait;
 use App\Component\Model\EnableInterface;
 use App\Repository\UserRepository;
@@ -14,11 +13,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource(
- *     collectionOperations={},
- *     itemOperations={}
- * )
- *
  * @ORM\Table(name="icapps_users",
  *    uniqueConstraints={
  *        @UniqueConstraint(
@@ -113,7 +107,7 @@ class User implements UserInterface, EnableInterface
     /**
      * @ORM\OneToMany(targetEntity="\App\Entity\Device", mappedBy="user")
      */
-    private Collection $devices;
+    private $devices = [];
 
     /**
      * @return int|null

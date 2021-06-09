@@ -1,22 +1,24 @@
 <?php
 
-namespace App\Service\Api\DataProvider\Auth;
+namespace App\Service\Api\DataProvider\User;
 
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use App\Entity\Device;
+use App\ApiResource\User\UserDevice;
+use App\Dto\User\UserDeviceDto;
 use App\Repository\DeviceRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * Class DeviceDataProvider
+ * Class UserDeviceDataProvider
  *
  * @link: https://api-platform.com/docs/core/data-providers.
  *
- * @package App\Service\Api\DataProvider\Auth
+ * @package App\Service\Api\DataProvider\User
  */
-final class DeviceDataProvider implements ItemDataProviderInterface, ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
+final class UserDeviceDataProvider implements ItemDataProviderInterface, ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     /**
      * {@inheritDoc}
@@ -33,19 +35,26 @@ final class DeviceDataProvider implements ItemDataProviderInterface, ContextAwar
      */
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
-        return $resourceClass === Device::class;
+        return $resourceClass === UserDevice::class;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?Device
+    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): UserDeviceDto
     {
-        // Get device by user and deviceId.
-        return $this->deviceRepository->findOneBy([
+        /** @var UserDeviceDto $data */
+        if (!$device = $this->deviceRepository->findOneBy([
             'user' => $this->security->getUser(),
             'deviceId' => $id
-        ]);
+        ])) {
+            throw new NotFoundHttpException('Device not found', null, 404);
+        }
+
+        return new UserDeviceDto(
+            $device->getDeviceId(),
+            $device->getDeviceToken(),
+        );
     }
 
     /**

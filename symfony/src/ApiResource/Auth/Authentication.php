@@ -51,7 +51,7 @@ use App\Dto\Auth\UserRefreshDto;
  *          "swagger_definition_name"="GET"
  *     },
  *     denormalizationContext={
- *          "groups"={"auth:api-write", "api-write"},
+ *          "groups"={"auth:api-post", "api-post"},
  *          "swagger_definition_name"="POST"
  *     },
  *     output=StatusDto::class
