@@ -15,7 +15,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @Route("/api/users", name="icapps_api.user")
  */
-class UserController extends AbstractController
+class UserController extends AbstractController//TODO: Do we need AbstractRestController
 {
     public function __construct(
         private TranslatorInterface $translator,

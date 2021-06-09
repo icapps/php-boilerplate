@@ -43,7 +43,7 @@ class IcappsMailTestCommand extends Command
 
             return Command::SUCCESS;
         }
-        
+
         return Command::FAILURE;
     }
 }

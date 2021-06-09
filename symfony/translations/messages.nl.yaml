@@ -1,4 +1,13 @@
 icapps:
+  general:
+    error: "Hmmm, normaal zou je hier niet terecht komen, onze administartors bekijken het probleem binnenkort!"
+    missing_field: "%field% is verplicht"
+    missing_header: "Header %field% is verplicht"
+    help: "Download de app in de app store of meld je aan via het admin portaal."
+    no_profile_found: "U dient een acieve gebruiker te zijn."
+    versioning:
+      error: "U dient de app te upgraden"
+      ok: "de app versie is nog geldig"
   website:
     errors:
       404:
@@ -53,3 +62,14 @@ icapps:
       ignore_text: "Indien de vraag niet van jou kwam, mag je deze e-mail negeren. Je wachtwoord blijft veilig en onveranderd."
       title: "Herstel je wachtwoord bij %env(BRAND)%"
       sent: "E-mail met reset instructies werd verzonden"
+    registration:
+      resend: "Registratie e-mail werd opnieuw verzonden"
+      reset:
+        sent: "E-mail met reset instructies werd verzonden"
+  user:
+    logout_success: "U bent uitgelogd."
+    logout_failed: "U bent uitgelogd."
+    token_update:
+      success: "DeviceToken geupdate."
+      not_found: "Geen gebruiker/toestel gevonden."
+      failed: "Update deviceToken is mislukt."

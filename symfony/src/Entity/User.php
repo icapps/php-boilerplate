@@ -55,7 +55,7 @@ class User implements UserInterface, EnableInterface
      *
      * @Assert\NotBlank(
      *     message="icapps.registration.email.required",
-     *     groups={"orm-registration", "orm-user-update"}
+     *     groups={"orm-registration", "orm-user-update", "orm-email-validation"}
      * )
      */
     private string $email;
@@ -75,7 +75,7 @@ class User implements UserInterface, EnableInterface
      *
      * @Assert\NotBlank(
      *     message="icapps.registration.password.required",
-     *     groups={"orm-registration", "orm-user-update"}
+     *     groups={"orm-registration", "orm-user-update", "orm-update-password"}
      * )
      */
     private string $password;
@@ -101,10 +101,14 @@ class User implements UserInterface, EnableInterface
     private string $language = self::DEFAULT_LOCALE;
 
     /**
-     * @ORM\OneToOne(targetEntity=Profile::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=25)
      */
-    private Profile $profile;
+    private string $profileType;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $profileId;
 
     /**
      * @ORM\OneToMany(targetEntity="\App\Entity\Device", mappedBy="user")
@@ -269,10 +273,13 @@ class User implements UserInterface, EnableInterface
 
     /**
      * @param string|null $pendingEmail
+     * @return $this
      */
-    public function setPendingEmail(?string $pendingEmail): void
+    public function setPendingEmail(?string $pendingEmail): self
     {
         $this->pendingEmail = $pendingEmail;
+
+        return $this;
     }
 
     /**
@@ -283,6 +290,9 @@ class User implements UserInterface, EnableInterface
         return $this->pendingEmail;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getAvailableLanguages(): array
     {
         return self::LANGUAGES;
@@ -296,14 +306,40 @@ class User implements UserInterface, EnableInterface
         return $this->devices;
     }
 
-    public function getProfile(): ?Profile
+    /**
+     * @return string
+     */
+    public function getProfileType(): string
     {
-        return $this->profile;
+        return $this->profileType;
     }
 
-    public function setProfile(Profile $profile): self
+    /**
+     * @param string $profileType
+     * @return $this
+     */
+    public function setProfileType(string $profileType): self
     {
-        $this->profile = $profile;
+        $this->profileType = $profileType;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProfileId(): int
+    {
+        return $this->profileId;
+    }
+
+    /**
+     * @param int $profileId
+     * @return $this
+     */
+    public function setProfileId(int $profileId): self
+    {
+        $this->profileId = $profileId;
 
         return $this;
     }
