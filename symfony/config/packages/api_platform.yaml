@@ -157,7 +157,7 @@ api_platform:
             shared_max_age: 3600
 
             # Default values of the "Vary" HTTP header.
-            vary: ['Accept']
+            vary: ['Content-Type', 'Authorization', 'Origin']
 
     exception_to_status:
         # The 4 following handlers are registered by default, keep these lines.

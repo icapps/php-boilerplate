@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 class JwtCreatedListener implements EventSubscriberInterface
 {
-    const AUTH_DEVICE_REQUIRED_FIELDS = ['deviceId', 'deviceToken'];
+    public const AUTH_DEVICE_REQUIRED_FIELDS = ['deviceId', 'deviceToken'];
 
     /**
      * @var RequestStack

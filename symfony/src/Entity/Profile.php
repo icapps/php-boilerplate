@@ -20,7 +20,7 @@ class Profile implements ProfileInterface, AuditableInterface
     use AuditableTrait;
     use ProfileTrait;
 
-    const RESOURCE_KEY = 'profiles';
+    public const RESOURCE_KEY = 'profiles';
 
     /**
      * @ORM\Id()

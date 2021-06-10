@@ -14,8 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 final class UserProfileDto
 {
-    const USER_ROUTE_PREFIX = '/users';
-    const USER_BUNDLE_TAG = 'User';
+    public const USER_ROUTE_PREFIX = '/users';
+    public const USER_BUNDLE_TAG = 'User';
 
     /**
      * @var string

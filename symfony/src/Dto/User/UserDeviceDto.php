@@ -14,8 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 final class UserDeviceDto
 {
-    const USER_DEVICE_ROUTE_PREFIX = '/users/devices';
-    const USER_DEVICE_BUNDLE_TAG = 'User';
+    public const USER_DEVICE_ROUTE_PREFIX = '/users/devices';
+    public const USER_DEVICE_BUNDLE_TAG = 'User';
 
     /**
      * @var string

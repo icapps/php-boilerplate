@@ -32,10 +32,10 @@ class User implements UserInterface, EnableInterface
 {
     use EnableTrait;
 
-    const ROLE_USER = 'ROLE_USER';
-    const ROLE_ADMIN = 'ROLE_ADMIN';
-    const LANGUAGES = ['nl', 'en', 'fr'];
-    const DEFAULT_LOCALE = 'nl';
+    public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const LANGUAGES = ['nl', 'en', 'fr'];
+    public const DEFAULT_LOCALE = 'nl';
 
     /**
      * @ORM\Id
@@ -123,6 +123,7 @@ class User implements UserInterface, EnableInterface
 
     /**
      * @param string $email
+     *
      * @return $this
      */
     public function setEmail(string $email): self
@@ -156,6 +157,7 @@ class User implements UserInterface, EnableInterface
 
     /**
      * @param array $roles
+     *
      * @return $this
      */
     public function setRoles(array $roles): self
@@ -175,6 +177,7 @@ class User implements UserInterface, EnableInterface
 
     /**
      * @param string $password
+     *
      * @return $this
      */
     public function setPassword(string $password): self
@@ -214,6 +217,7 @@ class User implements UserInterface, EnableInterface
 
     /**
      * @param string|null $activationToken
+     *
      * @return $this
      */
     public function setActivationToken(?string $activationToken): self
@@ -233,6 +237,7 @@ class User implements UserInterface, EnableInterface
 
     /**
      * @param string|null $resetToken
+     *
      * @return $this
      */
     public function setResetToken(?string $resetToken): self
@@ -277,24 +282,35 @@ class User implements UserInterface, EnableInterface
         return $this->pendingEmail;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getAvailableLanguages(): array
     {
         return self::LANGUAGES;
     }
 
     /**
-     * @return Collection
+     * @return Collection|Device[]
      */
     public function getDevices(): Collection
     {
         return $this->devices;
     }
 
+    /**
+     * @return Profile|null
+     */
     public function getProfile(): ?Profile
     {
         return $this->profile;
     }
 
+    /**
+     * @param Profile $profile
+     *
+     * @return $this
+     */
     public function setProfile(Profile $profile): self
     {
         $this->profile = $profile;
