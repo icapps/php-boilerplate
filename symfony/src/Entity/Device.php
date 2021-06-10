@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Device
 {
-    const RESOURCE_KEY = 'device';
+    public const RESOURCE_KEY = 'device';
 
     /**
      * @var int|null
