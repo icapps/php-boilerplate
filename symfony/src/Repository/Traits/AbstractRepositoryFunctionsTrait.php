@@ -4,7 +4,7 @@ namespace App\Repository\Traits;
 
 use http\Exception\InvalidArgumentException;
 
-trait AbstractRepositoryFunctions
+trait AbstractRepositoryFunctionsTrait
 {
 
     /**

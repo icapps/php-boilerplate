@@ -4,8 +4,8 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\Repository\Model\AbstractRepositoryFunctionsInterface;
-use App\Repository\Traits\AbstractRepositoryFunctions;
-use App\Repository\Traits\Transactional;
+use App\Repository\Traits\AbstractRepositoryFunctionsTrait;
+use App\Repository\Traits\TransactionalTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -22,8 +22,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, AbstractRepositoryFunctionsInterface
 {
-    use Transactional;
-    use AbstractRepositoryFunctions;
+    use TransactionalTrait;
+    use AbstractRepositoryFunctionsTrait;
 
     public function __construct(ManagerRegistry $registry)
     {

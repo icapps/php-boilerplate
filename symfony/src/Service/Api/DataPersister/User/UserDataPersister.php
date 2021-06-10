@@ -61,6 +61,17 @@ final class UserDataPersister implements DataPersisterInterface
 
         /** @var UserProfileDto $data */
         // Update user.
+        // TODO: check email
+        // Update email: set pending until activation.
+//        if ($currentEmail != $user->getEmail()) {
+//            $user->setEmail($currentEmail);
+//            $user->setPendingEmail($data['email']);
+//            $user->setActivationToken($this->authService->getUniqueToken());
+//        }
+//        if ($user->getPendingEmail()) {
+//            // Send mail.
+//            $this->mailHelper->sendPendingEmailActivation($user, $profile);
+//        }
         $user->setLanguage($data->language);
         $this->userRepository->save($user);
 

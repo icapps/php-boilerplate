@@ -2,8 +2,9 @@
 
 namespace App\Controller\Api\User;
 
+use App\Controller\Api\General\ApiController;
 use App\Service\Api\User\UserService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sulu\Component\Rest\AbstractRestController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -15,14 +16,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @Route("/api/users", name="icapps_api.user")
  */
-class UserController extends AbstractController//TODO: Do we need AbstractRestController
+class UserController extends ApiController
 {
-    public function __construct(
-        private TranslatorInterface $translator,
-        private UserService $userService
-    ) {
-        //
-    }
 
     /**
      * Following REST philosophy all requests for retrieving data should have unique URL's, ea: /user/{id}

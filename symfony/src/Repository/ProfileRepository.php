@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Profile;
-use App\Repository\Model\AbstractRepositoryFunctionsInterface;
-use App\Repository\Model\TransactionalInterface;
-use App\Repository\Traits\AbstractRepositoryFunctions;
-use App\Repository\Traits\Transactional;
+use App\Repository\Model\ProfileRepositoryInterface;
+use App\Repository\Traits\ProfileRepositoryTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,10 +18,9 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @extends ServiceEntityRepository<Location>
  */
-class ProfileRepository extends ServiceEntityRepository implements AbstractRepositoryFunctionsInterface, TransactionalInterface
+class ProfileRepository extends ServiceEntityRepository implements ProfileRepositoryInterface
 {
-    use Transactional;
-    use AbstractRepositoryFunctions;
+    use ProfileRepositoryTrait;
 
     public function __construct(ManagerRegistry $registry)
     {

@@ -5,6 +5,7 @@ namespace App\Controller\Api\General;
 use App\Service\Api\General\ApiService;
 use App\Service\Api\General\AuthService;
 use App\Service\Api\User\UserProfileService;
+use App\Service\Api\User\UserService;
 use App\Utils\ProfileHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\View\ViewHandlerInterface;
@@ -23,7 +24,8 @@ class ApiController extends AbstractRestController
         protected TranslatorInterface $translator,
         protected ?TokenStorageInterface $tokenStorage = null,
         protected ProfileHelper $profileHelper,
-        protected UserProfileService $userProfileService
+        protected UserProfileService $userProfileService,
+        protected UserService $userService,
     ) {
         parent::__construct($viewHandler, $tokenStorage);
     }

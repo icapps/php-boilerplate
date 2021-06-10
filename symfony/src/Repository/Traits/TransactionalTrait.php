@@ -2,7 +2,7 @@
 
 namespace App\Repository\Traits;
 
-trait Transactional
+trait TransactionalTrait
 {
 
     public function beginTransaction(): void

@@ -6,7 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Device;
 use App\Repository\Model\AbstractRepositoryFunctionsInterface;
-use App\Repository\Traits\AbstractRepositoryFunctions;
+use App\Repository\Traits\AbstractRepositoryFunctionsTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,7 +20,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DeviceRepository extends ServiceEntityRepository implements AbstractRepositoryFunctionsInterface
 {
-    use AbstractRepositoryFunctions;
+    use AbstractRepositoryFunctionsTrait;
     /**
      * @param ManagerRegistry $registry
      */

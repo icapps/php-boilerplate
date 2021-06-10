@@ -9,6 +9,7 @@ use App\Dto\User\UserProfileDto;
 use App\Dto\Auth\UserRegisterDto;
 use App\Entity\Profile;
 use App\Entity\User;
+use App\Mail\MailHelper;
 use App\Repository\UserRepository;
 use App\Utils\AuthUtils;
 use App\Utils\ProfileHelper;
@@ -28,6 +29,7 @@ final class RegisterDataPersister implements DataPersisterInterface
         private ValidatorInterface $validator,
         private UserRepository $userRepository,
         private ProfileHelper $profileHelper,
+        private MailHelper $mailHelper,
     ) {
         //
     }
@@ -47,14 +49,12 @@ final class RegisterDataPersister implements DataPersisterInterface
     {
         // Create user.
         /** @var UserRegisterDto $data */
+        /** @var User $user */
         $user = $this->userRepository->create();
         $user->setRoles([User::ROLE_USER]);
         $user->setEmail($data->email);
         $user->setPassword($this->userPasswordEncoder->encodePassword($user, $data->password));
         $user->setLanguage($data->language);
-
-        // User only enabled by confirmation mail.
-        // @TODO:: send activation mail.
         $user->disable();
         $user->setActivationToken(AuthUtils::getUniqueToken());
 
@@ -94,6 +94,10 @@ final class RegisterDataPersister implements DataPersisterInterface
             $this->userRepository->rollback();
             throw $exception;
         }
+
+        // User only enabled by confirmation mail.
+        // TODO: Provide option to resend registration mail?
+        $this->mailHelper->sendRegistrationActivationMail($user, $profile);
 
         // Create output.
         $output = new UserProfileDto();
