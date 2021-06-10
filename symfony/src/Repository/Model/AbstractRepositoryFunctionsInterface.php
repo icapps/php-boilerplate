@@ -8,12 +8,12 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 /**
  * User Profiles Repositories implementing this interface must have these methods for automation boilerplate
  */
-interface ProfileRepositoryInterface extends TransactionalInterface
+interface AbstractRepositoryFunctionsInterface
 {
     /**
-     * @return ProfileInterface
+     * @return object
      */
-    public function create(): ProfileInterface;
+    public function create(): object;
 
     /**
      * @param int $id
@@ -21,18 +21,18 @@ interface ProfileRepositoryInterface extends TransactionalInterface
     public function remove(int $id): void;
 
     /**
-     * @param ProfileInterface $profile
+     * @param object $entity
      */
-    public function save(ProfileInterface $profile): void;
+    public function save(object $entity): void;
 
     /**
      * @param int $id
-     * @return ProfileInterface|null
+     * @return object|null
      */
-    public function findById(int $id): ?ProfileInterface;
+    public function findById(int $id): ?object;
 
     /**
-     * @return ProfileInterface|null
+     * @return object|null
      */
-    public function findLatest(): ?ProfileInterface;
+    public function findLatest(): ?object;
 }

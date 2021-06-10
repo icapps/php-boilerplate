@@ -3,7 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use App\Repository\Model\TransactionalInterface;
+use App\Repository\Model\AbstractRepositoryFunctionsInterface;
+use App\Repository\Traits\AbstractRepositoryFunctions;
 use App\Repository\Traits\Transactional;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -19,50 +20,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, AbstractRepositoryFunctionsInterface
 {
     use Transactional;
+    use AbstractRepositoryFunctions;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
-    }
-
-    /**
-     * @return User
-     */
-    public function create(): User
-    {
-        return new User();
-    }
-
-    /**
-     * @param int $id
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(int $id): void
-    {
-        $user = $this->getEntityManager()->getReference(
-            $this->getClassName(),
-            $id
-        );
-
-        $this->getEntityManager()->remove($user);
-        $this->getEntityManager()->flush();
-    }
-
-    /**
-     * @param User $user
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function save(User $user): void
-    {
-        $this->getEntityManager()->persist($user);
-        $this->getEntityManager()->flush();
     }
 
     /**

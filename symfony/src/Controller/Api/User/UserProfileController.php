@@ -18,7 +18,7 @@ use OpenApi\Annotations as SWG;
  */
 class UserProfileController extends ApiController
 {
-
+// TODO: convert them to Api Resource with DTO
     /**
      * Get user profile.
      *

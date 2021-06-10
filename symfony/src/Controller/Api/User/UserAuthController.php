@@ -19,7 +19,7 @@ use OpenApi\Annotations as SWG;
  */
 class UserAuthController extends ApiController
 {
-
+// TODO: convert them to Api Resource with DTO
     /**
      * Check e-mail availability.
      *
