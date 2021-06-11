@@ -17,14 +17,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  *    uniqueConstraints={
  *        @UniqueConstraint(
  *            name="user_unique",
- *            columns={"email"},
+ *            columns={"email", "profile_type"},
  *        )
  *    }
  * )
  * @UniqueEntity(
- *     fields={"email"},
+ *     fields={"email", "profileType"},
  *     message="icapps.registration.email.unique",
- *     groups={"orm-registration", "orm-user-update"}
+ *     groups={"orm-registration", "orm-user-update", "orm-email-validation"}
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
@@ -46,7 +46,7 @@ class User implements UserInterface, EnableInterface
 
     /**
      * @ORM\Column(type="string", length=50)
-     *
+     * @Assert\Email(message="icapps.registration.email.invalid", groups={"orm-email-validation", "orm-registration", "orm-user-update"})
      * @Assert\NotBlank(
      *     message="icapps.registration.email.required",
      *     groups={"orm-registration", "orm-user-update", "orm-email-validation"}
@@ -96,11 +96,18 @@ class User implements UserInterface, EnableInterface
 
     /**
      * @ORM\Column(type="string", length=25)
+     * @Assert\NotBlank(
+     *     message="icapps.registration.profile.required",
+     *     groups={"orm-registration"}
+     * )
      */
     private string $profileType;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(
+     *     groups={"orm-registration"}
+     * )
      */
     private int $profileId;
 
@@ -118,9 +125,9 @@ class User implements UserInterface, EnableInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }

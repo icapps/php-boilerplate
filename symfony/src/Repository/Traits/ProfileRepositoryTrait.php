@@ -4,8 +4,9 @@ namespace App\Repository\Traits;
 
 trait ProfileRepositoryTrait
 {
-    use ProfileRepositoryFunctionsTrait, AbstractRepositoryFunctionsTrait, TransactionalTrait {
-        ProfileRepositoryFunctionsTrait::findById insteadof AbstractRepositoryFunctionsTrait;
-        ProfileRepositoryFunctionsTrait::findLatest insteadof AbstractRepositoryFunctionsTrait;
+    use ProfileRepositoryFunctionsTrait, BaseRepositoryFunctionsTrait, TransactionalTrait {
+        ProfileRepositoryFunctionsTrait::create insteadof BaseRepositoryFunctionsTrait;
+        ProfileRepositoryFunctionsTrait::findById insteadof BaseRepositoryFunctionsTrait;
+        ProfileRepositoryFunctionsTrait::findLatest insteadof BaseRepositoryFunctionsTrait;
     }
 }

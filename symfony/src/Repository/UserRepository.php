@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use App\Repository\Model\AbstractRepositoryFunctionsInterface;
-use App\Repository\Traits\AbstractRepositoryFunctionsTrait;
+use App\Repository\Model\BaseRepositoryFunctionsInterface;
+use App\Repository\Traits\BaseRepositoryFunctionsTrait;
 use App\Repository\Traits\TransactionalTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -20,10 +20,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, AbstractRepositoryFunctionsInterface
+class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, BaseRepositoryFunctionsInterface
 {
     use TransactionalTrait;
-    use AbstractRepositoryFunctionsTrait;
+    use BaseRepositoryFunctionsTrait;
 
     public function __construct(ManagerRegistry $registry)
     {

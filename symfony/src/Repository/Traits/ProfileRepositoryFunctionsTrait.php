@@ -7,6 +7,15 @@ use App\Component\Model\ProfileInterface;
 trait ProfileRepositoryFunctionsTrait
 {
     /**
+     * @return ProfileInterface
+     */
+    public function create(): ProfileInterface
+    {
+        $class = $this->getClassName();
+        return new $class();
+    }
+
+    /**
      * @param int $id
      * @return ProfileInterface|null
      */

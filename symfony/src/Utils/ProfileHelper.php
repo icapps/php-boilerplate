@@ -5,32 +5,25 @@ namespace App\Utils;
 use App\Component\Model\ProfileInterface;
 use App\Entity\Profile;
 use App\Entity\User;
-use App\Mail\MailHelper;
 use App\Repository\Model\ProfileRepositoryInterface;
 use App\Repository\ProfileRepository;
-use App\Repository\UserRepository;
-use App\Service\Api\General\AuthService;
-use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\HttpFoundation\Response;
 
 class ProfileHelper
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private AuthService $authService,
         private ProfileRepository $profileRepository,
-        private UserRepository $userRepository,
-        private TranslatorInterface $translator,
-        private UserPasswordEncoderInterface $passwordEncoder,
-        private LoggerInterface $logger,
-        private MailHelper $mailHelper
     ) {
     }
-// TODO: continue check with Data persister
+
+    /**
+     * Gives the default User Profile
+     * @return string
+     */
+    public function getDefaultProfileType(): string
+    {
+        return Profile::PROFILE_TYPE;
+    }
+
     /**
      * Gives the correct User Profile
      *
@@ -47,7 +40,7 @@ class ProfileHelper
     }
 
     /**
-     * Gives the correct User Profile
+     * Gives the correct User ProfileRepository
      *
      * @param User $user
      * @return ProfileRepositoryInterface

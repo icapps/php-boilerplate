@@ -7,7 +7,6 @@ use ApiPlatform\Core\Validator\Exception\ValidationException;
 use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Dto\User\UserProfileDto;
 use App\Dto\Auth\UserRegisterDto;
-use App\Entity\Profile;
 use App\Entity\User;
 use App\Mail\MailHelper;
 use App\Repository\UserRepository;
@@ -24,6 +23,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 final class RegisterDataPersister implements DataPersisterInterface
 {
+    /**
+     * RegisterDataPersister constructor.
+     * @param UserPasswordEncoderInterface $userPasswordEncoder
+     * @param ValidatorInterface $validator
+     * @param UserRepository $userRepository
+     * @param ProfileHelper $profileHelper
+     * @param MailHelper $mailHelper
+     */
     public function __construct(
         private UserPasswordEncoderInterface $userPasswordEncoder,
         private ValidatorInterface $validator,
@@ -55,6 +62,8 @@ final class RegisterDataPersister implements DataPersisterInterface
         $user->setEmail($data->email);
         $user->setPassword($this->userPasswordEncoder->encodePassword($user, $data->password));
         $user->setLanguage($data->language);
+        // Change profile type here if needed
+        $user->setProfileType($this->profileHelper->getDefaultProfileType());
         $user->disable();
         $user->setActivationToken(AuthUtils::getUniqueToken());
 
@@ -74,9 +83,6 @@ final class RegisterDataPersister implements DataPersisterInterface
         try {
             // Save + set user profile.
             $profileRepository->save($profile);
-            if ($profile instanceof Profile) {
-                $user->setProfileType(Profile::PROFILE_TYPE);
-            }
 
             $user->setProfileId($profile->getId());
             // Validate user.
@@ -96,7 +102,6 @@ final class RegisterDataPersister implements DataPersisterInterface
         }
 
         // User only enabled by confirmation mail.
-        // TODO: Provide option to resend registration mail?
         $this->mailHelper->sendRegistrationActivationMail($user, $profile);
 
         // Create output.

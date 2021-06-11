@@ -39,28 +39,28 @@ icapps:
   mail:
     activation:
       title: "Bevestig je registratie"
-      intro: "Welkom bij %env(BRAND)%, %name%!"
+      intro: "Welkom bij %brand%, %name%!"
       body: "Om je registratie te voltooien, vragen we je om je e-mailadres %email% te bevestigen."
       button_text: "E-mailadres bevestigen"
     footer:
-      ignore_text: "Indien je je niet geregistreerd hebt bij %env(BRAND)%, mag je deze e-mail negeren."
+      ignore_text: "Indien je je niet geregistreerd hebt bij %brand%, mag je deze e-mail negeren."
       thanks: "Bedankt!"
-      signature: "Het %env(BRAND)% team"
+      signature: "Het %brand% team"
     pending:
-      email_title: "Bevestig je nieuwe e-mailadres voor %env(BRAND)%"
+      email_title: "Bevestig je nieuwe e-mailadres voor %brand%"
       button_text: "E-mailadres bevestigen"
       intro: "Hallo, %name%"
       body: "Om je nieuwe e-mailadres in gebruik te nemen, vragen we je om je e-mailadres %email% te bevestigen."
     confirmation:
       intro: "Welkom, %name%!"
-      body: "Je registratie bij %env(BRAND)% is bevestigd! Je kunt nu inloggen met je e-mailadres en wachtwoord."
-      title: "%env(BRAND)% account geactiveerd"
+      body: "Je registratie bij %brand% is bevestigd! Je kunt nu inloggen met je e-mailadres en wachtwoord."
+      title: "%brand% account geactiveerd"
     reset_password:
       intro: "Hallo, %name%"
       body: "Je ontvangt deze e-mail omdat we de vraag kregen om het wachtwoord van je account te herstellen. Indien deze vraag van jou kwam, klik dan op de knop hieronder om je wachtwoord te herstellen."
       button_text: "Wachtwoord herstellen"
       ignore_text: "Indien de vraag niet van jou kwam, mag je deze e-mail negeren. Je wachtwoord blijft veilig en onveranderd."
-      title: "Herstel je wachtwoord bij %env(BRAND)%"
+      title: "Herstel je wachtwoord bij %brand%"
       sent: "E-mail met reset instructies werd verzonden"
     registration:
       resend: "Registratie e-mail werd opnieuw verzonden"

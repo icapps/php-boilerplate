@@ -3,7 +3,7 @@
   "build/website/app.js": "/build/website/app.5e297501.js",
   "build/website/main.js": "/build/website/main.0ea87d2b.js",
   "build/website/password.js": "/build/website/password.ce45fb85.js",
-  "build/website/admin.override.css": "/build/website/admin.override.c621da72.css",
+  "build/website/admin.override.css": "/build/website/admin.override.7c68e1e7.css",
   "build/website/admin.override.js": "/build/website/admin.override.70e1a31f.js",
   "build/website/runtime.js": "/build/website/runtime.994e1817.js",
   "build/website/images/fa-solid-900.svg": "/build/website/images/fa-solid-900.13de59f1.svg",
@@ -21,5 +21,5 @@
   "build/website/fonts/fa-regular-400.ttf": "/build/website/fonts/fa-regular-400.1017bce8.ttf",
   "build/website/fonts/fa-regular-400.woff": "/build/website/fonts/fa-regular-400.36722648.woff",
   "build/website/fonts/fa-regular-400.woff2": "/build/website/fonts/fa-regular-400.68c5af1f.woff2",
-  "build/website/images/icapps-logo.png": "/build/website/images/icapps-logo.0d15cc39.png"
+  "build/website/images/brand-logo.png": "/build/website/images/brand-logo.0d15cc39.png"
 }

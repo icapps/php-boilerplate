@@ -8,7 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 /**
  * User Profiles Repositories implementing this interface must have these methods for automation boilerplate
  */
-interface AbstractRepositoryFunctionsInterface
+interface BaseRepositoryFunctionsInterface
 {
     /**
      * @return object

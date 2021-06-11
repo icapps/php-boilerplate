@@ -1,8 +1,5 @@
 //Override default values from node_modules/bulma/sass/utilities/initial-variables.sass
-// Set your brand colors
-$brandColorMain: #1F2F7A;
-//$brandColorLight: #EEE;
-$brandColorDark: #2B2E4A;
+// BrandColors loaded from .env into webpack
 
 //$black:
 //$black-bis:
@@ -17,7 +14,7 @@ $brandColorDark: #2B2E4A;
 //
 //$white-ter:
 //$white-bis:
-//$white:
+$white: $brandColorLight;
 //$orange:
 //$yellow:
 //$green:

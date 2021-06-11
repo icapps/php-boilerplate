@@ -3,10 +3,10 @@
 namespace App\Service\Api\DataPersister\User;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
-use App\ApiResource\User\User;
 use App\Dto\User\UserProfileDto;
-use App\Repository\ProfileRepository;
+use App\Mail\MailHelper;
 use App\Repository\UserRepository;
+use App\Utils\AuthUtils;
 use App\Utils\ProfileHelper;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -28,6 +28,8 @@ final class UserDataPersister implements DataPersisterInterface
         private UserRepository $userRepository,
         private Security $security,
         private ProfileHelper $profileHelper,
+        private AuthUtils $authUtils,
+        private MailHelper $mailHelper,
     ) {
         //
     }
@@ -46,7 +48,7 @@ final class UserDataPersister implements DataPersisterInterface
     public function persist($data)
     {
         // Load user.
-        /** @var User $data */
+        /** @var UserProfileDto $data */
         if (!$user = $this->userRepository->find($data->id)) {
             throw new NotFoundHttpException('User not found', null, 404);
         }
@@ -59,26 +61,29 @@ final class UserDataPersister implements DataPersisterInterface
         // Get user profile.
         $profile = $this->profileHelper->getProfile($user);
 
-        /** @var UserProfileDto $data */
+        // Get current email.
+        $currentEmail = $user->getEmail();
+
         // Update user.
-        // TODO: check email
-        // Update email: set pending until activation.
-//        if ($currentEmail != $user->getEmail()) {
-//            $user->setEmail($currentEmail);
-//            $user->setPendingEmail($data['email']);
-//            $user->setActivationToken($this->authService->getUniqueToken());
-//        }
-//        if ($user->getPendingEmail()) {
-//            // Send mail.
-//            $this->mailHelper->sendPendingEmailActivation($user, $profile);
-//        }
         $user->setLanguage($data->language);
+        // Update email: set pending until activation.
+        if ($currentEmail != $user->getEmail()) {
+            $user->setEmail($currentEmail);
+            $user->setPendingEmail($data['email']);
+            $user->setActivationToken($this->authUtils->getUniqueToken());
+        }
+
         $this->userRepository->save($user);
 
         // Update profile.
         $profile->setFirstName($data->firstName);
         $profile->setLastName($data->lastName);
         $this->profileHelper->getProfileRepository($user)->save($profile);
+
+        if ($user->getPendingEmail()) {
+            // Send mail.
+            $this->mailHelper->sendPendingEmailActivation($user, $profile);
+        }
 
         // Create output.
         $output = new UserProfileDto();

@@ -51,11 +51,11 @@
         <tbody class="mcnButtonBlockOuter">
         <tr>
             <td style="padding: 0 30px 10px;" valign="top" align="left" class="mcnButtonBlockInner">
-                <table border="0" cellpadding="0" cellspacing="0" class="mcnButtonContentContainer" style="border-collapse: separate !important;border-radius: 10px;background-color: #FFE162;">
+                <table border="0" cellpadding="0" cellspacing="0" class="mcnButtonContentContainer" style="border-collapse: separate !important;border-radius: 10px;background-color: {{ get_env('BRAND_COLOR_DARK') }};">
                     <tbody>
                     <tr>
                         <td align="center" valign="middle" class="mcnButtonContent" style="font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 16px; padding: 20px 34px;">
-                            <a class="mcnButton " title="{{ 'icapps.mail.pending.button_text'|trans }}" href="{{ link }}" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #000000;">{{ 'icapps.mail.pending.button_text'|trans }}</a>
+                            <a class="mcnButton " title="{{ 'icapps.mail.pending.button_text'|trans }}" href="{{ link }}" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: {{ get_env('BRAND_COLOR_LIGHT') }};">{{ 'icapps.mail.pending.button_text'|trans }}</a>
                         </td>
                     </tr>
                     </tbody>

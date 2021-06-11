@@ -14,9 +14,9 @@ interface ProfileInterface
     public function setFirstName(string $firstName);
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getFirstName(): ?string;
+    public function getFirstName(): string;
 
     /**
      * @param string $lastName
@@ -25,7 +25,7 @@ interface ProfileInterface
     public function setLastName(string $lastName);
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getLastName(): ?string;
+    public function getLastName(): string;
 }

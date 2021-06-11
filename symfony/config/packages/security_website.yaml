@@ -28,6 +28,11 @@ security:
         stateless: true
         anonymous: true
 
+      email_available:
+        pattern: ^/api/auth/email-available
+        stateless: true
+        anonymous: true
+
       login:
         pattern: ^/api/auth/login
         stateless: true

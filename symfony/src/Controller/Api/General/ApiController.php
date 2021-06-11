@@ -3,7 +3,6 @@
 namespace App\Controller\Api\General;
 
 use App\Service\Api\General\ApiService;
-use App\Service\Api\General\AuthService;
 use App\Service\Api\User\UserProfileService;
 use App\Service\Api\User\UserService;
 use App\Utils\ProfileHelper;
@@ -17,7 +16,6 @@ class ApiController extends AbstractRestController
 {
 
     public function __construct(
-        protected AuthService $authService,
         protected ApiService $apiService,
         protected ViewHandlerInterface $viewHandler,
         protected EntityManagerInterface $entityManager,

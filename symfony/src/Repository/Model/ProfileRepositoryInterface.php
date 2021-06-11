@@ -7,8 +7,13 @@ use App\Component\Model\ProfileInterface;
 /**
  * User Profiles Repositories implementing this interface must have these methods for automation boilerplate
  */
-interface ProfileRepositoryInterface extends AbstractRepositoryFunctionsInterface, TransactionalInterface
+interface ProfileRepositoryInterface extends BaseRepositoryFunctionsInterface, TransactionalInterface
 {
+    /**
+     * @return ProfileInterface
+     */
+    public function create(): ProfileInterface;
+
     /**
      * @param int $id
      * @return ProfileInterface|null

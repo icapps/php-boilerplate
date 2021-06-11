@@ -3,20 +3,14 @@
 namespace App\Service\Api\DataPersister\Auth;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
-use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Dto\Auth\UserPasswordResetDto;
 use App\Dto\General\StatusDto;
 use App\Mail\MailHelper;
-use App\Repository\DeviceRepository;
 use App\Repository\UserRepository;
-use App\Service\Website\User\UserService;
 use App\Utils\AuthUtils;
 use App\Utils\ProfileHelper;
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -29,15 +23,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class PasswordResetDataPersister implements DataPersisterInterface
 {
     /**
-     * {@inheritDoc}
+     * PasswordResetDataPersister constructor.
+     * @param UserRepository $userRepository
+     * @param MailHelper $mailHelper
+     * @param LoggerInterface $logger
+     * @param TranslatorInterface $translator
+     * @param ProfileHelper $profileHelper
      */
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private UserPasswordEncoderInterface $userPasswordEncoder,
-        private ValidatorInterface $validator,
-        private DeviceRepository $deviceRepository,
-        private Security $security,
-        private UserService $userService,
         private UserRepository $userRepository,
         private MailHelper $mailHelper,
         private LoggerInterface $logger,

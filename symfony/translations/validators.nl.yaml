@@ -25,6 +25,8 @@ icapps:
         language:
             required: "Taalkeuze verplicht"
             invalid: "Dit is geen geldige taalkeuze: {{ value }}"
+        profile:
+            required: "Profiel type verplicht"
         failed: "De registratie is niet gelukt"
         completed: "Welkom %user, je werd succesvol geregistreerd!"
     reset:

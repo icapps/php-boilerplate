@@ -3,13 +3,10 @@
 namespace App\Service\Api\DataPersister\Auth;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
-use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Dto\Auth\UserLogoutDto;
 use App\Dto\General\StatusDto;
 use App\Repository\DeviceRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 
 /**
@@ -22,12 +19,11 @@ use Symfony\Component\Security\Core\Security;
 final class LogoutDataPersister implements DataPersisterInterface
 {
     /**
-     * {@inheritDoc}
+     * LogoutDataPersister constructor.
+     * @param DeviceRepository $deviceRepository
+     * @param Security $security
      */
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private UserPasswordEncoderInterface $userPasswordEncoder,
-        private ValidatorInterface $validator,
         private DeviceRepository $deviceRepository,
         private Security $security
     ) {

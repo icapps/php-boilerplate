@@ -1,5 +1,5 @@
 const Encore = require('@symfony/webpack-encore');
-
+const dotenv = require('dotenv');
 Encore
     // directory where compiled assets will be stored
     .setOutputPath('public/build/website')
@@ -54,7 +54,34 @@ Encore
     })
 
     // enables Sass/SCSS support
-    .enableSassLoader()
+    .enableSassLoader( (options) =>
+        {
+            options.additionalData = (()=> {
+                const env = dotenv.config();
+
+                if (env.error) {
+                    throw env.error;
+                }
+                // .env flexibility for Sass <3
+                let colors = '$brandColorLight: ' + env.parsed.BRAND_COLOR_LIGHT + ';';
+                colors += '$brandColorMain: ' + env.parsed.BRAND_COLOR_MAIN + ';';
+                colors += '$brandColorDark: ' + env.parsed.BRAND_COLOR_DARK + ';';
+                return colors;
+            })();
+        }
+    )
+    // define the environment variables
+    // .configureDefinePlugin(options => {
+    //     const env = dotenv.config();
+    //
+    //     if (env.error) {
+    //         throw env.error;
+    //     }
+    //     // Import .env variables to frontend
+    //     options['process.env'].BRAND_COLOR_DARK = JSON.stringify(env.parsed.BRAND_COLOR_DARK);
+    //     options['process.env'].BRAND_COLOR_LIGHT = JSON.stringify(env.parsed.BRAND_COLOR_LIGHT);
+    //     options['process.env'].BRAND_COLOR_MAIN = JSON.stringify(env.parsed.BRAND_COLOR_MAIN);
+    // })
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
@@ -69,5 +96,4 @@ Encore
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
 ;
-
 module.exports = Encore.getWebpackConfig();

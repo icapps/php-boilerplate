@@ -8,6 +8,8 @@ use App\Dto\General\StatusDto;
 use App\Dto\Auth\UserLogoutDto;
 use App\Dto\Auth\UserPasswordResetDto;
 use App\Dto\Auth\UserRefreshDto;
+use App\Dto\Auth\UserEmailAvailableDto;
+use App\Dto\Auth\UserResendRegistrationEmailDto;
 
 /**
  * @ApiResource(
@@ -21,6 +23,26 @@ use App\Dto\Auth\UserRefreshDto;
  *              "openapi_context"={
  *                  "summary"="Refresh user access token",
  *                  "description"="Refresh user access token"
+ *              }
+ *         },
+ *         "post_email_available_api"={
+ *              "status"=200,
+ *              "path"="/email-available",
+ *              "input"=UserEmailAvailableDto::class,
+ *              "method"="POST",
+ *              "openapi_context"={
+ *                  "summary"="Check if email is available",
+ *                  "description"="Check if email is available"
+ *              }
+ *         },
+ *         "post_resend_registration_email"={
+ *              "status"=200,
+ *              "path"="/resend-registration-email",
+ *              "input"=UserResendRegistrationEmailDto::class,
+ *              "method"="POST",
+ *              "openapi_context"={
+ *                  "summary"="Resend registration email",
+ *                  "description"="Resend registration email"
  *              }
  *         },
  *         "post_logout_api"={

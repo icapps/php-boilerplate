@@ -5,6 +5,7 @@ namespace App\Service\Api\DataTransformer\Auth;
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\ApiResource\Auth\Authentication;
+use App\Dto\Auth\UserEmailAvailableDto;
 use App\Dto\Auth\UserLogoutDto;
 use App\Dto\Auth\UserPasswordResetDto;
 use App\Dto\Auth\UserRefreshDto;
@@ -31,7 +32,7 @@ final class UserAuthDataTransformer implements DataTransformerInterface
     public function supportsTransformation($data, string $to, array $context = []): bool
     {
         // If it's a UserLogoutDto, UserPasswordResetDto or UserRefreshDto we transformed the data already
-        if ($data instanceof UserLogoutDto || $data instanceof UserPasswordResetDto || $data instanceof UserRefreshDto) {
+        if ($data instanceof UserLogoutDto || $data instanceof UserPasswordResetDto || $data instanceof UserRefreshDto || $data instanceof UserEmailAvailableDto) {
             return false;
         }
 

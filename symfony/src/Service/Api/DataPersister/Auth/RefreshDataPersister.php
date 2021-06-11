@@ -3,12 +3,9 @@
 namespace App\Service\Api\DataPersister\Auth;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
-use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Dto\Auth\UserRefreshDto;
-use Doctrine\ORM\EntityManagerInterface;
 use Gesdinet\JWTRefreshTokenBundle\Service\RefreshToken;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class RefreshDataPersister
@@ -22,15 +19,10 @@ final class RefreshDataPersister implements DataPersisterInterface
     /**
      * RefreshDataPersister constructor.
      *
-     * @param EntityManagerInterface $entityManager
-     * @param UserPasswordEncoderInterface $userPasswordEncoder
-     * @param ValidatorInterface $validator
      * @param RefreshToken $refreshTokenService
+     * @param RequestStack $requestStack
      */
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private UserPasswordEncoderInterface $userPasswordEncoder,
-        private ValidatorInterface $validator,
         private RefreshToken $refreshTokenService,
         private RequestStack $requestStack
     ) {
