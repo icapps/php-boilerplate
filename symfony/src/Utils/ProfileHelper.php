@@ -8,6 +8,13 @@ use App\Entity\User;
 use App\Repository\Model\ProfileRepositoryInterface;
 use App\Repository\ProfileRepository;
 
+/**
+ * Class ProfileHelper
+ *
+ * Collection of Profile helper methods to keep config in one place
+ *
+ * @package App\Utils
+ */
 class ProfileHelper
 {
     public function __construct(
@@ -21,7 +28,18 @@ class ProfileHelper
      */
     public function getDefaultProfileType(): string
     {
+        // Change Profile class if needed
         return Profile::PROFILE_TYPE;
+    }
+
+    /**
+     * Gives the default User Profile Class as string
+     * @return string
+     */
+    public function getDefaultProfileClass(): string
+    {
+        // Change Profile class if needed
+        return 'Profile';
     }
 
     /**

@@ -63,9 +63,9 @@ Encore
                     throw env.error;
                 }
                 // .env flexibility for Sass <3
-                let colors = '$brandColorLight: ' + env.parsed.BRAND_COLOR_LIGHT + ';';
-                colors += '$brandColorMain: ' + env.parsed.BRAND_COLOR_MAIN + ';';
-                colors += '$brandColorDark: ' + env.parsed.BRAND_COLOR_DARK + ';';
+                let colors = '$brandColorLight: #' + env.parsed.BRAND_COLOR_LIGHT + ';';
+                colors += '$brandColorMain: #' + env.parsed.BRAND_COLOR_MAIN + ';';
+                colors += '$brandColorDark: #' + env.parsed.BRAND_COLOR_DARK + ';';
                 return colors;
             })();
         }

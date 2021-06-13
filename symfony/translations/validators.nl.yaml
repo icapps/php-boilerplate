@@ -31,7 +31,7 @@ icapps:
         completed: "Welkom %user, je werd succesvol geregistreerd!"
     reset:
         email:
-            not_found: "Gebruiker met e-mailadres niet gevonden"
+            not_found: "Inactieve gebruiker met e-mailadres niet gevonden"
     profile:
         unauthorized: "Geen toegang"
         update:

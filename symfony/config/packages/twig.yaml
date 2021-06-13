@@ -1,2 +1,7 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    globals:
+        brand: '%env(string:BRAND)%'
+        brand_color_light: '%env(string:BRAND_COLOR_LIGHT)%'
+        brand_color_main: '%env(string:BRAND_COLOR_MAIN)%'
+        brand_color_dark: '%env(string:BRAND_COLOR_DARK)%'

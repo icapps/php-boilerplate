@@ -88,7 +88,7 @@ class UserController extends AbstractController
 
             // Success.
             return $this->render('general/status.html.twig', [
-                'title' => $this->translator->trans('icapps.website.lbl_user.reset.completed_title', ['%username' => $profile->getFirstName()], 'messages'),
+                'title' => $this->translator->trans('icapps.website.lbl_user.reset.completed_title', ['%username%' => $profile->getFirstName()], 'messages'),
                 'message' => $this->translator->trans('icapps.website.lbl_user.reset.completed_message', [], 'messages'),
             ]);
         }
@@ -115,7 +115,7 @@ class UserController extends AbstractController
         $profile = $this->profileHelper->getProfile($user);
 
         return $this->render('general/status.html.twig', [
-            'title' => $this->translator->trans('icapps.website.lbl_user.activation.completed_title', ['%username' => $profile->getFirstName()], 'messages'),
+            'title' => $this->translator->trans('icapps.website.lbl_user.activation.completed_title', ['%username%' => $profile->getFirstName()], 'messages'),
             'message' => $this->translator->trans('icapps.website.lbl_user.activation.completed_message', [], 'messages'),
         ]);
     }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ app.request.locale|split('_')[0] }}">
     <head>
-        <title>{{ get_env('BRAND')|humanize }}</title>
+        <title>{{ brand|humanize }}</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -57,7 +57,7 @@
 
         <footer>
             {% block footer %}
-                <p>Copyright {{ 'now'|date('Y') }} {{ get_env('BRAND')|humanize }}</p>
+                <p>Copyright {{ 'now'|date('Y') }} {{ brand|humanize }}</p>
             {% endblock %}
         </footer>
 

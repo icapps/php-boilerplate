@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ get_env('BRAND') }}</title>
+    <title>{{ brand }}</title>
 
     <style type="text/css">
         p{
@@ -541,7 +541,7 @@
         }</style></head>
 <body>
 <!--*|IF:MC_PREVIEW_TEXT|*-->
-<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;">{{ get_env('BRAND') }}</span><!--<![endif]-->
+<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;">{{ brand }}</span><!--<![endif]-->
 <!--*|END:IF|*-->
 <center>
     <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" style="max-width: 600px" id="bodyTable">
@@ -639,7 +639,7 @@
                                                 <td valign="top" class="mcnTextContent" style="padding: 0 30px 10px;color: #9A9A9A;font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
                             <span style="color:rgba(0, 0, 0, 0.6)"><img data-file-id="1927596" height="24" src="{{ get_env('PUBLIC_LOGO_URL') }}" style="border: 0px  ; width: 180px; height: 24px; margin: 0px;" width="180"><br>
 <br>
-<span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif"><span style="font-size:12px">{{ get_env('BRAND') }}<br>
+<span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif"><span style="font-size:12px">{{ brand }}<br>
 {{ get_env('BASE_URL') }}</span></span></span>
                                                 </td>
                                             </tr>

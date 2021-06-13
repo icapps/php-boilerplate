@@ -33,6 +33,11 @@ security:
         stateless: true
         anonymous: true
 
+      resend_registration_email:
+        pattern: ^/api/auth/resend-registration-email
+        stateless: true
+        anonymous: true
+
       login:
         pattern: ^/api/auth/login
         stateless: true

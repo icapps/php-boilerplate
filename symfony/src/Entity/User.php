@@ -17,12 +17,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  *    uniqueConstraints={
  *        @UniqueConstraint(
  *            name="user_unique",
- *            columns={"email", "profile_type"},
+ *            columns={"email"},
  *        )
  *    }
  * )
  * @UniqueEntity(
- *     fields={"email", "profileType"},
+ *     fields={"email"},
  *     message="icapps.registration.email.unique",
  *     groups={"orm-registration", "orm-user-update", "orm-email-validation"}
  * )

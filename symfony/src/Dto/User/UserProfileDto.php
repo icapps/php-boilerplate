@@ -58,7 +58,7 @@ final class UserProfileDto
     /**
      * @var string
      *
-     * @Groups({"api-get", "profile:api-get"})
+     * @Groups({"api-get", "profile:api-get", "profile:api-post"})
      *
      * @Assert\NotBlank()
      *

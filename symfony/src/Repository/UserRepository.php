@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Repository\Model\BaseRepositoryFunctionsInterface;
 use App\Repository\Traits\BaseRepositoryFunctionsTrait;
 use App\Repository\Traits\TransactionalTrait;
+use App\Utils\ProfileHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -25,7 +26,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     use TransactionalTrait;
     use BaseRepositoryFunctionsTrait;
 
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private ProfileHelper $profileHelper)
     {
         parent::__construct($registry, User::class);
     }
@@ -86,5 +87,26 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
 
         return $user;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function remove(int $id): void
+    {
+        /**
+         * @var User $user
+         */
+        $user = $this->getEntityManager()->getReference(
+            $this->getClassName(),
+            $id
+        );
+
+        $this->getEntityManager()->remove($user);
+
+        // Remove User Profile
+        $this->profileHelper->getProfileRepository($user)->remove($user->getProfileId());
+
+        $this->getEntityManager()->flush();
     }
 }

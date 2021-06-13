@@ -4,13 +4,14 @@ namespace App\DataFixtures;
 
 use App\Entity\Profile;
 use App\Entity\User;
+use App\Utils\ProfileHelper;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
 {
-    public function __construct(private UserPasswordEncoderInterface $userPasswordEncoder)
+    public function __construct(private UserPasswordEncoderInterface $userPasswordEncoder, private ProfileHelper $profileHelper)
     {
         //
     }
@@ -30,10 +31,11 @@ class UserFixtures extends Fixture
         $user->setRoles(['ROLE_ADMIN']);
 
         //Also create a Profile for this user
-        $profile = new Profile();
+        $profileClass = $this->profileHelper->getDefaultProfileClass();
+        $profile = new $profileClass();
         $profile->setFirstName('john');
         $profile->setLastName('doe');
-        $user->setProfileType(Profile::PROFILE_TYPE);
+        $user->setProfileType($this->profileHelper->getDefaultProfileType());
         $manager->persist($profile);
         $manager->flush();
         $user->setProfileId($profile->getId());
