@@ -206,7 +206,7 @@ class MailHelper
 
         // Set defaults.
         if (!$sender) {
-            $sender = $_ENV['ADMIN_EMAIL'];
+            $sender = $_ENV['BRAND_EMAIL'] ?? $_ENV['ADMIN_EMAIL'];
         }
 
         if ($html) {
