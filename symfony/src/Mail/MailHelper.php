@@ -63,7 +63,7 @@ class MailHelper
 
         // Send mail.
         $this->sendMail(
-            $this->translator->trans('icapps.mail.activation.title', [], null, $user->getLanguage()),
+            $this->translator->trans('icapps.mail.activation.title', ['%brand' => $_ENV['BRAND']], 'messages', $user->getLanguage()),
             $body,
             $user->getEmail(),
             'registration'
@@ -104,7 +104,7 @@ class MailHelper
 
         // Send mail.
         $this->sendMail(
-            $this->translator->trans('icapps.mail.pending.email_title', [], null, $user->getLanguage()),
+            $this->translator->trans('icapps.mail.pending.title', ['%brand' => $_ENV['BRAND']], 'messages', $user->getLanguage()),
             $body,
             $user->getPendingEmail(),
             'registration'
@@ -135,7 +135,7 @@ class MailHelper
 
         // Send mail.
         $this->sendMail(
-            $this->translator->trans('icapps.mail.confirmation.title', [], null, $user->getLanguage()),
+            $this->translator->trans('icapps.mail.confirmation.title', ['%brand' => $_ENV['BRAND']], 'messages', $user->getLanguage()),
             $body,
             $user->getEmail(),
             'registration'
@@ -174,7 +174,7 @@ class MailHelper
 
         // Send mail.
         $this->sendMail(
-            $this->translator->trans('icapps.mail.reset_password.title', [], null, $user->getLanguage()),
+            $this->translator->trans('icapps.mail.reset_password.title', ['%brand' => $_ENV['BRAND']], 'messages', $user->getLanguage()),
             $body,
             $user->getEmail(),
             'password-reset'

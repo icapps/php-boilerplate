@@ -21,12 +21,12 @@
 
                             <h1>
                                 <br>
-                                <span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif">{{ 'icapps.mail.pending.intro'|trans({'%name%': username}) }}</span>
+                                <span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif">{{ 'icapps.mail.pending.intro'|trans({'%name': username}) }}</span>
                             </h1>&nbsp;
 
                             <p style="color: #9A9A9A;font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
                                 <span style="color:rgba(0, 0, 0, 0.6)">
-                                    <span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif">{{ 'icapps.mail.pending.body'|trans({'%email%': email}) }}</span>
+                                    <span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif">{{ 'icapps.mail.pending.body'|trans({'%email': email}) }}</span>
                                 </span>
                                 <br>
                                 <br>
@@ -82,11 +82,11 @@
                         <td valign="top" class="mcnTextContent" style="padding: 0 30px 10px;color: #9A9A9A;font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
                             <p style="color: #9A9A9A;font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
                                 <span style="color:rgba(0, 0, 0, 0.6)">
-                                    <span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif">{{ 'icapps.mail.footer.ignore_text'|trans }}<br>
+                                    <span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif">{{ 'icapps.mail.footer.ignore_text'|trans({'%brand': brand}) }}<br>
                                         <br>
                                         {{ 'icapps.mail.footer.thanks'|trans }}<br>
                                         <br>
-                                        {{ 'icapps.mail.footer.signature'|trans }}
+                                        {{ 'icapps.mail.footer.signature'|trans({'%brand': brand}) }}
                                     </span>
                                 </span>
                                 <br>

@@ -12,7 +12,6 @@
                 "content": content|default([]),
                 "localizations": localizations|default([]),
                 "shadowBaseLocale": shadowBaseLocale|default(),
-                "defaultLocale": app.request.locale
             } %}
         {% endblock %}
 
@@ -47,13 +46,9 @@
             </form>
         {% endblock %}
 
-        <section id="content">
+        <main>
             {% block content %}{% endblock %}
-        </section>
-
-        <aside>
-            {% block aside %}{% endblock %}
-        </aside>
+        </main>
 
         <footer>
             {% block footer %}

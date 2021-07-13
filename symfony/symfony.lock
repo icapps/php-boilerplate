@@ -323,9 +323,6 @@
     "oro/doctrine-extensions": {
         "version": "2.0.0"
     },
-    "pagerfanta/pagerfanta": {
-        "version": "v2.7.1"
-    },
     "phar-io/manifest": {
         "version": "2.0.1"
     },

@@ -8,9 +8,11 @@ use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Dto\User\UserProfileDto;
 use App\Dto\Auth\UserRegisterDto;
 use App\Entity\User;
+use App\Mail\MailHelper;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
 use App\Utils\AuthUtils;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -27,6 +29,8 @@ final class RegisterDataPersister implements DataPersisterInterface
         private ValidatorInterface $validator,
         private UserRepository $userRepository,
         private ProfileRepository $profileRepository,
+        private MailHelper $mailHelper,
+        private LoggerInterface $logger
     ) {
         //
     }
@@ -53,7 +57,6 @@ final class RegisterDataPersister implements DataPersisterInterface
         $user->setLanguage($data->language);
 
         // User only enabled by confirmation mail.
-        // @TODO:: send activation mail.
         $user->disable();
         $user->setActivationToken(AuthUtils::getUniqueToken());
 
@@ -88,6 +91,14 @@ final class RegisterDataPersister implements DataPersisterInterface
             $this->profileRepository->rollback();
             $this->userRepository->rollback();
             throw $exception;
+        }
+
+        // Send activation mail.
+        try {
+            $this->mailHelper->sendRegistrationActivationMail($user, $user->getProfile());
+        } catch (\Exception $e) {
+            // Silent failure.
+            $this->logger->critical('User activation mail failure: ' . $e->getMessage());
         }
 
         // Create output.
