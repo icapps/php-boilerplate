@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace App\Security;
 
-use App\Entity\Profile;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\User\PayloadAwareUserProviderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * @method UserInterface loadUserByIdentifierAndPayload(string $identifier, array $payload)
+ * @method UserInterface loadUserByIdentifier(string $identifier)
+ */
 class UserProvider implements PayloadAwareUserProviderInterface
 {
     /**
@@ -50,8 +53,6 @@ class UserProvider implements PayloadAwareUserProviderInterface
      *
      * @param $email
      * @param array $payload
-     * @param string $profileType
-     *
      * @return User|mixed
      */
     public function loadUserByPayload($email, array $payload)
@@ -85,7 +86,7 @@ class UserProvider implements PayloadAwareUserProviderInterface
 
         // Check if exists.
         if (null === $user) {
-            throw new UsernameNotFoundException('User not found');
+            throw new UserNotFoundException('User not found');
         }
 
         // Check if enabled.
@@ -107,7 +108,7 @@ class UserProvider implements PayloadAwareUserProviderInterface
     /**
      * {@inheritDoc}
      */
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): UserInterface
     {
         return $user;
     }
@@ -115,8 +116,14 @@ class UserProvider implements PayloadAwareUserProviderInterface
     /**
      * {@inheritDoc}
      */
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return User::class === $class;
+    }
+
+    public function __call($name, $arguments)
+    {
+        // TODO: Implement @method UserInterface loadUserByIdentifierAndPayload(string $identifier, array $payload)
+        // TODO: Implement @method UserInterface loadUserByIdentifier(string $identifier)
     }
 }

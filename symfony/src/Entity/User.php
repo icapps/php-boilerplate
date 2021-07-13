@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use App\Component\Model\Traits\EnableTrait;
 use App\Component\Model\EnableInterface;
 use App\Repository\UserRepository;
@@ -73,6 +74,11 @@ class User implements UserInterface, EnableInterface
      * )
      */
     private string $password;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $lastLogin;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -205,6 +211,30 @@ class User implements UserInterface, EnableInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * Set lastLogin.
+     *
+     * @param DateTime|null $lastLogin
+     *
+     * @return User
+     */
+    public function setLastLogin(?DateTime $lastLogin): User
+    {
+        $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    /**
+     * Get lastLogin.
+     *
+     * @return DateTime|null
+     */
+    public function getLastLogin(): ?DateTime
+    {
+        return $this->lastLogin;
     }
 
     /**

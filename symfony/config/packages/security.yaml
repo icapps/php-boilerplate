@@ -1,5 +1,6 @@
 # Security should be configured for website in `security_website.yaml` and for admin in `security_admin.yaml`
 security:
+  enable_authenticator_manager: true
   access_decision_manager:
     strategy: unanimous
     allow_if_all_abstain: true
@@ -19,19 +20,19 @@ security:
 
   access_control:
     # Admin
-    - { path: ^/admin/reset, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/admin/security/reset, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/admin/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/admin/_wdt, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/admin/translations, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/admin$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/admin/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/admin/reset, roles: PUBLIC_ACCESS }
+    - { path: ^/admin/security/reset, roles: PUBLIC_ACCESS }
+    - { path: ^/admin/login$, roles: PUBLIC_ACCESS }
+    - { path: ^/admin/_wdt, roles: PUBLIC_ACCESS }
+    - { path: ^/admin/translations, roles: PUBLIC_ACCESS }
+    - { path: ^/admin$, roles: PUBLIC_ACCESS }
+    - { path: ^/admin/$, roles: PUBLIC_ACCESS }
     - { path: ^/admin, roles: ROLE_USER }
 
     # Website
-    - { path: ^/api/auth/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/api/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/user/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/auth/*, roles: PUBLIC_ACCESS }
+    - { path: ^/api/docs, roles: PUBLIC_ACCESS }
+    - { path: ^/user/*, roles: PUBLIC_ACCESS }
     - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
   firewalls:
@@ -43,7 +44,6 @@ security:
     # Admin
     admin:
       pattern: ^/admin(\/|$)
-      anonymous: ~
       provider: sulu
       entry_point: sulu_security.authentication_entry_point
       json_login:
@@ -58,28 +58,23 @@ security:
     doc:
       pattern: ^/api/docs
       stateless: true
-      anonymous: true
 
     refresh:
       pattern:  ^/api/auth/refresh
       provider: app_user_provider
       stateless: true
-      anonymous: true
 
     register:
       pattern:  ^/api/auth/register
       stateless: true
-      anonymous: true
 
     password_reset:
       pattern: ^/api/auth/password-reset
       stateless: true
-      anonymous: true
 
     login:
       pattern: ^/api/auth/login
       stateless: true
-      anonymous: true
       json_login:
         provider: app_user_provider
         check_path: /api/auth/login
@@ -92,9 +87,7 @@ security:
       pattern: ^/api
       stateless: true
       provider: app_user_provider
-      guard:
-        authenticators:
-          - lexik_jwt_authentication.jwt_token_authenticator
+      jwt: ~
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -103,7 +96,6 @@ security:
       # switch_user: true
 
     main:
-      anonymous: true
       lazy: true
 
 sulu_security:
