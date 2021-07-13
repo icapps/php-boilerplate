@@ -42,9 +42,8 @@ security:
 
     # Admin
     admin:
-      pattern: ^/
-      anonymous: true
-      lazy: true
+      pattern: ^/admin(\/|$)
+      anonymous: ~
       provider: sulu
       entry_point: sulu_security.authentication_entry_point
       json_login:
