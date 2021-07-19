@@ -14,10 +14,6 @@ security:
     sulu:
       id: sulu_security.user_provider
 
-    # Website
-    app_user_provider:
-      id: App\Security\UserProvider
-
   access_control:
     # Admin
     - { path: ^/admin/reset, roles: PUBLIC_ACCESS }
@@ -33,7 +29,6 @@ security:
     - { path: ^/api/auth/*, roles: PUBLIC_ACCESS }
     - { path: ^/api/docs, roles: PUBLIC_ACCESS }
     - { path: ^/user/*, roles: PUBLIC_ACCESS }
-    - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
   firewalls:
     # Development
@@ -61,7 +56,6 @@ security:
 
     refresh:
       pattern:  ^/api/auth/refresh
-      provider: app_user_provider
       stateless: true
 
     register:
@@ -76,7 +70,6 @@ security:
       pattern: ^/api/auth/login
       stateless: true
       json_login:
-        provider: app_user_provider
         check_path: /api/auth/login
         username_path: email
         password_path: password
@@ -86,7 +79,6 @@ security:
     api:
       pattern: ^/api
       stateless: true
-      provider: app_user_provider
       jwt: ~
 
       # activate different ways to authenticate

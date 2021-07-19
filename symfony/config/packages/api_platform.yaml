@@ -110,7 +110,7 @@ api_platform:
 
     # Mapping entities.
     mapping:
-        paths: ['%kernel.project_dir%/src/Entity', '%kernel.project_dir%/src/ApiResource']
+        paths: ['%kernel.project_dir%/src/Ui/Http/Rest/ApiResource']
 
     patch_formats:
         json: ['application/merge-patch+json']
@@ -170,4 +170,6 @@ api_platform:
         ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_UNPROCESSABLE_ENTITY
 
         # Custom mapping
-        App\Exception\InvalidPasswordException: 400
+        Symfony\Component\HttpKernel\Exception\NotFoundHttpException: 404
+        App\User\Domain\Exception\EmailAlreadyExistException: 409
+        App\User\Domain\Exception\ForbiddenException: 403
