@@ -6,18 +6,18 @@ namespace App\User\Domain\Exception;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class ForbiddenException extends HttpException
+final class InvalidPayloadException extends HttpException
 {
-    public const FORBIDDEN_HTTP_STATUS_CODE = 403;
+    public const INVALID_PAYLOAD_HTTP_STATUS_CODE = 400;
 
     public function __construct(?string $message, \Throwable $previous = null, array $headers = [])
     {
         parent::__construct(
-            self::FORBIDDEN_HTTP_STATUS_CODE,
+            self::INVALID_PAYLOAD_HTTP_STATUS_CODE,
             $message,
             $previous,
             $headers,
-            self::FORBIDDEN_HTTP_STATUS_CODE
+            self::INVALID_PAYLOAD_HTTP_STATUS_CODE
         );
     }
 }

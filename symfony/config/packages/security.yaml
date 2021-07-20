@@ -9,10 +9,18 @@ security:
     Sulu\Bundle\SecurityBundle\Entity\User: bcrypt
     App\Entity\User: bcrypt
 
+  password_hashers:
+    app_user_password_hasher:
+      id: App\User\Infrastructure\Auth\PasswordHasher
+
   providers:
     # Admin
     sulu:
       id: sulu_security.user_provider
+
+    # Website
+    app_user_provider:
+      id: App\User\Infrastructure\Auth\AuthProvider
 
   access_control:
     # Admin
@@ -29,6 +37,7 @@ security:
     - { path: ^/api/auth/*, roles: PUBLIC_ACCESS }
     - { path: ^/api/docs, roles: PUBLIC_ACCESS }
     - { path: ^/user/*, roles: PUBLIC_ACCESS }
+    - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
   firewalls:
     # Development
@@ -56,6 +65,7 @@ security:
 
     refresh:
       pattern:  ^/api/auth/refresh
+      provider: app_user_provider
       stateless: true
 
     register:
@@ -68,8 +78,10 @@ security:
 
     login:
       pattern: ^/api/auth/login
+      user_checker: App\User\Infrastructure\Auth\UserChecker
       stateless: true
       json_login:
+        provider: app_user_provider
         check_path: /api/auth/login
         username_path: email
         password_path: password
@@ -79,7 +91,10 @@ security:
     api:
       pattern: ^/api
       stateless: true
-      jwt: ~
+      provider: app_user_provider
+      guard:
+        authenticators:
+          - lexik_jwt_authentication.jwt_token_authenticator
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#firewalls-authentication

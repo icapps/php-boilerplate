@@ -4,29 +4,26 @@ declare(strict_types=1);
 
 namespace App\User\Domain\ValueObject\Auth;
 
+use Symfony\Component\PasswordHasher\Hasher\CheckPasswordLengthTrait;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Webmozart\Assert\Assert;
 use Webmozart\Assert\InvalidArgumentException;
 
-use const PASSWORD_BCRYPT;
-
-use function password_verify;
-
-use RuntimeException;
-
 final class HashedPassword
 {
-    private string $hashedPassword;
+    use CheckPasswordLengthTrait;
 
     public const COST = 12;
+
+    private string $hashedPassword;
+
+    public const MIN_PASSWORD_LENGTH = 6;
 
     private function __construct(string $hashedPassword)
     {
         $this->hashedPassword = $hashedPassword;
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public static function encode(string $plainPassword): self
     {
         return new self(self::hash($plainPassword));
@@ -39,7 +36,7 @@ final class HashedPassword
 
     public function match(string $plainPassword): bool
     {
-        return password_verify($plainPassword, $this->hashedPassword);
+        return \password_verify($plainPassword, $this->hashedPassword);
     }
 
     /**
@@ -47,13 +44,17 @@ final class HashedPassword
      */
     private static function hash(string $plainPassword): string
     {
-        Assert::minLength($plainPassword, 6, 'Min 6 characters password');
+        // Max length.
+        Assert::maxLength($plainPassword, PasswordHasherInterface::MAX_PASSWORD_LENGTH, 'Password too long');
 
-        /** @var string|bool|null $hashedPassword */
+        // Min length.
+        Assert::minLength($plainPassword, self::MIN_PASSWORD_LENGTH, 'Min 6 characters password');
+
+        // Hash.
         $hashedPassword = \password_hash($plainPassword, PASSWORD_BCRYPT, ['cost' => self::COST]);
 
         if (\is_bool($hashedPassword)) {
-            throw new RuntimeException('Server error hashing password');
+            throw new \RuntimeException('Server error hashing password');
         }
 
         return (string) $hashedPassword;

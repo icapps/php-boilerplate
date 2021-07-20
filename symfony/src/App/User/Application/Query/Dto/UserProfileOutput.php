@@ -6,6 +6,7 @@ use App\User\Infrastructure\Doctrine\User;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
+// @TODO:: DTO's under Ui/Rest/Presentation?
 final class UserProfileOutput
 {
     public const USER_ROUTE_PREFIX = '/users';

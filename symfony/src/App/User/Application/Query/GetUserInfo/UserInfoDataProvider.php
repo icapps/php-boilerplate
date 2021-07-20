@@ -7,10 +7,11 @@ use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\Shared\Infrastructure\Bus\Query\QueryBus;
 use App\User\Application\Query\FindUserById\FindUserByIdQuery;
+use App\User\Domain\Exception\ForbiddenException;
+use App\User\Domain\Exception\NotFoundException;
 use Ui\Http\Rest\ApiResource\User\User;
 use App\User\Application\Query\Dto\UserProfileOutput;
 use App\User\Infrastructure\Repository\UserRepository;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Security;
 
 /**
@@ -43,8 +44,13 @@ final class UserInfoDataProvider implements ItemDataProviderInterface, ContextAw
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?UserProfileOutput
     {
         // Load user.
-        if (!$this->queryBus->ask(new FindUserByIdQuery($id))) {
-            throw new NotFoundHttpException('User not found', null, 404);
+        if (!$user = $this->queryBus->ask(new FindUserByIdQuery($id))) {
+            throw new NotFoundException('User not found');
+        }
+
+        // Check access.
+        if ($this->security->getUser() !== $user) {
+            throw new ForbiddenException('User not found');
         }
 
         return $this->queryBus->ask(new GetUserInfoQuery($id));

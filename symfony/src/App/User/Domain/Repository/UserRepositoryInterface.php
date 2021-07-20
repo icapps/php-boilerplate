@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Domain\Repository;
 
+use App\User\Domain\Exception\NotFoundException;
 use App\User\Domain\ValueObject\Email;
 use App\User\Infrastructure\Doctrine\User;
 
@@ -27,7 +28,9 @@ interface UserRepositoryInterface
     /**
      * @param Email $email
      *
-     * @return User|null
+     * @return User
+     *
+     * @throws NotFoundException
      */
-    public function findUserByEmail(Email $email): ?User;
+    public function findUserByEmail(Email $email): User;
 }

@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherAwareInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -34,7 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @method string getUserIdentifier()
  */
-class User implements UserInterface, EnableInterface
+class User implements UserInterface, EnableInterface, PasswordHasherAwareInterface
 {
     use EnableTrait;
 
@@ -42,6 +43,7 @@ class User implements UserInterface, EnableInterface
     public const ROLE_ADMIN = 'ROLE_ADMIN';
     public const LANGUAGES = ['nl', 'en', 'fr'];
     public const DEFAULT_LOCALE = 'nl';
+    public const USER_PASSWORD_HASHER = 'app_user_password_hasher';
 
     /**
      * @ORM\Id
@@ -373,5 +375,10 @@ class User implements UserInterface, EnableInterface
     public function getDevices(): Collection
     {
         return $this->devices;
+    }
+
+    public function getPasswordHasherName(): string
+    {
+        return self::USER_PASSWORD_HASHER;
     }
 }

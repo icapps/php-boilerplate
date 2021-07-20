@@ -6,9 +6,9 @@ namespace App\User\Domain\Exception;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class ForbiddenException extends HttpException
+class NotFoundException extends HttpException
 {
-    public const FORBIDDEN_HTTP_STATUS_CODE = 403;
+    public const FORBIDDEN_HTTP_STATUS_CODE = 404;
 
     public function __construct(?string $message, \Throwable $previous = null, array $headers = [])
     {

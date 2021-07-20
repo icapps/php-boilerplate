@@ -6,10 +6,9 @@ namespace App\User\Application\Command\UpdateUserProfile;
 
 use App\Shared\Infrastructure\Bus\Command\CommandHandlerInterface;
 use App\Shared\Infrastructure\Bus\Query\QueryBus;
-use App\User\Application\Query\FindUserById\FindUserByIdQuery;
+use App\User\Domain\Exception\NotFoundException;
 use App\User\Infrastructure\Repository\ProfileRepository;
 use App\User\Infrastructure\Repository\UserRepository;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class UpdateUserProfileCommandHandler implements CommandHandlerInterface
 {
@@ -25,7 +24,7 @@ final class UpdateUserProfileCommandHandler implements CommandHandlerInterface
     public function __invoke(UpdateUserProfileCommand $command): void
     {
         if (!$user = $this->userRepository->find($command->id)) {
-            throw new NotFoundHttpException('User not found');
+            throw new NotFoundException('User not found');
         }
 
         // Get user profile.

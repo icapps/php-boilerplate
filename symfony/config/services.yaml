@@ -21,6 +21,15 @@ services:
         resource: '../src/Ui/*'
         exclude: '../src/Ui/**/{EventSubscriber}'
 
+    # Swagger decorators.
+    App\Shared\Infrastructure\Bridge\ApiPlatform\Swagger\SwaggerDecorator:
+        decorates: 'api_platform.openapi.factory'
+        autoconfigure: false
+
+    App\Shared\Infrastructure\Bridge\ApiPlatform\Swagger\AuthSwaggerDecorator:
+        decorates: 'api_platform.openapi.factory'
+        autoconfigure: false
+
     # Message handlers
     _instanceof:
         App\Shared\Infrastructure\Bus\Command\CommandHandlerInterface:

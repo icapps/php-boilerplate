@@ -8,8 +8,9 @@ use App\Shared\Infrastructure\Bus\Query\QueryBus;
 use App\User\Application\Query\FindUserById\FindUserByIdQuery;
 use App\User\Application\Command\Dto\UserProfileInput;
 use App\User\Application\Query\Dto\UserProfileOutput;
+use App\User\Domain\Exception\ForbiddenException;
+use App\User\Domain\Exception\NotFoundException;
 use App\User\Infrastructure\Repository\UserRepository;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Security;
 
 /**
@@ -44,14 +45,13 @@ final class UpdateUserProfileDataPersister implements ContextAwareDataPersisterI
 
         // Check existence.
         if (!$user = $this->queryBus->ask(new FindUserByIdQuery($userCurrentProfile->id))) {
-            throw new NotFoundHttpException('User not found');
+            throw new NotFoundException('User not found');
         }
 
-        // @TODO:: reimplement security.
         // Check access.
-        // if ($this->security->getUser() !== $user) {
-        //    throw new ForbiddenException();
-        // }
+        if ($this->security->getUser() !== $user) {
+            throw new ForbiddenException('User not found');
+        }
 
         /** @var UserProfileInput $data */
         $this->commandBus->handle(new UpdateUserProfileCommand(

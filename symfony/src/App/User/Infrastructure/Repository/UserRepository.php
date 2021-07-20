@@ -2,7 +2,9 @@
 
 namespace App\User\Infrastructure\Repository;
 
+use App\User\Domain\Exception\NotFoundException;
 use App\User\Domain\Repository\UserRepositoryInterface;
+use App\User\Domain\ValueObject\Auth\HashedPassword;
 use App\User\Domain\ValueObject\Email;
 use App\User\Infrastructure\Doctrine\User;
 use App\User\Infrastructure\Repository\Traits\Transactional;
@@ -56,14 +58,14 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
     /**
      * {@inheritDoc}
      */
-    public function findUserByEmail(Email $email): ?User
+    public function findUserByEmail(Email $email): User
     {
         $user = $this->findOneBy([
             'email' => $email,
         ]);
 
         if (!$user) {
-            return null;
+            throw new NotFoundException('User not found');
         }
 
         return $user;
