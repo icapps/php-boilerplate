@@ -1,11 +1,13 @@
 <?php
 
-namespace App\User\Application\Query\Dto;
+declare(strict_types=1);
 
-use Symfony\Component\Serializer\Annotation\Groups;
+namespace App\User\Application\Command\Dto;
+
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-final class UserRefreshDto
+final class RefreshTokenInput
 {
     /**
      * @var string

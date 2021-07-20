@@ -7,7 +7,7 @@ namespace App\Shared\Infrastructure\Bridge\ApiPlatform\Swagger;
 use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
 use ApiPlatform\Core\OpenApi\OpenApi;
 use ApiPlatform\Core\OpenApi\Model;
-use App\User\Application\Query\Dto\AuthAccessDto;
+use App\User\Application\Query\Dto\AuthJwtTokenOutput;
 
 final class SwaggerDecorator implements OpenApiFactoryInterface
 {
@@ -26,10 +26,10 @@ final class SwaggerDecorator implements OpenApiFactoryInterface
         // Bundle resources in Swagger.
         foreach ($openApi->getPaths()->getPaths() as $url => $pathItem) {
             // Bundle authentication requests.
-            if (str_contains($url, AuthAccessDto::AUTH_ROUTE_PREFIX)) {
+            if (str_contains($url, AuthJwtTokenOutput::AUTH_ROUTE_PREFIX)) {
                 if ($operation = $pathItem->getPost()) {
                     $openApi->getPaths()->addPath($url, $pathItem->withPost(
-                        $operation->withTags([AuthAccessDto::AUTH_BUNDLE_TAG])
+                        $operation->withTags([AuthJwtTokenOutput::AUTH_BUNDLE_TAG])
                     ));
                 }
             }

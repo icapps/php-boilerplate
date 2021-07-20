@@ -20,7 +20,7 @@ security:
 
     # Website
     app_user_provider:
-      id: App\User\Infrastructure\Auth\AuthProvider
+      id: App\User\Infrastructure\Auth\AuthenticationProvider
 
   access_control:
     # Admin

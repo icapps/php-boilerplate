@@ -5,7 +5,7 @@ namespace App\User\Application\Query\Dto;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class AuthAccessDto
+final class AuthJwtTokenOutput
 {
     public const AUTH_ROUTE_PREFIX = '/auth';
     public const AUTH_BUNDLE_TAG = 'Authentication';

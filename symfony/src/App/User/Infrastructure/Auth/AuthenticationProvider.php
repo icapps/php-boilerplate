@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Webmozart\Assert\InvalidArgumentException;
 
-final class AuthProvider implements UserProviderInterface
+final class AuthenticationProvider implements UserProviderInterface
 {
     private UserRepository $userRepository;
 
@@ -22,7 +22,7 @@ final class AuthProvider implements UserProviderInterface
         $this->userRepository = $userRepository;
     }
 
-    public function loadUserByIdentifier(string $identifier): UserInterface
+    public function loadUserByIdentifier(string $identifier): User
     {
         try {
             return $this->userRepository->findUserByEmail(Email::fromString($identifier));
@@ -33,7 +33,7 @@ final class AuthProvider implements UserProviderInterface
         }
     }
 
-    public function loadUserByUsername(string $username): UserInterface
+    public function loadUserByUsername(string $username): User
     {
         try {
             return $this->userRepository->findUserByEmail(Email::fromString($username));
@@ -46,7 +46,7 @@ final class AuthProvider implements UserProviderInterface
 
     public function refreshUser(UserInterface $user): UserInterface
     {
-        return $this->loadUserByUsername($user->getUserIdentifier());
+        return $user;
     }
 
     public function supportsClass(string $class): bool
