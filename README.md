@@ -1,7 +1,13 @@
 # ⚡&nbsp; Symfony template project
 
 This repository provides the recommended **project template for starting a new icapps PHP project**.
-The project template follows the best-practices of the [Symfony](https://symfony.com/) framework and builds upon tho official [symfony/skeleton](https://github.com/symfony/skeleton) template.
+The project template follows the best-practices of the [Symfony](https://symfony.com/) framework and builds upon tho official [symfony/skeleton](https://github.com/symfony/skeleton) template. 
+
+## 🔥&nbsp; CQRS & DDD
+We fully embrace the CQRS & DDD Clean Architecture approach to enhance scalability and maintainability of all future projects.
+
+For more information:
+[Hexagonal Software Architecture](https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together)
 
 ## 🚀&nbsp; Installation and Documentation
 

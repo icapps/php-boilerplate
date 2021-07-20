@@ -9,6 +9,10 @@ security:
     Sulu\Bundle\SecurityBundle\Entity\User: bcrypt
     App\Entity\User: bcrypt
 
+  password_hashers:
+    app_user_password_hasher:
+      id: App\User\Infrastructure\Auth\PasswordHasher
+
   providers:
     # Admin
     sulu:
@@ -16,7 +20,7 @@ security:
 
     # Website
     app_user_provider:
-      id: App\Security\UserProvider
+      id: App\User\Infrastructure\Auth\AuthenticationProvider
 
   access_control:
     # Admin
@@ -74,6 +78,7 @@ security:
 
     login:
       pattern: ^/api/auth/login
+      user_checker: App\User\Infrastructure\Auth\UserChecker
       stateless: true
       json_login:
         provider: app_user_provider
@@ -87,7 +92,9 @@ security:
       pattern: ^/api
       stateless: true
       provider: app_user_provider
-      jwt: ~
+      guard:
+        authenticators:
+          - lexik_jwt_authentication.jwt_token_authenticator
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#firewalls-authentication
