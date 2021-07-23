@@ -1,1 +1,8 @@
 # Define your admin routes here
+app.publications:
+  type: rest
+  prefix: /admin/api
+  resource: App\Controller\Admin\PublicationController
+  name_prefix: app.
+  options:
+    expose: true

@@ -37,20 +37,13 @@ services:
             PROMPT_COMMAND: history -a
         env_file: .env
 
-    mysql:
-        container_name: "${PROJECT_NAME}_mysql"
-        labels:
-            com.symfony.server.service-prefix: 'DATABASE'
-        build:
-            context: docker/mysql
-            args:
-                MYSQL_DATABASE: ${MYSQL_DATABASE}
-                MYSQL_USER: ${MYSQL_USER}
-        ports:
-            - ${PORT_MYSQL}:3306
-        volumes:
-            - ${APP_BASE_PATH}/docker/mysql/var/data/mysql:/var/lib/mysql:cached
-        env_file: .env
+    postgres:
+        image: postgres:13-alpine
+        environment:
+          POSTGRES_USER: main
+          POSTGRES_PASSWORD: main
+          POSTGRES_DB: main
+        ports: [5432]
 
     mailhog:
         container_name: "${PROJECT_NAME}_mailhog"

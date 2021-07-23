@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<form xmlns="http://schemas.sulu.io/template/template"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/form-1.0.xsd"
+>
+    <key>publication_details</key>
+
+    <properties>
+        <property name="title" type="text_line" mandatory="true">
+            <meta>
+                <title>sulu_admin.title</title>
+            </meta>
+            <params>
+                <param name="headline" value="true"/>
+            </params>
+        </property>
+
+        <block name="contentBlocks" default-type="text" minOccurs="1">
+            <meta>
+                <title>Content</title>
+            </meta>
+
+            <params>
+                <param name="add_button_text">
+                    <meta>
+                        <title>Add Content Block</title>
+                    </meta>
+                </param>
+            </params>
+
+            <types>
+                <type name="text">
+                    <meta>
+                        <title>Text</title>
+                    </meta>
+
+                    <properties>
+                        <property name="title" type="text_line" mandatory="true" colspan="6">
+                            <meta>
+                                <title>sulu_admin.title</title>
+                            </meta>
+                            <tag name="sulu.block_preview" priority="1024"/>
+                        </property>
+
+                        <property name="text" type="text_line" colspan="6">
+                            <meta>
+                                <title>Text</title>
+                            </meta>
+                            <tag name="sulu.block_preview" priority="512"/>
+                        </property>
+                    </properties>
+                </type>
+            </types>
+        </block>
+    </properties>
+</form>

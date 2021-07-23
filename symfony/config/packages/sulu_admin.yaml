@@ -7,6 +7,13 @@ sulu_admin:
         directories:
             - "%kernel.project_dir%/config/lists"
 
+    # Registering Sulu Resources in this section
+    resources:
+        publications:
+            routes:
+                list: app.get_publications
+                detail: app.get_publication
+
 sulu_core:
     locales:
         nl: Nederlands
