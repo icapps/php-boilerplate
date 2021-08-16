@@ -2,6 +2,7 @@
 
 namespace App\Component\Model\Traits;
 
+use App\Component\Model\ProfileInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -29,10 +30,9 @@ trait ProfileTrait
     protected string $lastName;
 
     /**
-     * @param $firstName
-     * @return $this
+     * {@inheritDoc}
      */
-    public function setFirstName(string $firstName): self
+    public function setFirstName(string $firstName): ProfileInterface
     {
         $this->firstName = $firstName;
 
@@ -40,18 +40,17 @@ trait ProfileTrait
     }
 
     /**
-     * @return string|null
+     * {@inheritDoc}
      */
-    public function getFirstName(): ?string
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
 
     /**
-     * @param $lastName
-     * @return $this
+     * {@inheritDoc}
      */
-    public function setLastName(string $lastName): self
+    public function setLastName(string $lastName): ProfileInterface
     {
         $this->lastName = $lastName;
 
@@ -59,9 +58,9 @@ trait ProfileTrait
     }
 
     /**
-     * @return string|null
+     * {@inheritDoc}
      */
-    public function getLastName(): ?string
+    public function getLastName(): string
     {
         return $this->lastName;
     }

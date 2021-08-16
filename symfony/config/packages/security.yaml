@@ -64,14 +64,6 @@ security:
       provider: app_user_provider
       stateless: true
 
-    register:
-      pattern:  ^/api/auth/register
-      stateless: true
-
-    password_reset:
-      pattern: ^/api/auth/password-reset
-      stateless: true
-
     login:
       pattern: ^/api/auth/login
       stateless: true

@@ -4,5 +4,5 @@ framework:
         envelope:
             sender: '%env(ADMIN_EMAIL)%'
         headers:
-            from: '%env(brand)%'
+            from: '%env(BRAND_EMAIL)%'
             bcc: '%env(ADMIN_EMAIL)%'

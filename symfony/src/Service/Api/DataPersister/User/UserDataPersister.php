@@ -5,8 +5,11 @@ namespace App\Service\Api\DataPersister\User;
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\ApiResource\User\User;
 use App\Dto\User\UserProfileDto;
+use App\Mail\MailHelper;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
+use App\Utils\AuthUtils;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
@@ -26,7 +29,9 @@ final class UserDataPersister implements DataPersisterInterface
     public function __construct(
         private UserRepository $userRepository,
         private ProfileRepository $profileRepository,
-        private Security $security
+        private Security $security,
+        private MailHelper $mailHelper,
+        private LoggerInterface $logger
     ) {
         //
     }
@@ -55,18 +60,31 @@ final class UserDataPersister implements DataPersisterInterface
             throw new AuthenticationException();
         }
 
-        // Get user profile.
-        $profile = $user->getProfile();
-
-        /** @var UserProfileDto $data */
         // Update user.
+        /** @var UserProfileDto $data */
         $user->setLanguage($data->language);
+
+        // Update email: pending until activation.
+        if ($data->email !== $user->getEmail()) {
+            $user->setPendingEmail($data->email);
+            $user->setActivationToken(AuthUtils::getUniqueToken());
+        }
+
         $this->userRepository->save($user);
 
         // Update profile.
+        $profile = $user->getProfile();
         $profile->setFirstName($data->firstName);
         $profile->setLastName($data->lastName);
         $this->profileRepository->save($profile);
+
+        // Send confirmation mail.
+        try {
+            $this->mailHelper->sendPendingEmailActivation($user, $profile);
+        } catch (\Exception $e) {
+            // Silent failure.
+            $this->logger->critical('User confirmation mail failure: ' . $e->getMessage());
+        }
 
         // Create output.
         $output = new UserProfileDto();

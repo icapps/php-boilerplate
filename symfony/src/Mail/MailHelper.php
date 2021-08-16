@@ -31,8 +31,11 @@ class MailHelper
     }
 
     /**
+     * Send registration activation e-mail.
+     *
      * @param User $user
      * @param ProfileInterface $profile
+     *
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
@@ -71,9 +74,11 @@ class MailHelper
     }
 
     /**
-     * Sends activation mail for a pending email address
+     * Sends confirmation mail for a pending email address.
+     *
      * @param User $user
      * @param ProfileInterface $profile
+     *
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
@@ -112,8 +117,11 @@ class MailHelper
     }
 
     /**
+     * Send registration confirmation e-mail.
+     *
      * @param User $user
      * @param ProfileInterface $profile
+     *
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
@@ -143,8 +151,11 @@ class MailHelper
     }
 
     /**
+     * Send password reset e-mail.
+     *
      * @param User $user
      * @param ProfileInterface $profile
+     *
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError

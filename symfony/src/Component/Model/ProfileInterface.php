@@ -8,24 +8,34 @@ namespace App\Component\Model;
 interface ProfileInterface
 {
     /**
+     * Set profile firstname.
+     *
      * @param string $firstName
+     *
      * @return $this
      */
-    public function setFirstName(string $firstName);
+    public function setFirstName(string $firstName): ProfileInterface;
 
     /**
-     * @return string|null
+     * Get profile firstname.
+     *
+     * @return string
      */
-    public function getFirstName(): ?string;
+    public function getFirstName(): string;
 
     /**
+     * Set profile lastname.
+     *
      * @param string $lastName
+     *
      * @return $this
      */
-    public function setLastName(string $lastName);
+    public function setLastName(string $lastName): ProfileInterface;
 
     /**
-     * @return string|null
+     * Get profile last name.
+     *
+     * @return string
      */
-    public function getLastName(): ?string;
+    public function getLastName(): string;
 }

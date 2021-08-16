@@ -13,21 +13,26 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class UserController
- * @package App\Controller\Website\User
  * @Route("/user", name="icapps_website.user")
  */
 class UserController extends AbstractController
 {
 
-    public function __construct(private TranslatorInterface $translator, private UserService $userService, private ProfileRepository $profileRepository)
-    {
+    public function __construct(
+        private TranslatorInterface $translator,
+        private UserService $userService,
+        private ProfileRepository $profileRepository
+    ) {
+        //
     }
 
     /**
      * User confirmation/activation
+     *
      * @Route("/confirmation/{token}", name=".confirmation")
+     *
      * @param string $token
+     *
      * @return Response
      */
     public function confirmation(string $token): Response
@@ -38,9 +43,12 @@ class UserController extends AbstractController
     }
 
     /**
-     * User pending email confirmation
+     * User pending email confirmation.
+     *
      * @Route("/confirmation/pending-email/{token}", name=".confirmation.pending_email")
+     *
      * @param string $token
+     *
      * @return Response
      */
     public function confirmationPendingEmail(string $token): Response
@@ -52,9 +60,12 @@ class UserController extends AbstractController
 
     /**
      * User password reset.
+     *
      * @Route("/password-reset/{token}", name=".reset")
+     *
      * @param string $token
      * @param Request $request
+     *
      * @return Response
      */
     public function passwordReset(string $token, Request $request): Response

@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use DateTime;
-use App\Component\Model\Traits\EnableTrait;
 use App\Component\Model\EnableInterface;
+use App\Component\Model\EntityIdInterface;
+use App\Component\Model\Traits\EnableTrait;
+use App\Component\Model\Traits\EntityIdTrait;
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
@@ -29,21 +31,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User implements UserInterface, EnableInterface
+class User implements UserInterface, EnableInterface, EntityIdInterface
 {
     use EnableTrait;
+    use EntityIdTrait;
 
     public const ROLE_USER = 'ROLE_USER';
     public const ROLE_ADMIN = 'ROLE_ADMIN';
     public const LANGUAGES = ['nl', 'en', 'fr'];
     public const DEFAULT_LOCALE = 'nl';
-
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
     /**
      * @ORM\Column(type="string", length=50)

@@ -50,7 +50,7 @@ class JwtCreatedListener implements EventSubscriberInterface
             return;
         }
 
-        // @TODO:: validate deviceId and deviceToken.
+        // @TODO:: validate deviceId and deviceToken?
         // Update user device(s).
         if (count(array_intersect_key(array_flip(self::AUTH_DEVICE_REQUIRED_FIELDS), $data)) == count(self::AUTH_DEVICE_REQUIRED_FIELDS)) {
             $device = $this->deviceRepository->findOneBy(['user' => $user, 'deviceId' => $data['deviceId']]);
