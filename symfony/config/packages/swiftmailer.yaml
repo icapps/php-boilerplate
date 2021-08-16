@@ -1,0 +1,4 @@
+# Swiftmailer is used by Sulu for admin related emails.
+swiftmailer:
+  url: '%env(MAILER_DSN)%'
+  spool: { type: 'memory' }

@@ -6,5 +6,5 @@ snc_redis:
             dsn: "%env(REDIS_URL)%"
     session:
         client: default
-        ttl: 604800
+        ttl: 2592000
         prefix: su_session_

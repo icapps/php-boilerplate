@@ -1,3 +1,8 @@
 framework:
     mailer:
         dsn: '%env(MAILER_DSN)%'
+        envelope:
+            sender: '%env(ADMIN_EMAIL)%'
+        headers:
+            from: '%env(brand)%'
+            bcc: '%env(ADMIN_EMAIL)%'
