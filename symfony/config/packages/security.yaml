@@ -9,6 +9,10 @@ security:
     Sulu\Bundle\SecurityBundle\Entity\User: bcrypt
     App\Entity\User: bcrypt
 
+  # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+  password_hashers:
+    Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
   providers:
     # Admin
     sulu:

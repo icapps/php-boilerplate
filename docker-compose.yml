@@ -16,6 +16,8 @@ services:
         volumes:
             - ${PROJECT_PATH}:/var/www/project:cached
             - ${APP_BASE_PATH}/docker/nginx/var/logs/:/var/log/nginx
+        profiles:
+            - donotstart # in favor of symfony webserver. Uncomment for local docker usage
 
     php:
         container_name: "${PROJECT_NAME}_php"
@@ -36,6 +38,8 @@ services:
             HISTFILE: /var/www/.bash_history
             PROMPT_COMMAND: history -a
         env_file: .env
+        profiles:
+            - donotstart # in favor of symfony webserver. Uncomment for local docker usage
 
     mysql:
         container_name: "${PROJECT_NAME}_mysql"

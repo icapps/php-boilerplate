@@ -4,6 +4,7 @@ namespace App\Service\Api\User;
 
 use App\Repository\UserRepository;
 use App\Service\Api\General\ApiService;
+use App\Utils\UuidEncoder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Security;
 
@@ -28,7 +29,7 @@ class UserService extends ApiService
     {
         $user = $this->userRepository->find($this->security->getUser());
         return $this->response([
-            'userId' => $user->getId(),
+            'userSid' => UuidEncoder::encode($user->getUuid()),
             'email' => $user->getEmail(),
         ]);
     }

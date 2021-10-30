@@ -9,6 +9,7 @@ use App\ApiResource\User\User;
 use App\Dto\User\UserProfileDto;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
+use App\Utils\UuidEncoder;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
@@ -47,7 +48,7 @@ final class UserDataProvider implements ItemDataProviderInterface, ContextAwareC
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?UserProfileDto
     {
         // Load user.
-        if (!$user = $this->userRepository->find($id)) {
+        if (!$user = $this->userRepository->findByEncodedUuid($id)) {
             throw new NotFoundHttpException('User not found', null, 404);
         }
 
@@ -61,7 +62,7 @@ final class UserDataProvider implements ItemDataProviderInterface, ContextAwareC
 
         // Create output.
         $output = new UserProfileDto();
-        $output->id = $user->getId();
+        $output->userSid = UuidEncoder::encode($user->getUuid());
         $output->firstName = $profile->getFirstName();
         $output->lastName = $profile->getLastName();
         $output->email = $user->getEmail();

@@ -19,9 +19,8 @@ final class UserProfileDto
 
     /**
      * @var string
-     *
      */
-    public int $id;
+    public string $userSid;
 
     /**
      * @var string

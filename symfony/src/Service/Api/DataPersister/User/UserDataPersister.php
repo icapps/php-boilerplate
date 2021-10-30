@@ -9,6 +9,7 @@ use App\Mail\MailHelper;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
 use App\Utils\AuthUtils;
+use App\Utils\UuidEncoder;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -51,7 +52,7 @@ final class UserDataPersister implements DataPersisterInterface
     {
         // Load user.
         /** @var User $data */
-        if (!$user = $this->userRepository->find($data->id)) {
+        if (!$user = $this->userRepository->findByEncodedUuid($data->userSid)) {
             throw new NotFoundHttpException('User not found', null, 404);
         }
 
@@ -88,7 +89,7 @@ final class UserDataPersister implements DataPersisterInterface
 
         // Create output.
         $output = new UserProfileDto();
-        $output->id = $user->getId();
+        $output->userSid = UuidEncoder::encode($user->getUuid());
         $output->firstName = $profile->getFirstName();
         $output->lastName = $profile->getLastName();
         $output->email = $user->getEmail();

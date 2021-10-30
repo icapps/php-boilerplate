@@ -52,10 +52,10 @@ final class SwaggerDecorator implements OpenApiFactoryInterface
                             'application/json' => [
                                 'schema'  => [
                                     'type' => 'object',
-                                    'required' => ['userId', 'email'],
+                                    'required' => ['userSid', 'email'],
                                     'properties' =>
                                         [
-                                            'userId' => ['type' => 'integer'],
+                                            'userSid' => ['type' => 'string'],
                                             'email' => ['type' => 'string'],
                                         ],
                                 ],

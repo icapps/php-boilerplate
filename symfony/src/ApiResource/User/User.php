@@ -2,6 +2,7 @@
 
 namespace App\ApiResource\User;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Dto\General\StatusDto;
 use App\Dto\User\UserProfileDto;
@@ -13,14 +14,14 @@ use App\Dto\User\UserPasswordDto;
  *     collectionOperations={},
  *     itemOperations={
  *         "get"={
- *              "path"= "/{id}/profile",
+ *              "path"= "/{userSid}/profile",
  *              "openapi_context"={
  *                  "summary"="Get active user profile",
  *                  "description"="Get active user profile"
  *              }
  *         },
  *         "patch"={
- *              "path"= "/{id}/profile",
+ *              "path"= "/{userSid}/profile",
  *              "openapi_context"={
  *                  "summary"="Update user profile",
  *                  "description"="Update user profile"
@@ -28,7 +29,7 @@ use App\Dto\User\UserPasswordDto;
  *         },
  *         "password_update"={
  *              "status"=200,
- *              "path"="/{id}/password",
+ *              "path"="/{userSid}/password",
  *              "input"=UserPasswordDto::class,
  *              "output"=StatusDto::class,
  *              "method"="PATCH",
@@ -52,5 +53,10 @@ use App\Dto\User\UserPasswordDto;
  */
 final class User
 {
-    public $id;
+    /**
+     * @ApiProperty(identifier=true)
+     *
+     * The user string identifier.
+     */
+    public $userSid;
 }
