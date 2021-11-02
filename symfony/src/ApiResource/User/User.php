@@ -58,5 +58,5 @@ final class User
      *
      * The user string identifier.
      */
-    public $userSid;
+    public string $userSid;
 }

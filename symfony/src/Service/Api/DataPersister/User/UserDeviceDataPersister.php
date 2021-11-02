@@ -22,12 +22,6 @@ final class UserDeviceDataPersister implements DataPersisterInterface
 {
     /**
      * UserDeviceDataPersister constructor.
-     *
-     * @param EntityManagerInterface $entityManager
-     * @param UserPasswordEncoderInterface $userPasswordEncoder
-     * @param ValidatorInterface $validator
-     * @param DeviceRepository $deviceRepository
-     * @param Security $security
      */
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -55,7 +49,7 @@ final class UserDeviceDataPersister implements DataPersisterInterface
         /** @var UserDeviceDto $data */
         if (!$device = $this->deviceRepository->findOneBy([
             'user' => $this->security->getUser(),
-            'deviceId' => $data->deviceId
+            'deviceId' => $data->deviceSid
         ])) {
             throw new NotFoundHttpException('Device not found', null, 404);
         }

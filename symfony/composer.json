@@ -20,7 +20,7 @@
         "chat": "https://sulu.io/services-and-support#chat"
     },
     "require": {
-        "php": "^7.2 || ^8.0",
+        "php": "^8.0",
         "ext-bcmath": "*",
         "ext-ctype": "*",
         "ext-iconv": "*",

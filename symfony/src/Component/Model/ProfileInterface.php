@@ -19,9 +19,9 @@ interface ProfileInterface
     /**
      * Get profile firstname.
      *
-     * @return string
+     * @return null|string
      */
-    public function getFirstName(): string;
+    public function getFirstName(): ?string;
 
     /**
      * Set profile lastname.
@@ -35,7 +35,7 @@ interface ProfileInterface
     /**
      * Get profile last name.
      *
-     * @return string
+     * @return null|string
      */
-    public function getLastName(): string;
+    public function getLastName(): ?string;
 }

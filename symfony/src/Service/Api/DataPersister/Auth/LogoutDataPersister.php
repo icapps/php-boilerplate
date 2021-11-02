@@ -48,14 +48,15 @@ final class LogoutDataPersister implements DataPersisterInterface
     public function persist($data)
     {
         // Default response.
-        $output = new StatusDto(
-            Response::HTTP_OK,
-            'Logout successful'
-        );
+        $output = new StatusDto(Response::HTTP_OK, 'Logout successful');
 
-        // Mobile should throw away user session so we only have to clear device.
+        // Mobile should throw away user session, so we only have to clear device.
+        /** @var UserLogoutDto $data */
         try {
-            if ($device = $this->deviceRepository->findOneBy(['user' => $this->security->getUser(), 'deviceId' => $data->deviceId])) {
+            if ($device = $this->deviceRepository->findOneBy([
+                'user' => $this->security->getUser(),
+                'deviceId' => $data->deviceSid
+            ])) {
                 $this->deviceRepository->remove($device->getId());
             }
         } catch (\Exception $e) {

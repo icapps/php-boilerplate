@@ -72,9 +72,9 @@ class UserProvider implements PayloadAwareUserProviderInterface
         if (strpos($route, 'api_login') !== false) {
             $requestParams = json_decode($request->getContent(), true);
 
-            if (!isset($requestParams['deviceId']) || !isset($requestParams['deviceToken'])) {
+            if (!isset($requestParams['deviceSid']) || !isset($requestParams['deviceToken'])) {
                 throw new BadRequestHttpException(
-                    sprintf('The "%s" and "%s" must be provided.', 'deviceId', 'deviceToken')
+                    sprintf('The "%s" and "%s" must be provided.', 'deviceSid', 'deviceToken')
                 );
             }
         }

@@ -80,11 +80,13 @@ final class UserDataPersister implements DataPersisterInterface
         $this->profileRepository->save($profile);
 
         // Send confirmation mail.
-        try {
-            $this->mailHelper->sendPendingEmailActivation($user, $profile);
-        } catch (\Exception $e) {
-            // Silent failure.
-            $this->logger->critical('User confirmation mail failure: ' . $e->getMessage());
+        if ($user->getPendingEmail()) {
+            try {
+                $this->mailHelper->sendPendingEmailActivation($user, $profile);
+            } catch (\Exception $e) {
+                // Silent failure.
+                $this->logger->critical('User confirmation mail failure: ' . $e->getMessage());
+            }
         }
 
         // Create output.

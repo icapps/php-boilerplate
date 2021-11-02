@@ -21,5 +21,5 @@ final class UserLogoutDto
      *
      * @Assert\NotBlank()
      */
-    public string $deviceId;
+    public string $deviceSid;
 }

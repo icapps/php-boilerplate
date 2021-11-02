@@ -61,19 +61,19 @@ final class JwtDecorator implements OpenApiFactoryInterface
                         'application/json' => [
                             'schema'  => [
                                 'type' => 'object',
-                                'required' => ['email', 'password', 'deviceId', 'deviceToken'],
+                                'required' => ['email', 'password', 'deviceSid', 'deviceToken'],
                                 'properties' =>
                                     [
                                         'email' => ['type' => 'string'],
                                         'password' => ['type' => 'string'],
-                                        'deviceId' => ['type' => 'string'],
+                                        'deviceSid' => ['type' => 'string'],
                                         'deviceToken' => ['type' => 'string'],
                                     ],
                             ],
                             'example' => [
                                 'email' => 'user@example.com',
                                 'password' => '123456789',
-                                'deviceId' => '1234567890',
+                                'deviceSid' => '1234567890',
                                 'deviceToken' => '1234567890',
                             ],
                         ],

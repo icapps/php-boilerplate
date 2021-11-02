@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 class JwtCreatedListener implements EventSubscriberInterface
 {
-    public const AUTH_DEVICE_REQUIRED_FIELDS = ['deviceId', 'deviceToken'];
+    public const AUTH_DEVICE_REQUIRED_FIELDS = ['deviceSid', 'deviceToken'];
 
     /**
      * @var RequestStack
@@ -50,17 +50,20 @@ class JwtCreatedListener implements EventSubscriberInterface
             return;
         }
 
-        // @TODO:: validate deviceId and deviceToken?
+        // @TODO:: validate deviceSid and deviceToken?
         // Update user device(s).
         if (count(array_intersect_key(array_flip(self::AUTH_DEVICE_REQUIRED_FIELDS), $data)) == count(self::AUTH_DEVICE_REQUIRED_FIELDS)) {
-            $device = $this->deviceRepository->findOneBy(['user' => $user, 'deviceId' => $data['deviceId']]);
+            $device = $this->deviceRepository->findOneBy([
+                'user' => $user,
+                'deviceId' => $data['deviceSid']
+            ]);
 
             if (!$device) {
                 $device = $this->deviceRepository->create();
             }
 
             $device->setUser($user);
-            $device->setDeviceId($data['deviceId']);
+            $device->setDeviceId($data['deviceSid']);
             $device->setDeviceToken($data['deviceToken']);
 
             try {
