@@ -5,7 +5,6 @@ grumphp:
         file_size:
             max_size: 15M
             ignore_patterns: []
-        jsonlint: null
         phpcs:
             standard: PSR12
             severity: ~
@@ -27,8 +26,7 @@ grumphp:
             path: 'templates'
             severity: 'warning'
             ruleset: 'FriendsOfTwig\Twigcs\Ruleset\Official'
-        xmllint: null
-        yamllint: null
-        securitychecker_symfony:
-            lockfile: ./composer.lock
-            run_always: true
+        yamllint:
+            whitelist_patterns: []
+        xmllint:
+            triggered_by: ['xml']

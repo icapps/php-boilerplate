@@ -85,7 +85,6 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
-        "enlightn/security-checker": "^1.9",
         "friendsoftwig/twigcs": "^5.0",
         "phpcr/phpcr-shell": "^1.2",
         "phpro/grumphp-shim": "^1.3",
