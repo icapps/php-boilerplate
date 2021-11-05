@@ -61,6 +61,7 @@ final class PasswordResetDataPersister implements DataPersisterInterface
         // Default response.
         $output = new StatusDto(
             Response::HTTP_OK,
+            $this->translator->trans('icapps.mail.reset_password.success', [], 'messages'),
             $this->translator->trans('icapps.mail.reset_password.sent', [], 'messages'),
         );
 

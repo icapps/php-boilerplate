@@ -28,6 +28,7 @@ class MailHelper
         private TranslatorInterface $translator,
         private RouterInterface $router
     ) {
+        //
     }
 
     /**
@@ -261,7 +262,7 @@ class MailHelper
         try {
             $this->mailer->send($message);
         } catch (TransportExceptionInterface $e) {
-            $this->logger->critical('Could not send email '.$subject.' :'.$e->getMessage().' / debug: '.$e->getDebug());
+            $this->logger->critical('Could not send email ' . $subject . ' :' . $e->getMessage() . ' / debug: ' . $e->getDebug());
             $this->logMailAction($subject, $sender, $recipient, $subject, $body, $plainText);
         }
     }
@@ -284,12 +285,12 @@ class MailHelper
     ): void {
         $this->logger->warning(
             sprintf(
-                'Error for mail %s: '.PHP_EOL.
-                '   From: %s'.PHP_EOL.
-                '   To: %s'.PHP_EOL.
-                '   Subject: %s'.PHP_EOL.
-                '   Body: %s'.PHP_EOL.
-                '   Plain text: %s'.PHP_EOL,
+                'Error for mail %s: ' . PHP_EOL .
+                '   From: %s' . PHP_EOL .
+                '   To: %s' . PHP_EOL .
+                '   Subject: %s' . PHP_EOL .
+                '   Body: %s' . PHP_EOL .
+                '   Plain text: %s' . PHP_EOL,
                 is_string($title) ? $title : serialize($title),
                 is_string($sender) ? $sender : serialize($sender),
                 is_string($recipient) ? $recipient : serialize($recipient),

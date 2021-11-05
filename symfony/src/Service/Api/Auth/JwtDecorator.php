@@ -52,6 +52,9 @@ final class JwtDecorator implements OpenApiFactoryInterface
                     '404' => [
                         'description' => 'User not found',
                     ],
+                    '422' => [
+                        'description' => 'Unprocessable entity',
+                    ]
                 ],
                 summary: 'Get JWT login token',
                 requestBody: new Model\RequestBody(

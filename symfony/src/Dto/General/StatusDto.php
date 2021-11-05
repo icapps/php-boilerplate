@@ -14,29 +14,61 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class StatusDto
 {
-    /**
-     * @var int
-     *
-     * @Groups({"api-get"})
-     */
-    public int $code = 200;
+    private const TYPE_HTTP_STATUS_CODE = 'https://datatracker.ietf.org/doc/html/rfc2616#section-10';
 
     /**
+     * The status response type: by default response including HTTP status code definition.
+     *
      * @var string
      *
      * @Groups({"api-get"})
      *
      * @Assert\NotBlank
      */
-    public string $message = '';
+    public string $type = self::TYPE_HTTP_STATUS_CODE;
 
     /**
-     * @param int $code
+     * The status response title.
+     *
+     * @var string
+     *
+     * @Groups({"api-get"})
+     *
+     * @Assert\NotBlank
+     */
+    public string $title = '';
+
+    /**
+     * The status response HTTP status code.
+     *
+     * @var int
+     *
+     * @Groups({"api-get"})
+     *
+     * @Assert\NotBlank
+     */
+    public int $status = 200;
+
+    /**
+     * The status response detailed message.
+     *
+     * @var string
+     *
+     * @Groups({"api-get"})
+     *
+     * @Assert\NotBlank
+     */
+    public string $detail = '';
+
+    /**
+     * @param int $statusCode
+     * @param string $title
      * @param string $message
      */
-    public function __construct(int $code, string $message)
+    public function __construct(int $statusCode, string $title, string $message)
     {
-        $this->code = $code;
-        $this->message = $message;
+        $this->title = $title;
+        $this->status = $statusCode;
+        $this->detail = $message;
     }
 }

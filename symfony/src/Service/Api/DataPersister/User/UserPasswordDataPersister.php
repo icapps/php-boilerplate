@@ -6,7 +6,7 @@ use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\Dto\General\StatusDto;
 use App\Dto\User\UserPasswordDto;
 use App\Entity\User;
-use App\Exception\InvalidPasswordException;
+use App\Exception\ApiException;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
 use App\Service\Api\General\ApiService;
@@ -51,7 +51,6 @@ final class UserPasswordDataPersister implements DataPersisterInterface
 
     /**
      * {@inheritDoc}
-     * @throws InvalidPasswordException
      */
     public function persist($data)
     {
@@ -65,7 +64,7 @@ final class UserPasswordDataPersister implements DataPersisterInterface
         /** @var UserPasswordDto $data */
         if (!$this->passwordEncoder->isPasswordValid($user, $data->oldPassword)) {
             $error = $this->translator->trans('icapps.registration.password.invalid', [], 'validators');
-            throw new InvalidPasswordException($error, 400);
+            throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $error);
         }
 
         // Update password.
@@ -80,7 +79,8 @@ final class UserPasswordDataPersister implements DataPersisterInterface
         // Return status output.
         return new StatusDto(
             Response::HTTP_OK,
-            $this->translator->trans('icapps.registration.password.updated', [], 'validators')
+            $this->translator->trans('icapps.registration.password.updated.title', [], 'validators'),
+            $this->translator->trans('icapps.registration.password.updated.message', [], 'validators')
         );
     }
 

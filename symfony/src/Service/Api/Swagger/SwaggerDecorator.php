@@ -62,9 +62,6 @@ final class SwaggerDecorator implements OpenApiFactoryInterface
                             ],
                         ],
                     ],
-                    '400' => [
-                        'description' => 'Validation error',
-                    ],
                     '401' => [
                         'description' => 'Unauthorized',
                     ],
@@ -73,7 +70,7 @@ final class SwaggerDecorator implements OpenApiFactoryInterface
                     ],
                     '404' => [
                         'description' => 'User not found',
-                    ],
+                    ]
                 ]
             )
         );

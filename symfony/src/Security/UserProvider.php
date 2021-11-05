@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Security;
 
 use App\Entity\User;
+use App\Exception\ApiException;
 use App\Repository\UserRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\User\PayloadAwareUserProviderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -19,25 +20,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserProvider implements PayloadAwareUserProviderInterface
 {
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
 
     /**
      * @var array
      */
-    private $cache = [];
+    private array $cache = [];
 
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
-
-    public function __construct(UserRepository $userRepository, RequestStack $requestStack)
+    public function __construct(private UserRepository $userRepository, private RequestStack $requestStack)
     {
-        $this->userRepository = $userRepository;
-        $this->requestStack = $requestStack;
+        //
     }
 
     /**
@@ -69,12 +60,13 @@ class UserProvider implements PayloadAwareUserProviderInterface
         $route = $request->get('_route');
 
         // Extra checks on login.
-        if (strpos($route, 'api_login') !== false) {
+        if (str_contains($route, 'api_login')) {
             $requestParams = json_decode($request->getContent(), true);
 
             if (!isset($requestParams['deviceSid']) || !isset($requestParams['deviceToken'])) {
-                throw new BadRequestHttpException(
-                    sprintf('The "%s" and "%s" must be provided.', 'deviceSid', 'deviceToken')
+                throw new ApiException(
+                    Response::HTTP_UNPROCESSABLE_ENTITY,
+                    sprintf('Both "%s" and "%s" must be provided.', 'deviceSid', 'deviceToken')
                 );
             }
         }

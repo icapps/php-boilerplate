@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class LogoutDataPersister
@@ -29,7 +30,8 @@ final class LogoutDataPersister implements DataPersisterInterface
         private UserPasswordEncoderInterface $userPasswordEncoder,
         private ValidatorInterface $validator,
         private DeviceRepository $deviceRepository,
-        private Security $security
+        private Security $security,
+        private TranslatorInterface $translator
     ) {
         //
     }
@@ -48,20 +50,27 @@ final class LogoutDataPersister implements DataPersisterInterface
     public function persist($data)
     {
         // Default response.
-        $output = new StatusDto(Response::HTTP_OK, 'Logout successful');
+        $output = new StatusDto(
+            Response::HTTP_OK,
+            $this->translator->trans('icapps.logout.success.title', [], 'messages'),
+            $this->translator->trans('icapps.logout.success.message', [], 'messages')
+        );
 
         // Mobile should throw away user session, so we only have to clear device.
         /** @var UserLogoutDto $data */
         try {
-            if ($device = $this->deviceRepository->findOneBy([
+            if (
+                $device = $this->deviceRepository->findOneBy([
                 'user' => $this->security->getUser(),
                 'deviceId' => $data->deviceSid
-            ])) {
+                ])
+            ) {
                 $this->deviceRepository->remove($device->getId());
             }
         } catch (\Exception $e) {
-            $output->code = Response::HTTP_INTERNAL_SERVER_ERROR;
-            $output->message = $e->getMessage();
+            $output->status = Response::HTTP_INTERNAL_SERVER_ERROR;
+            $output->title = $this->translator->trans('icapps.logout.error.title', [], 'messages');
+            $output->detail = $e->getMessage();
         }
 
         return $output;

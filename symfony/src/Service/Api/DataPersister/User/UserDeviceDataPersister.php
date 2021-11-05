@@ -47,10 +47,12 @@ final class UserDeviceDataPersister implements DataPersisterInterface
     public function persist($data): object
     {
         /** @var UserDeviceDto $data */
-        if (!$device = $this->deviceRepository->findOneBy([
+        if (
+            !$device = $this->deviceRepository->findOneBy([
             'user' => $this->security->getUser(),
             'deviceId' => $data->deviceSid
-        ])) {
+            ])
+        ) {
             throw new NotFoundHttpException('Device not found', null, 404);
         }
 

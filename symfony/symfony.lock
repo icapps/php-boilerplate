@@ -162,6 +162,9 @@
     "elasticsearch/elasticsearch": {
         "version": "v7.15.0"
     },
+    "enlightn/security-checker": {
+        "version": "v1.9.0"
+    },
     "ezimuel/guzzlestreams": {
         "version": "3.0.1"
     },
@@ -215,6 +218,9 @@
     },
     "goodby/csv": {
         "version": "1.3.0"
+    },
+    "guzzlehttp/guzzle": {
+        "version": "7.4.0"
     },
     "guzzlehttp/promises": {
         "version": "1.5.1"
