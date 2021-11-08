@@ -79,17 +79,6 @@ final class UserRegisterDto
      */
     public string $language;
 
-    /**
-     * @Groups({"register:api-post"})
-     *
-     * @Assert\NotBlank()
-     *
-     * @Assert\Length(
-     *     min = 8,
-     *     minMessage="icapps.registration.password.min_length",
-     *     allowEmptyString = false,
-     * )
-     */
 
     /**
      * @var string

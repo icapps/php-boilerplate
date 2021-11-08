@@ -1,40 +1,35 @@
 <?php
 
-namespace App\Controller\Api\User;
+namespace App\Controller\Api\Auth;
 
 use App\Service\Api\User\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class UserController
+ * Class AuthUserController
  *
- * @package App\Controller\Api\User
- *
- * @Route("/api/users", name="icapps_api.user")
+ * @Route("/api/auth", name="icapps_api.auth")
  */
-class UserController extends AbstractController
+class AuthUserController extends AbstractController
 {
     public function __construct(
-        private TranslatorInterface $translator,
         private UserService $userService
     ) {
         //
     }
 
     /**
-     * Following REST philosophy all requests for retrieving data should have unique URL's, ea: /user/{id}
+     * Following REST philosophy all requests for retrieving data should have unique URL's, ea: /user/{userSid}
      * We embrace this philosophy and provide following endpoint to retrieve active user info,
      * including necessary relationships.
      *
-     * // @TODO:: dynamic routing?
-     * @Route("/info", name=".info")
+     * @Route("/me", name=".me")
      *
      * @return Response
      */
-    public function confirmationPendingEmail(): Response
+    public function getAuthenticatedUserInfo(): Response
     {
         return $this->userService->getActiveUserInfo();
     }

@@ -15,6 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class AuthAccessDto
 {
     public const AUTH_ROUTE_PREFIX = '/auth';
+    public const AUTH_LOGIN_URL = '/api/auth/login';
+    public const AUTH_ME_URL = '/api/auth/me';
     public const AUTH_BUNDLE_TAG = 'Authentication';
 
     /**

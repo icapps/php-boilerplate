@@ -6,13 +6,15 @@ namespace App\Security;
 
 use App\Entity\User;
 use App\Exception\ApiException;
+use App\Exception\UserNotActivatedException;
+use App\Exception\UserNotFoundException;
 use App\Repository\UserRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\User\PayloadAwareUserProviderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @method UserInterface loadUserByIdentifierAndPayload(string $identifier, array $payload)
@@ -26,8 +28,11 @@ class UserProvider implements PayloadAwareUserProviderInterface
      */
     private array $cache = [];
 
-    public function __construct(private UserRepository $userRepository, private RequestStack $requestStack)
-    {
+    public function __construct(
+        private UserRepository $userRepository,
+        private RequestStack $requestStack,
+        private ValidatorInterface $validator
+    ) {
         //
     }
 
@@ -44,9 +49,10 @@ class UserProvider implements PayloadAwareUserProviderInterface
      *
      * @param $email
      * @param array $payload
-     * @return User|mixed
+     *
+     * @return mixed
      */
-    public function loadUserByPayload($email, array $payload)
+    public function loadUserByPayload($email, array $payload): mixed
     {
         // Check cache.
         if (isset($this->cache[$email])) {
@@ -63,6 +69,17 @@ class UserProvider implements PayloadAwareUserProviderInterface
         if (str_contains($route, 'api_login')) {
             $requestParams = json_decode($request->getContent(), true);
 
+            // Validate email.
+            $errors = $this->validator->validate($email, new Assert\Email());
+            if ($errors->count()) {
+                throw new ApiException(
+                    Response::HTTP_UNPROCESSABLE_ENTITY,
+                    sprintf('The provided email "%s" is invalid.', $email)
+                );
+            }
+
+            // Validate device.
+            // @TODO:: validate deviceSid and deviceToken?
             if (!isset($requestParams['deviceSid']) || !isset($requestParams['deviceToken'])) {
                 throw new ApiException(
                     Response::HTTP_UNPROCESSABLE_ENTITY,
@@ -77,13 +94,13 @@ class UserProvider implements PayloadAwareUserProviderInterface
         ]);
 
         // Check if exists.
-        if (null === $user) {
+        if (!$user) {
             throw new UserNotFoundException('User not found');
         }
 
         // Check if enabled.
         if (!$user->isEnabled()) {
-            throw new AuthenticationException('User not yet activated');
+            throw new UserNotActivatedException('User not yet activated');
         }
 
         return $this->cache[$email] = $user;
