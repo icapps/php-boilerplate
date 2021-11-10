@@ -3,15 +3,16 @@
 namespace App\Service\Api\DataPersister\User;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
-use App\ApiResource\User\User;
+use ApiPlatform\Core\Validator\ValidatorInterface;
+use App\Entity\User;
 use App\Dto\User\UserProfileDto;
+use App\Exception\UserNotFoundException;
 use App\Mail\MailHelper;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
 use App\Utils\AuthUtils;
 use App\Utils\UuidEncoder;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
 
@@ -19,8 +20,6 @@ use Symfony\Component\Security\Core\Security;
  * Class UserDataPersister
  *
  * @link: https://api-platform.com/docs/core/data-persisters.
- *
- * @package App\Service\Api\DataProvider\Examples
  */
 final class UserDataPersister implements DataPersisterInterface
 {
@@ -32,7 +31,8 @@ final class UserDataPersister implements DataPersisterInterface
         private ProfileRepository $profileRepository,
         private Security $security,
         private MailHelper $mailHelper,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
+        private ValidatorInterface $validator
     ) {
         //
     }
@@ -51,9 +51,9 @@ final class UserDataPersister implements DataPersisterInterface
     public function persist($data)
     {
         // Load user.
-        /** @var User $data */
+        /** @var UserProfileDto $data */
         if (!$user = $this->userRepository->findByEncodedUuid($data->userSid)) {
-            throw new NotFoundHttpException('User not found', null, 404);
+            throw new UserNotFoundException('User not found');
         }
 
         // Check access.
@@ -62,19 +62,40 @@ final class UserDataPersister implements DataPersisterInterface
         }
 
         // Update user.
-        /** @var UserProfileDto $data */
+        /** @var User $user */
         $user->setLanguage($data->language);
 
         // Update email: pending until activation.
         if ($data->email !== $user->getEmail()) {
+            // Set pending email.
             $user->setPendingEmail($data->email);
+
+            // Keep track of current email.
+            $currentEmail = $user->getEmail();
+
+            // Validate new email.
+            $user->setEmail($data->email);
+            $context['groups'] = 'orm-user-update';
+            $this->validator->validate($user, $context);
+
+            // Reset current email.
+            $user->setEmail($currentEmail);
+
+            // Set activation token.
             $user->setActivationToken(AuthUtils::getUniqueToken());
         }
 
+        // Save user.
         $this->userRepository->save($user);
 
-        // Update profile.
+        // Get profile.
         $profile = $user->getProfile();
+
+        if (!$profile) {
+            throw new UserNotFoundException('User profile not found');
+        }
+
+        // Update profile.
         $profile->setFirstName($data->firstName);
         $profile->setLastName($data->lastName);
         $this->profileRepository->save($profile);
@@ -84,7 +105,6 @@ final class UserDataPersister implements DataPersisterInterface
             try {
                 $this->mailHelper->sendPendingEmailActivation($user, $profile);
             } catch (\Exception $e) {
-                // Silent failure.
                 $this->logger->critical('User confirmation mail failure: ' . $e->getMessage());
             }
         }
@@ -103,7 +123,7 @@ final class UserDataPersister implements DataPersisterInterface
     /**
      * {@inheritDoc}
      */
-    public function remove($data)
+    public function remove($data): void
     {
         // this method just need to be presented
     }

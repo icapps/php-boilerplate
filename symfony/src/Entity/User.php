@@ -43,14 +43,14 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     public const DEFAULT_LOCALE = 'nl';
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=false)
      *
      * @Assert\NotBlank(
      *     message="icapps.registration.email.required",
      *     groups={"orm-registration", "orm-user-update"}
      * )
      */
-    private ?string $email;
+    private string $email;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -63,14 +63,14 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     private array $roles = [];
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      *
      * @Assert\NotBlank(
      *     message="icapps.registration.password.required",
      *     groups={"orm-registration", "orm-user-update"}
      * )
      */
-    private ?string $password;
+    private string $password;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -106,12 +106,12 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     /**
      * @ORM\OneToMany(targetEntity="\App\Entity\Device", mappedBy="user")
      */
-    private $devices = [];
+    private Collection|array $devices = [];
 
     /**
-     * @return null|string
+     * @return string
      */
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -129,9 +129,9 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     }
 
     /**
-     * @return null|string
+     * @return string
      */
-    public function getUsername(): ?string
+    public function getUsername(): string
     {
         return (string) $this->email;
     }
@@ -162,9 +162,9 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     }
 
     /**
-     * @return null|string
+     * @return string
      */
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return (string) $this->password;
     }
@@ -195,7 +195,7 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
@@ -266,9 +266,9 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     }
 
     /**
-     * @return null|string
+     * @return string
      */
-    public function getLanguage(): ?string
+    public function getLanguage(): string
     {
         return $this->language;
     }
@@ -310,7 +310,7 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     }
 
     /**
-     * @return Collection|Device[]
+     * @return array|Collection
      */
     public function getDevices(): array|Collection
     {

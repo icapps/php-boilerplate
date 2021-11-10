@@ -13,6 +13,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Security\User\PayloadAwareUserProviderI
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -39,20 +40,20 @@ class UserProvider implements PayloadAwareUserProviderInterface
     /**
      * {@inheritDoc}
      */
-    public function loadUserByUsernameAndPayload($email, array $payload)
+    public function loadUserByUsernameAndPayload(string $username, array $payload): mixed
     {
-        return $this->loadUserByPayload($email, $payload);
+        return $this->loadUserByPayload($username, $payload);
     }
 
     /**
      * Load user by given payload.
      *
-     * @param $email
+     * @param string $email
      * @param array $payload
      *
      * @return mixed
      */
-    public function loadUserByPayload($email, array $payload): mixed
+    public function loadUserByPayload(string $email, array $payload): mixed
     {
         // Check cache.
         if (isset($this->cache[$email])) {
@@ -60,14 +61,22 @@ class UserProvider implements PayloadAwareUserProviderInterface
         }
 
         // Get request.
-        $request = $this->requestStack->getCurrentRequest();
+        if (!$request = $this->requestStack->getCurrentRequest()) {
+            throw new ApiException(
+                Response::HTTP_UNPROCESSABLE_ENTITY,
+                'Unable to process request.'
+            );
+        }
 
         // Get route.
         $route = $request->get('_route');
 
         // Extra checks on login.
         if (str_contains($route, 'api_login')) {
-            $requestParams = json_decode($request->getContent(), true);
+            $jsonEncoder = new JsonEncoder();
+            /** @var string $requestContent */
+            $requestContent = $request->getContent();
+            $requestParams = $jsonEncoder->decode($requestContent, JsonEncoder::FORMAT);
 
             // Validate email.
             $errors = $this->validator->validate($email, new Assert\Email());
@@ -88,7 +97,7 @@ class UserProvider implements PayloadAwareUserProviderInterface
             }
         }
 
-        /** @var User $user */
+        // Get user.
         $user = $this->userRepository->findOneBy([
             'email' => $email,
         ]);
@@ -109,9 +118,9 @@ class UserProvider implements PayloadAwareUserProviderInterface
     /**
      * {@inheritDoc}
      */
-    public function loadUserByUsername($email)
+    public function loadUserByUsername(string $username)
     {
-        return $this->loadUserByUsernameAndPayload($email, []);
+        return $this->loadUserByPayload($username, []);
     }
 
     /**
@@ -125,12 +134,12 @@ class UserProvider implements PayloadAwareUserProviderInterface
     /**
      * {@inheritDoc}
      */
-    public function supportsClass($class): bool
+    public function supportsClass(string $class): bool
     {
         return User::class === $class;
     }
 
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments = []): void
     {
         // TODO: Implement @method UserInterface loadUserByIdentifierAndPayload(string $identifier, array $payload)
         // TODO: Implement @method UserInterface loadUserByIdentifier(string $identifier)

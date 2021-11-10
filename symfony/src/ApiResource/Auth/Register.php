@@ -44,5 +44,5 @@ use App\Dto\User\UserProfileDto;
  */
 final class Register
 {
-    public $id;
+    public int $id;
 }

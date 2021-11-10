@@ -20,8 +20,7 @@ class UserController extends AbstractController
 
     public function __construct(
         private TranslatorInterface $translator,
-        private UserService $userService,
-        private ProfileRepository $profileRepository
+        private UserService $userService
     ) {
         //
     }
@@ -93,6 +92,13 @@ class UserController extends AbstractController
             $user = $this->userService->passwordResetUser($user, $password);
             $profile = $user->getProfile();
 
+            if (!$profile) {
+                return $this->render('general/status.html.twig', [
+                    'title' => $this->translator->trans('icapps.website.lbl_user.activation.failed_title', [], 'messages'),
+                    'message' => $this->translator->trans('icapps.website.lbl_user.activation.failed_message', [], 'messages'),
+                ]);
+            }
+
             // Success.
             return $this->render('general/status.html.twig', [
                 'title' => $this->translator->trans('icapps.website.lbl_user.reset.completed_title', ['%username' => $profile->getFirstName()], 'messages'),
@@ -120,6 +126,13 @@ class UserController extends AbstractController
         }
 
         $profile = $user->getProfile();
+
+        if (!$profile) {
+            return $this->render('general/status.html.twig', [
+                'title' => $this->translator->trans('icapps.website.lbl_user.activation.failed_title', [], 'messages'),
+                'message' => $this->translator->trans('icapps.website.lbl_user.activation.failed_message', [], 'messages'),
+            ]);
+        }
 
         return $this->render('general/status.html.twig', [
             'title' => $this->translator->trans('icapps.website.lbl_user.activation.completed_title', ['%username' => $profile->getFirstName()], 'messages'),

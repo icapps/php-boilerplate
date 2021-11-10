@@ -45,13 +45,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      */
     public function remove(int $id): void
     {
-        $user = $this->getEntityManager()->getReference(
-            $this->getClassName(),
-            $id
-        );
+        // @phpstan-ignore-next-line
+        $user = $this->getEntityManager()->getReference($this->getClassName(), $id);
 
-        $this->getEntityManager()->remove($user);
-        $this->getEntityManager()->flush();
+        if ($user) {
+            $this->getEntityManager()->remove($user);
+            $this->getEntityManager()->flush();
+        }
     }
 
     /**

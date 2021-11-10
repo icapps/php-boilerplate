@@ -1,5 +1,12 @@
 parameters:
-  level: 1
+  level: 8
   checkMissingIterableValueType: false
+  checkGenericClassInNonGenericObjectType: false
   excludes_analyse:
     - src/Kernel.php
+  ignoreErrors:
+    - '#Method [a-zA-Z0-9\\_]+::supports\(\) has parameter#' # Due to inheritance (DataPersister)
+    - '#Method [a-zA-Z0-9\\_]+::persist\(\) has parameter#' # Due to inheritance (DataPersister)
+    - '#Method [a-zA-Z0-9\\_]+::remove\(\) has parameter#' # Due to inheritance (DataPersister)
+    - '#Method [a-zA-Z0-9\\_]+::persist\(\) has parameter#' # Due to inheritance (DataPersister)
+    - '#Call to an undefined method [a-zA-Z0-9\\_]+::setLocale\(\)#' # due to TranslatorInterface (Mailhelper)

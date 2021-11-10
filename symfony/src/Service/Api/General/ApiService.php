@@ -104,10 +104,10 @@ class ApiService
      * Sets an error message and returns a JSON response
      *
      * @param string $success
-     * @param $headers
+     * @param array $headers
      * @return JsonResponse
      */
-    public function respondWithSuccess(string $success, $headers = []): JsonResponse
+    public function respondWithSuccess(string $success, array $headers = []): JsonResponse
     {
         $data = [
             'code' => $this->getStatusCode(),
@@ -174,11 +174,12 @@ class ApiService
     public function transformJsonBody(Request $request): Request
     {
         $jsonEncoder = new JsonEncoder();
-        if (empty($request->getContent())) {
+        if (empty($requestContent = $request->getContent())) {
             return $request;
         }
 
-        $data = $jsonEncoder->decode($request->getContent(), true);
+        /** @var string $requestContent */
+        $data = $jsonEncoder->decode($requestContent, JsonEncoder::FORMAT);
         if ($data === null) {
             return $request;
         }

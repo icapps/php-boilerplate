@@ -43,13 +43,13 @@ class ProfileRepository extends ServiceEntityRepository
      */
     public function remove(int $id): void
     {
-        $profile = $this->getEntityManager()->getReference(
-            $this->getClassName(),
-            $id
-        );
+        // @phpstan-ignore-next-line
+        $profile = $this->getEntityManager()->getReference($this->getClassName(), $id);
 
-        $this->getEntityManager()->remove($profile);
-        $this->getEntityManager()->flush();
+        if ($profile) {
+            $this->getEntityManager()->remove($profile);
+            $this->getEntityManager()->flush();
+        }
     }
 
     /**

@@ -19,8 +19,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * Class RegisterDataPersister
  *
  * @link: https://api-platform.com/docs/core/data-persisters.
- *
- * @package App\Service\Api\DataPersister\Auth
  */
 final class RegisterDataPersister implements DataPersisterInterface
 {
@@ -95,7 +93,9 @@ final class RegisterDataPersister implements DataPersisterInterface
 
         // Send activation mail.
         try {
-            $this->mailHelper->sendRegistrationActivationMail($user, $user->getProfile());
+            if ($userProfile = $user->getProfile()) {
+                $this->mailHelper->sendRegistrationActivationMail($user, $userProfile);
+            }
         } catch (\Exception $e) {
             // Silent failure.
             $this->logger->critical('User activation mail failure: ' . $e->getMessage());
@@ -114,7 +114,7 @@ final class RegisterDataPersister implements DataPersisterInterface
     /**
      * {@inheritDoc}
      */
-    public function remove($data)
+    public function remove($data): void
     {
         // this method just need to be presented
     }

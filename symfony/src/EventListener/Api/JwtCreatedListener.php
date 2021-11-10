@@ -39,11 +39,18 @@ class JwtCreatedListener implements EventSubscriberInterface
     /**
      * @param AuthenticationSuccessEvent $event
      */
-    public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
+    public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event): void
     {
         $jsonEncoder = new JsonEncoder();
         $request = $this->requestStack->getCurrentRequest();
-        $data = $jsonEncoder->decode($request->getContent(), true);
+
+        if (!$request) {
+            return;
+        }
+
+        /** @var string $requestContent */
+        $requestContent = $request->getContent();
+        $data = $jsonEncoder->decode($requestContent, JsonEncoder::FORMAT);
 
         $user = $event->getUser();
         if (!$user instanceof User) {
@@ -85,7 +92,7 @@ class JwtCreatedListener implements EventSubscriberInterface
     /**
      * {@inheritDoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return array(
             'lexik_jwt_authentication.on_authentication_success' => 'onAuthenticationSuccessResponse',

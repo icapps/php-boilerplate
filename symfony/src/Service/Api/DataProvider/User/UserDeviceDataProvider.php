@@ -15,8 +15,6 @@ use Symfony\Component\Security\Core\Security;
  * Class UserDeviceDataProvider
  *
  * @link: https://api-platform.com/docs/core/data-providers.
- *
- * @package App\Service\Api\DataProvider\User
  */
 final class UserDeviceDataProvider implements ItemDataProviderInterface, ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
@@ -43,7 +41,6 @@ final class UserDeviceDataProvider implements ItemDataProviderInterface, Context
      */
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): UserDeviceDto
     {
-        /** @var UserDeviceDto $data */
         if (
             !$device = $this->deviceRepository->findOneBy([
             'user' => $this->security->getUser(),

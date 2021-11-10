@@ -47,13 +47,13 @@ class DeviceRepository extends ServiceEntityRepository
      */
     public function remove(int $id): void
     {
-        $device = $this->getEntityManager()->getReference(
-            $this->getClassName(),
-            $id
-        );
+        // @phpstan-ignore-next-line
+        $device = $this->getEntityManager()->getReference($this->getClassName(), $id);
 
-        $this->getEntityManager()->remove($device);
-        $this->getEntityManager()->flush();
+        if ($device) {
+            $this->getEntityManager()->remove($device);
+            $this->getEntityManager()->flush();
+        }
     }
 
     /**

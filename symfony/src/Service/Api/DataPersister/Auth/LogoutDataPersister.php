@@ -3,13 +3,10 @@
 namespace App\Service\Api\DataPersister\Auth;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
-use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Dto\Auth\UserLogoutDto;
 use App\Dto\General\StatusDto;
 use App\Repository\DeviceRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -17,8 +14,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class LogoutDataPersister
  *
  * @link: https://api-platform.com/docs/core/data-persisters.
- *
- * @package App\Service\Api\DataPersister\Auth
  */
 final class LogoutDataPersister implements DataPersisterInterface
 {
@@ -26,9 +21,6 @@ final class LogoutDataPersister implements DataPersisterInterface
      * {@inheritDoc}
      */
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private UserPasswordEncoderInterface $userPasswordEncoder,
-        private ValidatorInterface $validator,
         private DeviceRepository $deviceRepository,
         private Security $security,
         private TranslatorInterface $translator
@@ -79,7 +71,7 @@ final class LogoutDataPersister implements DataPersisterInterface
     /**
      * {@inheritDoc}
      */
-    public function remove($data)
+    public function remove($data): void
     {
         // this method just need to be presented
     }

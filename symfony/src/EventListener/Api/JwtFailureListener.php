@@ -12,7 +12,7 @@ class JwtFailureListener implements EventSubscriberInterface
     /**
      * @param AuthenticationFailureEvent $event
      */
-    public function onAuthenticationFailureResponse(AuthenticationFailureEvent $event)
+    public function onAuthenticationFailureResponse(AuthenticationFailureEvent $event): void
     {
         // Get exception.
         $exception = $event->getException();
@@ -32,7 +32,7 @@ class JwtFailureListener implements EventSubscriberInterface
     /**
      * {@inheritDoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             'lexik_jwt_authentication.on_authentication_failure' => 'onAuthenticationFailureResponse',

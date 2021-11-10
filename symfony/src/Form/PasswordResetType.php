@@ -11,15 +11,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class PasswordResetType extends AbstractType
 {
 
-    public function __construct(private TranslatorInterface $translator)
-    {
+    public function __construct(
+        private TranslatorInterface $translator
+    ) {
+        //
     }
 
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('password', PasswordType::class, [

@@ -3,30 +3,22 @@
 namespace App\Service\Api\DataPersister\User;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
-use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Dto\User\UserDeviceDto;
 use App\Repository\DeviceRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 
 /**
  * Class UserDeviceDataPersister
  *
  * @link: https://api-platform.com/docs/core/data-persisters.
- *
- * @package App\Service\Api\DataPersister\User
  */
 final class UserDeviceDataPersister implements DataPersisterInterface
 {
     /**
-     * UserDeviceDataPersister constructor.
+     * {@inheritDoc}
      */
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private UserPasswordEncoderInterface $userPasswordEncoder,
-        private ValidatorInterface $validator,
         private DeviceRepository $deviceRepository,
         private Security $security
     ) {
@@ -69,7 +61,7 @@ final class UserDeviceDataPersister implements DataPersisterInterface
     /**
      * {@inheritDoc}
      */
-    public function remove($data)
+    public function remove($data): void
     {
         // this method just need to be presented
     }

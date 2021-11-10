@@ -33,7 +33,7 @@ class Device implements AuditableInterface, EntityIdInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=false)
      *
      * @Assert\NotBlank()
      */
@@ -42,7 +42,7 @@ class Device implements AuditableInterface, EntityIdInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=false)
      *
      * @Assert\NotBlank()
      */
@@ -65,9 +65,9 @@ class Device implements AuditableInterface, EntityIdInterface
     }
 
     /**
-     * @return null|string
+     * @return string
      */
-    public function getDeviceId(): ?string
+    public function getDeviceId(): string
     {
         return $this->deviceId;
     }
@@ -81,9 +81,9 @@ class Device implements AuditableInterface, EntityIdInterface
     }
 
     /**
-     * @return null|string
+     * @return string
      */
-    public function getDeviceToken(): ?string
+    public function getDeviceToken(): string
     {
         return $this->deviceToken;
     }
