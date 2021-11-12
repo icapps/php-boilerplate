@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Repository\Traits\RepositoryUuidFinder;
 use App\Repository\Traits\Transactional;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -21,6 +22,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
     use Transactional;
+    use RepositoryUuidFinder;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -43,13 +45,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      */
     public function remove(int $id): void
     {
-        $user = $this->getEntityManager()->getReference(
-            $this->getClassName(),
-            $id
-        );
+        // @phpstan-ignore-next-line
+        $user = $this->getEntityManager()->getReference($this->getClassName(), $id);
 
-        $this->getEntityManager()->remove($user);
-        $this->getEntityManager()->flush();
+        if ($user) {
+            $this->getEntityManager()->remove($user);
+            $this->getEntityManager()->flush();
+        }
     }
 
     /**

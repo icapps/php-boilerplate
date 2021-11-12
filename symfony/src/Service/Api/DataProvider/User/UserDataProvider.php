@@ -5,10 +5,12 @@ namespace App\Service\Api\DataProvider\User;
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use App\ApiResource\User\User;
+use App\ApiResource\User\User as UserApiResource;
+use App\Entity\User;
 use App\Dto\User\UserProfileDto;
-use App\Repository\ProfileRepository;
+use App\Exception\UserNotFoundException;
 use App\Repository\UserRepository;
+use App\Utils\UuidEncoder;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
@@ -17,8 +19,6 @@ use Symfony\Component\Security\Core\Security;
  * Class UserDataProvider
  *
  * @link: https://api-platform.com/docs/core/data-providers.
- *
- * @package App\Service\Api\DataProvider\User
  */
 final class UserDataProvider implements ItemDataProviderInterface, ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
@@ -27,7 +27,6 @@ final class UserDataProvider implements ItemDataProviderInterface, ContextAwareC
      */
     public function __construct(
         private UserRepository $userRepository,
-        private ProfileRepository $profileRepository,
         private Security $security
     ) {
         //
@@ -38,7 +37,7 @@ final class UserDataProvider implements ItemDataProviderInterface, ContextAwareC
      */
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
-        return $resourceClass === User::class;
+        return $resourceClass === UserApiResource::class;
     }
 
     /**
@@ -47,7 +46,8 @@ final class UserDataProvider implements ItemDataProviderInterface, ContextAwareC
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?UserProfileDto
     {
         // Load user.
-        if (!$user = $this->userRepository->find($id)) {
+        /** @var string $id */
+        if (!$user = $this->userRepository->findByEncodedUuid($id)) {
             throw new NotFoundHttpException('User not found', null, 404);
         }
 
@@ -57,11 +57,16 @@ final class UserDataProvider implements ItemDataProviderInterface, ContextAwareC
         }
 
         // Get user profile.
+        /** @var User $user */
         $profile = $user->getProfile();
+
+        if (!$profile) {
+            throw new UserNotFoundException('User profile not found');
+        }
 
         // Create output.
         $output = new UserProfileDto();
-        $output->id = $user->getId();
+        $output->userSid = UuidEncoder::encode($user->getUuid());
         $output->firstName = $profile->getFirstName();
         $output->lastName = $profile->getLastName();
         $output->email = $user->getEmail();

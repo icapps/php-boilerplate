@@ -21,7 +21,9 @@ icapps:
             min_length: Wachtwoord moet minimaal uit 8 karakters bestaan
             required_fields: oldPassword en newPassword zijn verplicht
             invalid: Wachtwoord foutief
-            updated: Wachtwoord aangepast
+            updated:
+                title: Wachtwoord aangepast
+                message: Gebruiker wachtwoord succesvol aangepast
         language:
             required: Taalkeuze verplicht
             invalid: "Dit is geen geldige taalkeuze: {{ value }}"

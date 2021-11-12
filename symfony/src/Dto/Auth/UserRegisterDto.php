@@ -9,8 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class UserRegisterDto
  *
  * All custom ApiResource responses should be included using a proper DTO.
- *
- * @package App\Dto
  */
 final class UserRegisterDto
 {
@@ -79,17 +77,6 @@ final class UserRegisterDto
      */
     public string $language;
 
-    /**
-     * @Groups({"register:api-post"})
-     *
-     * @Assert\NotBlank()
-     *
-     * @Assert\Length(
-     *     min = 8,
-     *     minMessage="icapps.registration.password.min_length",
-     *     allowEmptyString = false,
-     * )
-     */
 
     /**
      * @var string

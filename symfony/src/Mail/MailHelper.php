@@ -28,6 +28,7 @@ class MailHelper
         private TranslatorInterface $translator,
         private RouterInterface $router
     ) {
+        //
     }
 
     /**
@@ -42,6 +43,12 @@ class MailHelper
      */
     public function sendRegistrationActivationMail(User $user, ProfileInterface $profile): void
     {
+        // Check user requirements.
+        if (!$userEmail = $user->getEmail()) {
+            $this->logger->critical('No email found for user: ' . $user->getId());
+            return;
+        }
+
         // Generate activation link.
         $link = $this->router->generate(
             'icapps_website.user.confirmation',
@@ -49,8 +56,10 @@ class MailHelper
             UrlGeneratorInterface::ABSOLUTE_URL
         );
 
+        // User language.
         $defaultLocale = $this->translator->getLocale();
-        $this->translator->setLocale($user->getLanguage());
+        $userLanguage = $user->getLanguage();
+        $this->translator->setLocale($userLanguage);
 
         // Get activation mail body.
         $body = $this->twig->render(
@@ -66,9 +75,9 @@ class MailHelper
 
         // Send mail.
         $this->sendMail(
-            $this->translator->trans('icapps.mail.activation.title', ['%brand' => $_ENV['BRAND']], 'messages', $user->getLanguage()),
+            $this->translator->trans('icapps.mail.activation.title', ['%brand' => $_ENV['BRAND']], 'messages', $userLanguage),
             $body,
-            $user->getEmail(),
+            $userEmail,
             'registration'
         );
     }
@@ -85,6 +94,12 @@ class MailHelper
      */
     public function sendPendingEmailActivation(User $user, ProfileInterface $profile): void
     {
+        // Check user requirements.
+        if (!$userPendingEmail = $user->getPendingEmail()) {
+            $this->logger->critical('No pending email found for user: ' . $user->getId());
+            return;
+        }
+
         // Generate activation link.
         $link = $this->router->generate(
             'icapps_website.user.confirmation.pending_email',
@@ -92,8 +107,10 @@ class MailHelper
             UrlGeneratorInterface::ABSOLUTE_URL
         );
 
+        // User language.
         $defaultLocale = $this->translator->getLocale();
-        $this->translator->setLocale($user->getLanguage());
+        $userLanguage = $user->getLanguage();
+        $this->translator->setLocale($userLanguage);
 
         // Get mail body.
         $body = $this->twig->render(
@@ -109,9 +126,9 @@ class MailHelper
 
         // Send mail.
         $this->sendMail(
-            $this->translator->trans('icapps.mail.pending.title', ['%brand' => $_ENV['BRAND']], 'messages', $user->getLanguage()),
+            $this->translator->trans('icapps.mail.pending.title', ['%brand' => $_ENV['BRAND']], 'messages', $userLanguage),
             $body,
-            $user->getPendingEmail(),
+            $userPendingEmail,
             'registration'
         );
     }
@@ -128,8 +145,16 @@ class MailHelper
      */
     public function sendRegistrationConfirmationMail(User $user, ProfileInterface $profile): void
     {
+        // Check user requirements.
+        if (!$userEmail = $user->getEmail()) {
+            $this->logger->critical('No email found for user: ' . $user->getId());
+            return;
+        }
+
+        // User language.
         $defaultLocale = $this->translator->getLocale();
-        $this->translator->setLocale($user->getLanguage());
+        $userLanguage = $user->getLanguage();
+        $this->translator->setLocale($userLanguage);
 
         // Get activation mail body.
         $body = $this->twig->render(
@@ -143,9 +168,9 @@ class MailHelper
 
         // Send mail.
         $this->sendMail(
-            $this->translator->trans('icapps.mail.confirmation.title', ['%brand' => $_ENV['BRAND']], 'messages', $user->getLanguage()),
+            $this->translator->trans('icapps.mail.confirmation.title', ['%brand' => $_ENV['BRAND']], 'messages', $userLanguage),
             $body,
-            $user->getEmail(),
+            $userEmail,
             'registration'
         );
     }
@@ -162,6 +187,12 @@ class MailHelper
      */
     public function sendUserPasswordResetMail(User $user, ProfileInterface $profile): void
     {
+        // Check user requirements.
+        if (!$userEmail = $user->getEmail()) {
+            $this->logger->critical('No email found for user: ' . $user->getId());
+            return;
+        }
+
         // Generate reset link.
         $link = $this->router->generate(
             'icapps_website.user.reset',
@@ -169,8 +200,10 @@ class MailHelper
             UrlGeneratorInterface::ABSOLUTE_URL
         );
 
+        // User language.
         $defaultLocale = $this->translator->getLocale();
-        $this->translator->setLocale($user->getLanguage());
+        $userLanguage = $user->getLanguage();
+        $this->translator->setLocale($userLanguage);
 
         // Get reset mail body.
         $body = $this->twig->render(
@@ -185,9 +218,9 @@ class MailHelper
 
         // Send mail.
         $this->sendMail(
-            $this->translator->trans('icapps.mail.reset_password.title', ['%brand' => $_ENV['BRAND']], 'messages', $user->getLanguage()),
+            $this->translator->trans('icapps.mail.reset_password.title', ['%brand' => $_ENV['BRAND']], 'messages', $userLanguage),
             $body,
-            $user->getEmail(),
+            $userEmail,
             'password-reset'
         );
     }
@@ -248,9 +281,9 @@ class MailHelper
                         $name = $file->getClientOriginalName();
                     }
 
-                    if (filter_var($path, FILTER_VALIDATE_URL)) {
+                    if (filter_var($path, FILTER_VALIDATE_URL) && $attachment = fopen($path, 'r')) {
                         // [INFO] Symfony webserver: this can crash locally if you use proxy domain, use BASE_URL 127.0.0.1:8000 for symfony server testing
-                        $message->attach(fopen($path, 'r'), $name);
+                        $message->attach($attachment, $name);
                     } else {
                         $message->attachFromPath($path, $name);
                     }
@@ -261,7 +294,7 @@ class MailHelper
         try {
             $this->mailer->send($message);
         } catch (TransportExceptionInterface $e) {
-            $this->logger->critical('Could not send email '.$subject.' :'.$e->getMessage().' / debug: '.$e->getDebug());
+            $this->logger->critical('Could not send email ' . $subject . ' :' . $e->getMessage() . ' / debug: ' . $e->getDebug());
             $this->logMailAction($subject, $sender, $recipient, $subject, $body, $plainText);
         }
     }
@@ -284,12 +317,12 @@ class MailHelper
     ): void {
         $this->logger->warning(
             sprintf(
-                'Error for mail %s: '.PHP_EOL.
-                '   From: %s'.PHP_EOL.
-                '   To: %s'.PHP_EOL.
-                '   Subject: %s'.PHP_EOL.
-                '   Body: %s'.PHP_EOL.
-                '   Plain text: %s'.PHP_EOL,
+                'Error for mail %s: ' . PHP_EOL .
+                '   From: %s' . PHP_EOL .
+                '   To: %s' . PHP_EOL .
+                '   Subject: %s' . PHP_EOL .
+                '   Body: %s' . PHP_EOL .
+                '   Plain text: %s' . PHP_EOL,
                 is_string($title) ? $title : serialize($title),
                 is_string($sender) ? $sender : serialize($sender),
                 is_string($recipient) ? $recipient : serialize($recipient),

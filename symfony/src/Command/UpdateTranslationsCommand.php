@@ -13,32 +13,24 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class UpdateTranslationsCommand extends Command
 {
     protected static $defaultName = 'icapps:update-translations';
-    protected static $defaultDescription = 'Update translations from icapps translation tool.';
+    protected static string $defaultDescription = 'Update translations from icapps translation tool.';
 
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
-    /**
-     * @var HttpClientInterface
-     */
-    protected $httpClient;
+    public const PROJECT_LANGUAGES = ['nl', 'en', 'fr'];
 
     /**
      * {@inheritDoc}
      */
-    public function __construct(LoggerInterface $logger, HttpClientInterface $httpClient)
-    {
+    public function __construct(
+        private LoggerInterface $logger,
+        private HttpClientInterface $httpClient
+    ) {
         parent::__construct();
-        $this->logger = $logger;
-        $this->httpClient = $httpClient;
     }
 
     /**
      * {@inheritDoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription(self::$defaultDescription);
     }
@@ -63,9 +55,7 @@ class UpdateTranslationsCommand extends Command
      */
     private function updateTranslations(): void
     {
-        // @TODO:: retrieve languages for current project.
-        $languages = [];
-        foreach ($languages as $language) {
+        foreach (self::PROJECT_LANGUAGES as $language) {
             $endpoint = $_ENV['ICAPPS_TRANSLATIONS_TOOL'] . $language . '.json';
 
             try {

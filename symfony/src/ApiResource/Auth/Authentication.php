@@ -15,7 +15,7 @@ use App\Dto\Auth\UserRefreshDto;
  *     collectionOperations={
  *         "post_refresh_api"={
  *              "status"=200,
- *              "path"="/refresh",
+ *              "path"="/refresh-token",
  *              "input"=UserRefreshDto::class,
  *              "method"="POST",
  *              "openapi_context"={
@@ -35,12 +35,12 @@ use App\Dto\Auth\UserRefreshDto;
  *         },
  *         "post_password_reset_api"={
  *              "status"=200,
- *              "path"="/password-reset",
+ *              "path"="/forgot-password/init",
  *              "input"=UserPasswordResetDto::class,
  *              "method"="POST",
  *              "openapi_context"={
- *                  "summary"="Reset user password",
- *                  "description"="Initiate a user reset password flow by sending a mail to the user"
+ *                  "summary"="Initiate user forgot password flow",
+ *                  "description"="Initiate a user forgot password flow by sending an email to the user"
  *              }
  *         }
  *     },
@@ -59,5 +59,5 @@ use App\Dto\Auth\UserRefreshDto;
  */
 final class Authentication
 {
-    public $id;
+    public int $id;
 }

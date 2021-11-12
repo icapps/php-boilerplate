@@ -5,9 +5,8 @@ grumphp:
         file_size:
             max_size: 15M
             ignore_patterns: []
-        jsonlint: null
         phpcs:
-            standard: []
+            standard: PSR12
             severity: ~
             error_severity: ~
             warning_severity: ~
@@ -23,10 +22,11 @@ grumphp:
         phpstan:
             memory_limit: "-1"
             ignore_patterns: [ 'index.php', 'maintenance.php', 'console.php']
-        phpunit: null
         twigcs:
             path: 'templates'
             severity: 'warning'
             ruleset: 'FriendsOfTwig\Twigcs\Ruleset\Official'
-        xmllint: null
-        yamllint: null
+        yamllint:
+            whitelist_patterns: []
+        xmllint:
+            triggered_by: ['xml']

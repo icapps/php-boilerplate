@@ -38,11 +38,12 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
 
     public const ROLE_USER = 'ROLE_USER';
     public const ROLE_ADMIN = 'ROLE_ADMIN';
+
     public const LANGUAGES = ['nl', 'en', 'fr'];
     public const DEFAULT_LOCALE = 'nl';
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=false)
      *
      * @Assert\NotBlank(
      *     message="icapps.registration.email.required",
@@ -62,7 +63,7 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     private array $roles = [];
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      *
      * @Assert\NotBlank(
      *     message="icapps.registration.password.required",
@@ -74,7 +75,7 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $lastLogin;
+    protected ?DateTime $lastLogin;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -100,25 +101,17 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
      * @ORM\OneToOne(targetEntity=Profile::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private Profile $profile;
+    private ?Profile $profile;
 
     /**
      * @ORM\OneToMany(targetEntity="\App\Entity\Device", mappedBy="user")
      */
-    private $devices = [];
+    private Collection|array $devices = [];
 
     /**
-     * @return int|null
+     * @return string
      */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -136,9 +129,7 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     }
 
     /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
+     * @return string
      */
     public function getUsername(): string
     {
@@ -146,12 +137,13 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     }
 
     /**
-     * @see UserInterface
+     * @return array
      */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+
+        // Guarantee every user at least has ROLE_USER.
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -170,7 +162,7 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     }
 
     /**
-     * @see UserInterface
+     * @return string
      */
     public function getPassword(): string
     {
@@ -193,7 +185,7 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
-     * @see UserInterface
+     * @return null|string
      */
     public function getSalt(): ?string
     {
@@ -201,32 +193,18 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     }
 
     /**
-     * @see UserInterface
+     * {@inheritdoc}
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
 
     /**
-     * Set lastLogin.
-     *
-     * @param DateTime|null $lastLogin
-     *
-     * @return User
-     */
-    public function setLastLogin(?DateTime $lastLogin): User
-    {
-        $this->lastLogin = $lastLogin;
-
-        return $this;
-    }
-
-    /**
      * Get lastLogin.
      *
-     * @return DateTime|null
+     * @return null|DateTime
      */
     public function getLastLogin(): ?DateTime
     {
@@ -234,7 +212,21 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     }
 
     /**
-     * @return string|null
+     * Set lastLogin.
+     *
+     * @param DateTime|null $lastLogin
+     *
+     * @return $this
+     */
+    public function setLastLogin(?DateTime $lastLogin): self
+    {
+        $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
      */
     public function getActivationToken(): ?string
     {
@@ -254,7 +246,7 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getResetToken(): ?string
     {
@@ -283,6 +275,7 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
 
     /**
      * @param string $language
+     *
      * @return $this
      */
     public function setLanguage(string $language): self
@@ -290,6 +283,14 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
         $this->language = $language;
 
         return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPendingEmail(): ?string
+    {
+        return $this->pendingEmail;
     }
 
     /**
@@ -301,14 +302,6 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     }
 
     /**
-     * @return string|null
-     */
-    public function getPendingEmail(): ?string
-    {
-        return $this->pendingEmail;
-    }
-
-    /**
      * @return string[]
      */
     public static function getAvailableLanguages(): array
@@ -317,15 +310,15 @@ class User implements UserInterface, EnableInterface, EntityIdInterface
     }
 
     /**
-     * @return Collection|Device[]
+     * @return array|Collection
      */
-    public function getDevices(): Collection
+    public function getDevices(): array|Collection
     {
         return $this->devices;
     }
 
     /**
-     * @return Profile|null
+     * @return null|Profile
      */
     public function getProfile(): ?Profile
     {

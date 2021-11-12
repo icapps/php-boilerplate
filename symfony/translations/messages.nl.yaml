@@ -47,9 +47,16 @@ icapps:
       body: "Je registratie bij %brand is bevestigd! Je kunt nu inloggen met je e-mailadres en wachtwoord."
       title: "%brand account geactiveerd"
     reset_password:
+      success: "Wachtwoord reset aangevraagd"
       intro: "Hallo, %name"
       body: "Je ontvangt deze e-mail omdat we de vraag kregen om het wachtwoord van je account te herstellen. Indien deze vraag van jou kwam, klik dan op de knop hieronder om je wachtwoord te herstellen."
       button_text: "Wachtwoord herstellen"
       ignore_text: "Indien de vraag niet van jou kwam, mag je deze e-mail negeren. Je wachtwoord blijft veilig en onveranderd."
       title: "Herstel je wachtwoord bij %brand"
       sent: "E-mail met reset instructies werd verzonden"
+  logout:
+    success:
+      title: "Gebruiker afgemeld"
+      message: "Gebruiker succesvol afgemeld"
+    error:
+      title: "Afmelden gefaald"

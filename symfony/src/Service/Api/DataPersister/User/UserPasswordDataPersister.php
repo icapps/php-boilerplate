@@ -6,10 +6,8 @@ use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\Dto\General\StatusDto;
 use App\Dto\User\UserPasswordDto;
 use App\Entity\User;
-use App\Exception\InvalidPasswordException;
-use App\Repository\ProfileRepository;
+use App\Exception\ApiException;
 use App\Repository\UserRepository;
-use App\Service\Api\General\ApiService;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,8 +20,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class UserPasswordDataPersister
  *
  * @link: https://api-platform.com/docs/core/data-persisters.
- *
- * @package App\Service\Api\DataProvider\Examples
  */
 final class UserPasswordDataPersister implements DataPersisterInterface
 {
@@ -31,10 +27,8 @@ final class UserPasswordDataPersister implements DataPersisterInterface
      * {@inheritDoc}
      */
     public function __construct(
-        private ApiService $apiService,
         private UserPasswordEncoderInterface $passwordEncoder,
         private UserRepository $userRepository,
-        private ProfileRepository $profileRepository,
         private TranslatorInterface $translator,
         private Security $security
     ) {
@@ -51,12 +45,10 @@ final class UserPasswordDataPersister implements DataPersisterInterface
 
     /**
      * {@inheritDoc}
-     * @throws InvalidPasswordException
      */
     public function persist($data)
     {
         // Check user.
-        /** @var User $user */
         if (!$user = $this->security->getUser()) {
             throw new AuthenticationException();
         }
@@ -65,10 +57,11 @@ final class UserPasswordDataPersister implements DataPersisterInterface
         /** @var UserPasswordDto $data */
         if (!$this->passwordEncoder->isPasswordValid($user, $data->oldPassword)) {
             $error = $this->translator->trans('icapps.registration.password.invalid', [], 'validators');
-            throw new InvalidPasswordException($error, 400);
+            throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $error);
         }
 
         // Update password.
+        /** @var User $user */
         try {
             $user->setPassword($this->passwordEncoder->encodePassword($user, $data->password));
             $this->userRepository->save($user);
@@ -80,14 +73,15 @@ final class UserPasswordDataPersister implements DataPersisterInterface
         // Return status output.
         return new StatusDto(
             Response::HTTP_OK,
-            $this->translator->trans('icapps.registration.password.updated', [], 'validators')
+            $this->translator->trans('icapps.registration.password.updated.title', [], 'validators'),
+            $this->translator->trans('icapps.registration.password.updated.message', [], 'validators')
         );
     }
 
     /**
      * {@inheritDoc}
      */
-    public function remove($data)
+    public function remove($data): void
     {
         // this method just need to be presented
     }

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Device;
+use App\Repository\Traits\RepositoryUuidFinder;
+use App\Repository\Traits\Transactional;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\OptimisticLockException;
@@ -15,11 +17,12 @@ use Doctrine\ORM\ORMException;
  * @method Device|null findOneBy(array $criteria, array $orderBy = null)
  * @method Device[]    findAll()
  * @method Device[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
- * @extends ServiceEntityRepository<Location>
  */
 class DeviceRepository extends ServiceEntityRepository
 {
+    use Transactional;
+    use RepositoryUuidFinder;
+
     /**
      * @param ManagerRegistry $registry
      */
@@ -44,13 +47,13 @@ class DeviceRepository extends ServiceEntityRepository
      */
     public function remove(int $id): void
     {
-        $device = $this->getEntityManager()->getReference(
-            $this->getClassName(),
-            $id
-        );
+        // @phpstan-ignore-next-line
+        $device = $this->getEntityManager()->getReference($this->getClassName(), $id);
 
-        $this->getEntityManager()->remove($device);
-        $this->getEntityManager()->flush();
+        if ($device) {
+            $this->getEntityManager()->remove($device);
+            $this->getEntityManager()->flush();
+        }
     }
 
     /**

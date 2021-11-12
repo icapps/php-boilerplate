@@ -9,12 +9,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class AuthAccessDto
  *
  * All custom ApiResource responses should be included using a proper DTO.
- *
- * @package App\Dto
  */
 final class AuthAccessDto
 {
     public const AUTH_ROUTE_PREFIX = '/auth';
+    public const AUTH_LOGIN_URL = '/api/auth/login';
+    public const AUTH_ME_URL = '/api/auth/me';
     public const AUTH_BUNDLE_TAG = 'Authentication';
 
     /**

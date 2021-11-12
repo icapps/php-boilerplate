@@ -12,7 +12,7 @@ use App\Dto\User\UserDeviceDto;
  *     collectionOperations={},
  *     itemOperations={
  *         "get"={
- *              "path"= "/{deviceId}",
+ *              "path"= "/{deviceSid}",
  *              "method"="GET",
  *              "openapi_context"={
  *                  "summary"="Get user device",
@@ -20,7 +20,7 @@ use App\Dto\User\UserDeviceDto;
  *              }
  *         },
  *         "update"={
- *              "path"= "/{deviceId}",
+ *              "path"= "/{deviceSid}",
  *              "method"="PATCH",
  *              "openapi_context"={
  *                  "summary"="Update user device token",
@@ -46,5 +46,5 @@ final class UserDevice
     /**
      * @ApiProperty(identifier=true)
      */
-    public $deviceId;
+    public string $deviceSid;
 }

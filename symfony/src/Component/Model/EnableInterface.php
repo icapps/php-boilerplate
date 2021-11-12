@@ -17,10 +17,10 @@ interface EnableInterface
     /**
      * Set enable to true
      */
-    public function enable();
+    public function enable(): self;
 
     /**
      * Set enable to false
      */
-    public function disable();
+    public function disable(): self;
 }

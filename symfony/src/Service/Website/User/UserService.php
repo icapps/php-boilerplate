@@ -4,7 +4,6 @@ namespace App\Service\Website\User;
 
 use App\Entity\User;
 use App\Mail\MailHelper;
-use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -19,7 +18,6 @@ class UserService
 
     public function __construct(
         private UserRepository $userRepository,
-        private ProfileRepository $profileRepository,
         private MailHelper $mailHelper,
         private LoggerInterface $logger,
         private UserPasswordEncoderInterface $encoder
@@ -27,11 +25,15 @@ class UserService
     }
 
     /**
+     * Activate user.
+     *
      * @param string $activationToken
+     *
      * @return User|null
+     *
+     * @throws LoaderError
      * @throws ORMException
      * @throws OptimisticLockException
-     * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
@@ -50,19 +52,28 @@ class UserService
         $user->enable();
         $this->userRepository->save($user);
 
-        $profile = $user->getProfile();
+        // No profile.
+        if (!$profile = $user->getProfile()) {
+            $this->logger->error(sprintf('User could not be activated [id: "%s", e-mail: "%s"]', $user->getId(), $user->getEmail()), ['user' => $user]);
+            return null;
+        }
 
         // Send confirmation mail.
         $this->mailHelper->sendRegistrationConfirmationMail($user, $profile);
 
+        // Log it.
         $this->logger->info(sprintf('User activated [id: "%s", e-mail: "%s"]', $user->getId(), $user->getEmail()), ['user' => $user]);
 
         return $user;
     }
 
     /**
+     * Activete user pending email.
+     *
      * @param string $activationToken
+     *
      * @return User|null
+     *
      * @throws ORMException
      * @throws OptimisticLockException
      */
@@ -76,7 +87,12 @@ class UserService
             return null;
         }
 
-        $user->setEmail($user->getPendingEmail());
+        // Missing pending mail.
+        if (!$pendingEmail = $user->getPendingEmail()) {
+            return null;
+        }
+
+        $user->setEmail($pendingEmail);
         $user->setPendingEmail(null);
         $user->setActivationToken(null);
         $this->userRepository->save($user);
@@ -87,7 +103,10 @@ class UserService
     }
 
     /**
+     * Validate given reset token.
+     *
      * @param string $resetToken
+     *
      * @return User|null
      */
     public function validatePasswordResetToken(string $resetToken): ?User
@@ -96,9 +115,13 @@ class UserService
     }
 
     /**
+     * User password reset.
+     *
      * @param User $user
      * @param string $password
+     *
      * @return User
+     *
      * @throws ORMException
      * @throws OptimisticLockException
      */

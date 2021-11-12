@@ -3,27 +3,19 @@
 namespace App\Service\Api\DataPersister\Auth;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
-use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Dto\Auth\UserPasswordResetDto;
 use App\Dto\General\StatusDto;
 use App\Mail\MailHelper;
-use App\Repository\DeviceRepository;
 use App\Repository\UserRepository;
-use App\Service\Website\User\UserService;
 use App\Utils\AuthUtils;
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class PasswordResetDataPersister
  *
  * @link: https://api-platform.com/docs/core/data-persisters.
- *
- * @package App\Service\Api\DataPersister\Auth
  */
 final class PasswordResetDataPersister implements DataPersisterInterface
 {
@@ -31,12 +23,6 @@ final class PasswordResetDataPersister implements DataPersisterInterface
      * {@inheritDoc}
      */
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private UserPasswordEncoderInterface $userPasswordEncoder,
-        private ValidatorInterface $validator,
-        private DeviceRepository $deviceRepository,
-        private Security $security,
-        private UserService $userService,
         private UserRepository $userRepository,
         private MailHelper $mailHelper,
         private LoggerInterface $logger,
@@ -61,6 +47,7 @@ final class PasswordResetDataPersister implements DataPersisterInterface
         // Default response.
         $output = new StatusDto(
             Response::HTTP_OK,
+            $this->translator->trans('icapps.mail.reset_password.success', [], 'messages'),
             $this->translator->trans('icapps.mail.reset_password.sent', [], 'messages'),
         );
 
@@ -83,7 +70,9 @@ final class PasswordResetDataPersister implements DataPersisterInterface
 
         // Send reset mail.
         try {
-            $this->mailHelper->sendUserPasswordResetMail($user, $user->getProfile());
+            if ($userProfile = $user->getProfile()) {
+                $this->mailHelper->sendUserPasswordResetMail($user, $userProfile);
+            }
         } catch (\Exception $e) {
             // Silent failure.
             $this->logger->critical('User password reset failure: ' . $e->getMessage());
@@ -98,7 +87,7 @@ final class PasswordResetDataPersister implements DataPersisterInterface
     /**
      * {@inheritDoc}
      */
-    public function remove($data)
+    public function remove($data): void
     {
         // this method just need to be presented
     }

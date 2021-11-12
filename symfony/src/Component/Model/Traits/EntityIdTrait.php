@@ -18,14 +18,14 @@ trait EntityIdTrait
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer", options={"unsigned": true})
      */
-    private $id;
+    private int $id;
 
     /**
      * The internal primary identity key.
      *
      * @ORM\Column(type="uuid", unique=true)
      */
-    private $uuid;
+    private UuidInterface $uuid;
 
     public function __construct()
     {
@@ -35,7 +35,7 @@ trait EntityIdTrait
     /**
      * {@inheritDoc}
      */
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

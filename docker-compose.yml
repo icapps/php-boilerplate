@@ -8,7 +8,7 @@ services:
             args:
                 PROJECT_DOMAIN: ${PROJECT_DOMAIN}
         ports:
-            - ${PORT_NGINX}:80
+            - "80:80"
         networks:
             default:
                 aliases:
@@ -16,6 +16,8 @@ services:
         volumes:
             - ${PROJECT_PATH}:/var/www/project:cached
             - ${APP_BASE_PATH}/docker/nginx/var/logs/:/var/log/nginx
+        profiles:
+            - donotstart # in favor of symfony webserver. Uncomment for local docker usage
 
     php:
         container_name: "${PROJECT_NAME}_php"
@@ -36,6 +38,8 @@ services:
             HISTFILE: /var/www/.bash_history
             PROMPT_COMMAND: history -a
         env_file: .env
+        profiles:
+            - donotstart # in favor of symfony webserver. Uncomment for local docker usage
 
     mysql:
         container_name: "${PROJECT_NAME}_mysql"
@@ -47,7 +51,7 @@ services:
                 MYSQL_DATABASE: ${MYSQL_DATABASE}
                 MYSQL_USER: ${MYSQL_USER}
         ports:
-            - ${PORT_MYSQL}:3306
+            - "3306:3306"
         volumes:
             - ${APP_BASE_PATH}/docker/mysql/var/data/mysql:/var/lib/mysql:cached
         env_file: .env
@@ -56,8 +60,8 @@ services:
         container_name: "${PROJECT_NAME}_mailhog"
         image: mailhog/mailhog
         ports:
-            - 8025:8025
-            - 1025:1025
+            - "8025:8025"
+            - "1025:1025"
 
     rabbitmq:
         container_name: "${PROJECT_NAME}_rabbitmq"
@@ -67,8 +71,8 @@ services:
         build:
             context: docker/rabbitmq
         ports:
-            - ${PORT_RABBITMQ}:15672
-            - 5672:5672
+            - "15672:15672"
+            - "5672:5672"
         volumes:
             - ${APP_BASE_PATH}/docker/rabbitmq/var/data/rabbitmq:/var/lib/rabbitmq:cached
 

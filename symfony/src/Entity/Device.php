@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Component\Model\EntityIdInterface;
+use App\Component\Model\Traits\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Sulu\Component\Persistence\Model\AuditableInterface;
+use Sulu\Component\Persistence\Model\AuditableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -12,30 +16,24 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass="App\Repository\DeviceRepository")
  */
-class Device
+class Device implements AuditableInterface, EntityIdInterface
 {
-    public const RESOURCE_KEY = 'device';
+    use AuditableTrait;
+    use EntityIdTrait;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    public const RESOURCE_KEY = 'device';
 
     /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="\App\Entity\User", inversedBy="device")
      */
-    private $user;
+    private User $user;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=false)
      *
      * @Assert\NotBlank()
      */
@@ -44,27 +42,11 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=false)
      *
      * @Assert\NotBlank()
      */
     private string $deviceToken;
-
-    /**
-     * @return int|null
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int|null $id
-     */
-    public function setId(?int $id): void
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return User

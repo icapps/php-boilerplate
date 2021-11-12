@@ -9,8 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class UserDeviceDto
  *
  * All custom ApiResource responses should be included using a proper DTO.
- *
- * @package App\Dto
  */
 final class UserDeviceDto
 {
@@ -24,7 +22,7 @@ final class UserDeviceDto
      *
      * @Assert\NotBlank()
      */
-    public string $deviceId = '';
+    public string $deviceSid = '';
 
     /**
      * @var string
@@ -35,9 +33,9 @@ final class UserDeviceDto
      */
     public string $deviceToken = '';
 
-    public function __construct(string $deviceId, string $deviceToken)
+    public function __construct(string $deviceSid, string $deviceToken)
     {
-        $this->deviceId = $deviceId;
+        $this->deviceSid = $deviceSid;
         $this->deviceToken = $deviceToken;
     }
 }

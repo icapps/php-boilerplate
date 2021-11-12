@@ -3,7 +3,6 @@
 namespace App\Service\Api\DataTransformer\Auth;
 
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
-use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\ApiResource\Auth\Authentication;
 use App\Dto\Auth\UserLogoutDto;
 use App\Dto\Auth\UserPasswordResetDto;
@@ -11,9 +10,8 @@ use App\Dto\Auth\UserRefreshDto;
 
 final class UserAuthDataTransformer implements DataTransformerInterface
 {
-    public function __construct(
-        private ValidatorInterface $validator
-    ) {
+    public function __construct()
+    {
         //
     }
 

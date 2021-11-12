@@ -9,8 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class UserPasswordDto
  *
  * All custom ApiResource responses should be included using a proper DTO.
- *
- * @package App\Dto
  */
 final class UserPasswordDto
 {

@@ -2,75 +2,37 @@
 
 namespace App\EventListener\Api;
 
-use App\Repository\UserRepository;
+use Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationFailureEvent;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\HttpFoundation\Response;
 
 class JwtFailureListener implements EventSubscriberInterface
 {
     /**
-     * @var RequestStack
-     */
-    private $requestStack;
-
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
-
-    /**
-     * @param RequestStack $requestStack
-     * @param UserRepository $userRepository
-     */
-    public function __construct(RequestStack $requestStack, UserRepository $userRepository)
-    {
-        $this->requestStack = $requestStack;
-        $this->userRepository = $userRepository;
-    }
-
-    /**
      * @param AuthenticationFailureEvent $event
      */
-    public function onAuthenticationFailureResponse(AuthenticationFailureEvent $event)
+    public function onAuthenticationFailureResponse(AuthenticationFailureEvent $event): void
     {
-        // Default info code.
-        $code = null;
-
-        // Default status: unauthorized.
-        $statusCode = 401;
-
         // Get exception.
         $exception = $event->getException();
-        if ($exception->getPrevious() instanceof BadRequestHttpException) {
-            $statusCode = 400;
-        }
 
-        if ($exception->getPrevious() instanceof UsernameNotFoundException) {
-            $statusCode = 404;
-        }
+        // Pass our exception message to output.
+        $message = $exception->getMessage();
 
-        if ($exception->getPrevious() instanceof AuthenticationException) {
-            $statusCode = 403;
-        }
+        // Retrieve correct status code, default 401.
+        $statusCode = $exception->getCode() !== 0 ? $exception->getCode() : Response::HTTP_UNAUTHORIZED;
 
         // Set failure response.
-        $data = [
-            'status' => $statusCode,
-            'message' => $exception->getMessage(),
-        ];
+        $response = new JWTAuthenticationFailureResponse($message, $statusCode);
 
-        $event->setResponse(new JsonResponse($data, $statusCode));
+        $event->setResponse($response);
     }
 
     /**
      * {@inheritDoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             'lexik_jwt_authentication.on_authentication_failure' => 'onAuthenticationFailureResponse',

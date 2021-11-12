@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 class JwtCreatedListener implements EventSubscriberInterface
 {
-    public const AUTH_DEVICE_REQUIRED_FIELDS = ['deviceId', 'deviceToken'];
+    public const AUTH_DEVICE_REQUIRED_FIELDS = ['deviceSid', 'deviceToken'];
 
     /**
      * @var RequestStack
@@ -39,28 +39,37 @@ class JwtCreatedListener implements EventSubscriberInterface
     /**
      * @param AuthenticationSuccessEvent $event
      */
-    public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
+    public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event): void
     {
         $jsonEncoder = new JsonEncoder();
         $request = $this->requestStack->getCurrentRequest();
-        $data = $jsonEncoder->decode($request->getContent(), true);
+
+        if (!$request) {
+            return;
+        }
+
+        /** @var string $requestContent */
+        $requestContent = $request->getContent();
+        $data = $jsonEncoder->decode($requestContent, JsonEncoder::FORMAT);
 
         $user = $event->getUser();
         if (!$user instanceof User) {
             return;
         }
 
-        // @TODO:: validate deviceId and deviceToken?
         // Update user device(s).
         if (count(array_intersect_key(array_flip(self::AUTH_DEVICE_REQUIRED_FIELDS), $data)) == count(self::AUTH_DEVICE_REQUIRED_FIELDS)) {
-            $device = $this->deviceRepository->findOneBy(['user' => $user, 'deviceId' => $data['deviceId']]);
+            $device = $this->deviceRepository->findOneBy([
+                'user' => $user,
+                'deviceId' => $data['deviceSid']
+            ]);
 
             if (!$device) {
                 $device = $this->deviceRepository->create();
             }
 
             $device->setUser($user);
-            $device->setDeviceId($data['deviceId']);
+            $device->setDeviceId($data['deviceSid']);
             $device->setDeviceToken($data['deviceToken']);
 
             try {
@@ -83,7 +92,7 @@ class JwtCreatedListener implements EventSubscriberInterface
     /**
      * {@inheritDoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return array(
             'lexik_jwt_authentication.on_authentication_success' => 'onAuthenticationSuccessResponse',

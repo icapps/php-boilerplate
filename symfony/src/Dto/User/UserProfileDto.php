@@ -9,8 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class UserProfileDto
  *
  * All custom ApiResource responses should be included using a proper DTO.
- *
- * @package App\Dto
  */
 final class UserProfileDto
 {
@@ -19,9 +17,8 @@ final class UserProfileDto
 
     /**
      * @var string
-     *
      */
-    public int $id;
+    public string $userSid;
 
     /**
      * @var string
