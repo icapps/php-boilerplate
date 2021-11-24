@@ -1,0 +1,24 @@
+App\ApiResource\Auth\Register:
+    shortName: "Registration"
+    attributes:
+        normalization_context:
+            groups: [ "api-get", "register:api-get" ]
+            swagger_definition_name: "GET"
+        denormalization_context:
+            groups: [ "api-post", "register:api-post" ]
+            swagger_definition_name: "POST"
+
+    # itemOperations
+    itemOperations: []
+
+    # collectionOperations
+    collectionOperations:
+        # Registration
+        post_register_api:
+            method: POST
+            path: /auth/register
+            input: App\Dto\Auth\UserRegisterDto
+            output: App\Dto\User\UserProfileDto
+            openapi_context:
+                summary: "Register a new user"
+                description: "Register a new user"

@@ -27,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(
  *     fields={"email"},
  *     message="icapps.registration.email.unique",
- *     groups={"orm-registration", "orm-user-update"}
+ *     groups={"orm-registration", "orm-user-update"},
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */

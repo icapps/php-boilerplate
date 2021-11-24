@@ -40,7 +40,7 @@ $tomorrow = Carbon::now()->addDay();
 $lastWeek = Carbon::now()->subWeek();
 ```
 https://carbon.nesbot.com/docs/
-## icapps ❤️ PHP
+## PHP Boilerplate
 
 For further questions, ask the icapps PHP team.
 

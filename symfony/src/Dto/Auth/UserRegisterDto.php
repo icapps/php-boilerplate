@@ -77,7 +77,6 @@ final class UserRegisterDto
      */
     public string $language;
 
-
     /**
      * @var string
      *

@@ -2,12 +2,13 @@
 
 namespace App\Service\Api\DataPersister\User;
 
+use ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException;
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\Dto\General\StatusDto;
 use App\Dto\User\UserPasswordDto;
 use App\Entity\User;
-use App\Exception\ApiException;
 use App\Repository\UserRepository;
+use App\Utils\ConstraintViolationUtils;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,8 +57,13 @@ final class UserPasswordDataPersister implements DataPersisterInterface
         // Check password.
         /** @var UserPasswordDto $data */
         if (!$this->passwordEncoder->isPasswordValid($user, $data->oldPassword)) {
-            $error = $this->translator->trans('icapps.registration.password.invalid', [], 'validators');
-            throw new ApiException(Response::HTTP_UNPROCESSABLE_ENTITY, $error);
+            $violations = ConstraintViolationUtils::createViolationList(
+                $this->translator->trans('icapps.registration.password.invalid', [], 'validators'),
+                'oldPassword',
+                $data->oldPassword
+            );
+
+            throw new ValidationException($violations);
         }
 
         // Update password.
