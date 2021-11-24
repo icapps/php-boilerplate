@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException;
+use App\Dto\Auth\UserLoginDto;
 use App\Entity\User;
-use App\Exception\ApiException;
+use App\Exception\ApiHttpException;
 use App\Exception\UserNotActivatedException;
 use App\Exception\UserNotFoundException;
 use App\Repository\UserRepository;
@@ -14,7 +16,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -62,10 +63,7 @@ class UserProvider implements PayloadAwareUserProviderInterface
 
         // Get request.
         if (!$request = $this->requestStack->getCurrentRequest()) {
-            throw new ApiException(
-                Response::HTTP_UNPROCESSABLE_ENTITY,
-                'Unable to process request.'
-            );
+            throw new ApiHttpException('Unable to process request.', Response::HTTP_BAD_REQUEST);
         }
 
         // Get route.
@@ -78,22 +76,12 @@ class UserProvider implements PayloadAwareUserProviderInterface
             $requestContent = $request->getContent();
             $requestParams = $jsonEncoder->decode($requestContent, JsonEncoder::FORMAT);
 
-            // Validate email.
-            $errors = $this->validator->validate($email, new Assert\Email());
-            if ($errors->count()) {
-                throw new ApiException(
-                    Response::HTTP_UNPROCESSABLE_ENTITY,
-                    sprintf('The provided email "%s" is invalid.', $email)
-                );
-            }
+            // Validate input.
+            $input = new UserLoginDto($requestParams);
 
-            // Validate device.
-            // @TODO:: validate deviceSid and deviceToken?
-            if (!isset($requestParams['deviceSid']) || !isset($requestParams['deviceToken'])) {
-                throw new ApiException(
-                    Response::HTTP_UNPROCESSABLE_ENTITY,
-                    sprintf('Both "%s" and "%s" must be provided.', 'deviceSid', 'deviceToken')
-                );
+            $violations = $this->validator->validate($input);
+            if ($violations->count()) {
+                throw new ValidationException($violations);
             }
         }
 

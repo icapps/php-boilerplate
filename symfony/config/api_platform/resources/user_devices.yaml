@@ -1,0 +1,31 @@
+App\ApiResource\User\UserDevice:
+    shortName: "UserDevices"
+    attributes:
+        normalization_context:
+            groups: [ "api-get", "device:api-get" ]
+            swagger_definition_name: "GET"
+        denormalization_context:
+            groups: [ "api-post", "device:api-post" ]
+            swagger_definition_name: "PATCH"
+
+    # itemOperations
+    itemOperations:
+        # Get user device.
+        get:
+            path: /users/devices/{deviceSid}
+            output: App\Dto\User\UserDeviceDto
+            openapi_context:
+                summary: "Get user device"
+                description: "Get user device"
+        
+        # Update user device.
+        patch:
+            path: /users/devices/{deviceSid}
+            input: App\Dto\User\UserDeviceDto
+            output: App\Dto\User\UserDeviceDto
+            openapi_context:
+                summary: "Update user device token"
+                description: "Update user device token"
+    
+    # collectionOperations
+    collectionOperations: []

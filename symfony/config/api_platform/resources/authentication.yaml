@@ -1,0 +1,44 @@
+App\ApiResource\Auth\Authentication:
+    shortName: "Authentication"
+    attributes:
+        normalization_context:
+            groups: [ "api-get", "auth:api-get" ]
+            swagger_definition_name: "GET"
+        denormalization_context:
+            groups: [ "api-post", "auth:api-post" ]
+            swagger_definition_name: "POST"
+    
+    # itemOperations
+    itemOperations: []
+    
+    # collectionOperations
+    collectionOperations:
+        # Refresh
+        post_refresh_api:
+            status: 200
+            method: POST
+            path: /auth/refresh-token
+            input: App\Dto\Auth\UserRefreshDto
+            openapi_context:
+                summary: "Refresh user access token"
+                description: "Refresh user access token"
+
+        # Logout
+        post_logout_api:
+            status: 200
+            method: POST
+            path: /auth/logout
+            input: App\Dto\Auth\UserLogoutDto
+            openapi_context:
+                summary: "Logout user"
+                description: "Logout user, remove session and device"
+
+        # Password reset init
+        post_password_reset_api:
+            status: 200
+            method: POST
+            path: /auth/forgot-password/init
+            input: App\Dto\Auth\UserPasswordResetDto
+            openapi_context:
+                summary: "Initiate user forgot password flow"
+                description: "Initiate a user forgot password flow by sending an email to the user"

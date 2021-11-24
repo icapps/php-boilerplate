@@ -71,6 +71,7 @@ final class SwaggerDecorator implements OpenApiFactoryInterface
         );
 
         // Include JWT DTOs.
+        // @TODO:: can't we include \DTO\Auth\AuthAccessDto()?
         $schemas['Authentication.UserLoginDto-GET'] = new \ArrayObject([
             'type' => 'object',
             'required' => ['token', 'refreshToken'],
@@ -84,6 +85,7 @@ final class SwaggerDecorator implements OpenApiFactoryInterface
             ],
         ]);
 
+        // @TODO:: can't we include \DTO\Auth\UserLoginDto()?
         $schemas['Authentication.UserLoginDto-POST'] = new \ArrayObject([
             'type' => 'object',
             'required' => ['email', 'password', 'deviceSid', 'deviceToken'],
@@ -126,7 +128,7 @@ final class SwaggerDecorator implements OpenApiFactoryInterface
                             ],
                         ],
                         '400' => [
-                            'description' => 'Validation error',
+                            'description' => 'Invalid input',
                         ],
                         '401' => [
                             'description' => 'Authentication error',

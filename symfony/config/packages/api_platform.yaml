@@ -1,5 +1,5 @@
 api_platform:
-    title: 'icapps ❤ PHP'
+    title: 'PHP Boilerplate'
     description: 'Template project using API platform'
     version: '1.0.0'
 
@@ -110,7 +110,7 @@ api_platform:
 
     # Mapping entities.
     mapping:
-        paths: ['%kernel.project_dir%/src/Entity', '%kernel.project_dir%/src/ApiResource']
+        paths: ['%kernel.project_dir%/config/api_platform/resources']
 
     patch_formats:
         json: ['application/merge-patch+json']
@@ -127,8 +127,8 @@ api_platform:
     formats:
         json:
             mime_types: ['application/json']
-#        jsonld:
-#            mime_types: ['application/ld+json']
+        jsonld:
+            mime_types: ['application/ld+json']
         html:
             mime_types: ['text/html']
 
@@ -136,10 +136,10 @@ api_platform:
     error_formats:
         json:
             mime_types: [ 'application/json' ]
+        jsonld:
+            mime_types: ['application/ld+json']
 #        jsonproblem:
 #            mime_types: ['application/problem+json']
-#        jsonld:
-#            mime_types: ['application/ld+json']
 
     # Global resources defaults
     defaults:

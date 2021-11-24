@@ -1,0 +1,42 @@
+App\ApiResource\User\User:
+    shortName: "User"
+    attributes:
+        normalization_context:
+            groups: [ "api-get", "profile:api-get" ]
+            swagger_definition_name: "GET"
+        denormalization_context:
+            groups: [ "api-post", "profile:api-post", "password:api-post" ]
+            swagger_definition_name: "PATCH"
+
+    # itemOperations
+    itemOperations:
+        # Get user profile.
+        get:
+            path: /users/{userSid}/profile
+            output: App\Dto\User\UserProfileDto
+            openapi_context:
+                summary: "Get user profile"
+                description: "Get user profile"
+        
+        # Update user profile.
+        patch:
+            path: /users/{userSid}/profile
+            input: App\Dto\User\UserProfileDto
+            output: App\Dto\User\UserProfileDto
+            openapi_context:
+                summary: "Update user profile"
+                description: "Update user profile"
+
+        # Update user password
+        password_update:
+            method: PATCH
+            status: 200
+            path: /users/{userSid}/change-password
+            input: App\Dto\User\UserPasswordDto
+            output: App\Dto\General\StatusDto
+            openapi_context:
+                summary: "Update user password"
+                description: "Update user password"
+    
+    # collectionOperations
+    collectionOperations: []
