@@ -5,7 +5,7 @@ namespace App\Utils;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 
-class ConstraintViolationUtils
+final class ConstraintViolationUtils
 {
     /**
      * Create violation list.
