@@ -31,6 +31,7 @@ security:
     - { path: ^/admin/translations, roles: PUBLIC_ACCESS }
     - { path: ^/admin$, roles: PUBLIC_ACCESS }
     - { path: ^/admin/$, roles: PUBLIC_ACCESS }
+    - { path: ^/admin/p/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/admin, roles: ROLE_USER }
 
     # Website

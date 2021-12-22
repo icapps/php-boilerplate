@@ -10,3 +10,7 @@ massive_search:
             version: 7.2
             hosts:
                 - '%env(resolve:ELASTICSEARCH_HOST)%'
+
+when@test:
+    massive_search:
+        adapter: test
