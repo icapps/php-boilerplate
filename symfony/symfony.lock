@@ -213,14 +213,14 @@
     "gesdinet/jwt-refresh-token-bundle": {
         "version": "v0.12.0"
     },
-    "goodby/csv": {
-        "version": "1.3.0"
-    },
     "guzzlehttp/promises": {
         "version": "1.5.1"
     },
     "guzzlehttp/psr7": {
         "version": "2.1.0"
+    },
+    "handcraftedinthealps/goodby-csv": {
+        "version": "1.4.0"
     },
     "handcraftedinthealps/rest-routing-bundle": {
         "version": "1.0.4"

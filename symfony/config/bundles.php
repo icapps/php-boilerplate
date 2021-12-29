@@ -53,4 +53,5 @@ return [
     Gesdinet\JWTRefreshTokenBundle\GesdinetJWTRefreshTokenBundle::class => ['all' => true],
     Sulu\Bundle\ActivityBundle\SuluActivityBundle::class => ['all' => true],
     Sentry\SentryBundle\SentryBundle::class => ['all' => true],
+    Sulu\Bundle\TrashBundle\SuluTrashBundle::class => ['all' => true],
 ];

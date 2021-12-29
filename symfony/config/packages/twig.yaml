@@ -2,3 +2,7 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     globals:
         brand: '%env(BRAND)%'
+
+when@test:
+    twig:
+        strict_variables: true
