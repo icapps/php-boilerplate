@@ -83,7 +83,8 @@ api_platform:
 
         # Enable the tags-based cache invalidation system.
         invalidation:
-            enabled: true
+            # When enabling, check for Sulu delete
+            enabled: false
 
             # URLs of the Varnish servers to purge using cache tags when a resource is updated.
             varnish_urls: []
