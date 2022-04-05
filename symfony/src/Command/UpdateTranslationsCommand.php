@@ -13,7 +13,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class UpdateTranslationsCommand extends Command
 {
     protected static $defaultName = 'icapps:update-translations';
-    protected static string $defaultDescription = 'Update translations from icapps translation tool.';
 
     public const PROJECT_LANGUAGES = ['nl', 'en', 'fr'];
 
@@ -32,7 +31,7 @@ class UpdateTranslationsCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setDescription(self::$defaultDescription);
+        $this->setDescription('Update translations from icapps translation tool.');
     }
 
     /**
