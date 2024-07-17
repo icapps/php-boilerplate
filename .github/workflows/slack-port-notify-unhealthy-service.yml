@@ -10,11 +10,21 @@ on:
         type: string
 
 jobs:
-  send_message:
+  send_logsnag_notification:
     runs-on: ubuntu-latest
     steps:
-      - name: Send message to Slack
+      - name: Send LogSnag notification
         env:
-          SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+          LOGSNAG_API_TOKEN: "0e8694b5b0572d3a59f974686773a072"
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"The service ${{ inputs.service_name }} has become unhealthy."}' $SLACK_WEBHOOK_URL
+          curl -X POST -H 'Content-Type: application/json' \
+          -H 'Authorization: Bearer ${{ env.LOGSNAG_API_TOKEN }}' \
+          --data '{
+            "project":"playground",
+            "channel":"idp-port",
+            "event":"Project Unhealthy",
+            "description":"The service ${{ inputs.service_name }} has become unhealthy",
+            "icon":"🚢",
+            "notify":true
+          }' \
+          https://api.logsnag.com/v1/log
