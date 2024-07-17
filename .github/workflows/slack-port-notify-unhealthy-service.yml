@@ -15,6 +15,6 @@ jobs:
     steps:
       - name: Send message to Slack
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"The service ${{ inputs.service_name }} has become unhealthy."}' https://hooks.slack.com/services/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
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"The service ${{ inputs.service_name }} has become unhealthy."}' $SLACK_WEBHOOK_URL
