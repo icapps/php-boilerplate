@@ -1,0 +1,20 @@
+name: TEST - IDP notify when service becomes unhealthy
+
+on:
+  workflow_dispatch:
+    inputs:
+      # Note that the input is the same as the payload (workflowInputs) defined in the automation
+      service_name:
+        description: "The unhealthy service's name"
+        required: true
+        type: string
+
+jobs:
+  send_message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send message to Slack
+        env:
+          SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"The service ${{ inputs.service_name }} has become unhealthy."}' $SLACK_WEBHOOK_URL
